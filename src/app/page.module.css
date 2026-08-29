@@ -1,0 +1,1127 @@
+/* Main Layout Grid & SPA Shell styles */
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--primary-blue);
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+}
+
+.logoArea {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logoText {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navMenu {
+  flex: 1;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.navItem:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-light);
+}
+
+.navItemActive {
+  background-color: var(--primary-teal);
+  color: var(--text-light);
+  box-shadow: 0 4px 12px rgba(28, 138, 155, 0.3);
+}
+
+.sidebarFooter {
+  padding: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
+.mainWrapper {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  height: var(--header-height);
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  box-shadow: var(--shadow-sm);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.branchSelector {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  font-weight: 600;
+  color: var(--text-primary);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.iconBtn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: background-color 0.2s;
+}
+
+.iconBtn:hover {
+  background-color: var(--background);
+}
+
+.badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--danger);
+  border-radius: var(--radius-full);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background-color: var(--primary-teal);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.userName {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.userRole {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.content {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.pageTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Tab 1: Dashboard Styles
+   ========================================================================== */
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.kpiCard {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpiCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background-color: var(--primary-teal);
+}
+
+.kpiTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kpiValue {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.kpiSub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.kpiTrendUp {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.kpiTrendDown {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.dashboardLayout {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 24px;
+}
+
+.dashboardSection {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Custom Simple Analytics Chart Styles (Vanilla CSS Bar/Line graphs) */
+.chartContainer {
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 16px;
+}
+
+.chartBars {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 220px;
+  padding: 0 10px;
+}
+
+.chartBarWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.chartBarTrack {
+  width: 24px;
+  height: 180px;
+  background-color: var(--secondary-teal);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  position: relative;
+}
+
+.chartBar {
+  width: 100%;
+  background: linear-gradient(to top, var(--primary-teal), #48B4C4);
+  border-radius: var(--radius-sm);
+  transition: height 0.8s ease-in-out;
+  cursor: pointer;
+}
+
+.chartBar:hover {
+  filter: brightness(1.05);
+}
+
+.chartTooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--primary-blue);
+  color: var(--text-light);
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  z-index: 50;
+}
+
+.chartBarWrapper:hover .chartTooltip {
+  opacity: 1;
+}
+
+.chartLabel {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.chartLegends {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+/* SVG Line Chart Branch Comparison Styles */
+.comparisonChartContainer {
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px 12px 12px;
+}
+
+.lineChartWrapper {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.lineChartSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.svgDotGroup circle {
+  transition: r 0.2s ease, stroke-width 0.2s ease;
+}
+
+.svgDotGroup circle:hover {
+  r: 7;
+  stroke-width: 3px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+/* Today Room Status timeline */
+.roomStatusList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.roomStatusRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background-color: var(--background);
+}
+
+.roomStatusInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.roomStatusName {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.roomStatusCapacity {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.statusBadge {
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.statusOccupied {
+  background-color: var(--success-bg);
+  color: var(--success);
+}
+
+.statusReserved {
+  background-color: var(--info-bg);
+  color: var(--info);
+}
+
+.statusAvailable {
+  background-color: var(--border);
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Tab 2: Reservations Styles
+   ========================================================================== */
+
+.filterBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--card-bg);
+  padding: 16px 24px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dateNav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dateButton {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: var(--card-bg);
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.dateButton:hover {
+  background-color: var(--background);
+}
+
+.currentDate {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: 140px;
+  text-align: center;
+}
+
+.filtersGroup {
+  display: flex;
+  gap: 12px;
+}
+
+.selectInput {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  outline: none;
+  background-color: var(--card-bg);
+}
+
+.primaryBtn {
+  background-color: var(--primary-teal);
+  color: var(--text-light);
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 6px rgba(28, 138, 155, 0.2);
+  transition: background-color 0.2s;
+}
+
+.primaryBtn:hover {
+  background-color: var(--primary-teal-hover);
+}
+
+/* Timeline Scheduler */
+.schedulerContainer {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+}
+
+.timelineTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.timelineTableHeader {
+  border-bottom: 2px solid var(--border);
+  background-color: var(--background);
+}
+
+.timeHeaderCell {
+  padding: 12px 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-align: center;
+  border-left: 1px solid var(--border);
+  width: 70px;
+}
+
+.roomColHeader {
+  width: 150px;
+  padding: 16px;
+  font-weight: 700;
+  text-align: left;
+  font-size: 0.85rem;
+  background-color: var(--background);
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.roomRow {
+  border-bottom: 1px solid var(--border);
+  height: 80px;
+  position: relative; /* absolute 예약 블록의 기준점 */
+}
+
+.roomCell {
+  position: sticky;
+  left: 0;
+  background-color: var(--card-bg);
+  font-weight: 600;
+  padding: 16px;
+  z-index: 10;
+  border-right: 1px solid var(--border);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.roomCellSub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.timelineCell {
+  border-left: 1px solid var(--border);
+  position: relative;
+  padding: 8px;
+  vertical-align: middle;
+}
+
+.reservationBlockInside {
+  background-color: var(--info-bg);
+  border: 1px solid rgba(13, 148, 136, 0.2) !important;
+  border-left: 4px solid var(--info) !important;
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  font-size: 0.75rem;
+  color: var(--info);
+  font-weight: 700;
+  cursor: default; /* 클릭 비활성화에 따른 디폴트 포인터 전환 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: transform 0.2s;
+  height: calc(100% - 12px) !important;
+  margin: 6px 3px !important; /* 연속된 개별 예약 블록 간의 틈새(margin) 강제 부여 */
+}
+
+.reservationBlockInside:hover {
+  transform: scale(0.98);
+}
+
+.pastCell {
+  background-color: rgba(148, 163, 184, 0.1);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 6px,
+    rgba(148, 163, 184, 0.05) 6px,
+    rgba(148, 163, 184, 0.05) 12px
+  );
+  cursor: not-allowed;
+  position: relative;
+}
+
+.pastCell::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.syncBadgeContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 0.8rem;
+}
+
+.syncBadgeLoading {
+  color: var(--warning);
+  font-weight: 600;
+}
+
+.syncBadgeSuccess {
+  color: var(--success);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.syncBadgeError {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.syncBtn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.syncBtn:hover {
+  background-color: var(--border);
+  color: var(--text-primary);
+}
+
+.reservationBlock:hover {
+  transform: scale(0.98);
+}
+
+.resStatusCompleted {
+  background-color: var(--success-bg);
+  border-left-color: var(--success);
+  color: var(--success);
+}
+
+.resStatusReserved {
+  background-color: var(--info-bg);
+  border-left-color: var(--info);
+  color: var(--info);
+}
+
+.resStatusCanceled {
+  background-color: var(--danger-bg);
+  border-left-color: var(--danger);
+  color: var(--danger);
+  text-decoration: line-through;
+}
+
+/* Modals & Drawers */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modalContent {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  width: 500px;
+  max-width: 90%;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: modalEnter 0.3s ease;
+}
+
+@keyframes modalEnter {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modalHeader {
+  padding: 20px 24px;
+  background-color: var(--primary-blue);
+  color: var(--text-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.closeBtn {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.5rem;
+  transition: color 0.2s;
+}
+
+.closeBtn:hover {
+  color: var(--text-light);
+}
+
+.modalBody {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formGroup label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.textInput {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  outline: none;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.textInput:focus {
+  border-color: var(--border-focus);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.modalFooter {
+  padding: 16px 24px;
+  background-color: var(--background);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.secondaryBtn {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.secondaryBtn:hover {
+  background-color: var(--background);
+}
+
+/* Detail Slide-out Drawer */
+.drawerOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 400px;
+  background-color: var(--card-bg);
+  box-shadow: var(--shadow-lg);
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  animation: drawerEnter 0.3s ease;
+}
+
+@keyframes drawerEnter {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.drawerHeader {
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drawerBody {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.drawerTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.detailList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--background);
+  padding-bottom: 8px;
+}
+
+.detailLabel {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.detailValue {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.drawerFooter {
+  padding: 24px;
+  background-color: var(--background);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dangerBtn {
+  background-color: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 0.2s;
+}
+
+.dangerBtn:hover {
+  background-color: #fee2e2;
+  border-color: var(--danger);
+}
+
+/* ==========================================================================
+   Tab 3: Room Management Styles
+   ========================================================================== */
+
+.roomGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.roomCard {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.roomCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.roomImgPlaceholder {
+  height: 160px;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-teal) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.roomCardBody {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.roomCardTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.roomCardPrice {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--primary-teal);
+}
+
+.roomCardDesc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  height: 45px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.roomCardFooter {
+  padding: 16px 24px;
+  background-color: var(--background);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ==========================================================================
+   Mobile Responsive & Horizontal Tab Bar Styles
+   ========================================================================== */
+
+.mobileTabBar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* LNB 사이드바 숨김 */
+  .sidebar {
+    display: none !important;
+  }
+
+  /* 메인 컨테이너 세로 전환 및 너비 100% 확보 */
+  .container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .mainWrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden;
+  }
+
+  .header {
+    padding: 12px 16px !important;
+    height: auto !important;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .userInfo {
+    display: none !important; /* 모바일 헤더 단순화 */
+  }
+
+  .content {
+    padding: 16px !important;
+  }
+
+  /* 모바일 전용 상단 탭바 활성화 */
+  .mobileTabBar {
+    display: flex;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 999 !important; /* 항상 다른 헤더 레이어 위에 노출 */
+    width: 100%;
+  }
+
+  .mobileTabItem {
+    flex: 1;
+    text-align: center;
+    padding: 14px 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    border: none;
+    border-bottom: 3px solid transparent;
+    background: none;
+    cursor: pointer;
+    touch-action: manipulation; /* 모바일 터치 먹통 및 지연 원천 방지 */
+    transition: all 0.2s;
+  }
+
+  .mobileTabActive {
+    color: var(--primary-teal);
+    border-bottom-color: var(--primary-teal);
+    background-color: rgba(13, 148, 136, 0.05);
+  }
+
+  /* 대시보드 2단/3단 그리드를 1열로 누르기 */
+  .kpiGrid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .dashboardLayout {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  /* 스케줄 테이블 타임라인 가로 스크롤 및 터치 최적화 */
+  .timelineContainer,
+  .timelineWrapper,
+  .schedulerContainer {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .timelineTable {
+    min-width: 1400px !important; /* 가로 너비 강제하여 모바일 찌그러짐 방지 */
+  }
+}
