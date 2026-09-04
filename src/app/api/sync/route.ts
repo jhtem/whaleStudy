@@ -2,9 +2,26 @@ const fs = require('fs');
 const path = require('path');
 import { NextResponse } from 'next/server';
 
-// 7일간의 지점별 매출 비교 데이터를 백엔드 데이터베이스 전체를 기반으로 정밀 연산하는 헬퍼 함수
+export const dynamic = 'force-dynamic';
+
+// 오늘 기준 최근 7일간(D-6 ~ Today) 지점별 매출 비교 데이터를 백엔드 데이터베이스 전체를 기반으로 정밀 연산하는 헬퍼 함수
 function computeDailyComparisonSales() {
-  const dateList = ["2026-08-29", "2026-08-30", "2026-08-31", "2026-09-01", "2026-09-02", "2026-09-03", "2026-09-04"];
+  const d = new Date();
+  const kst = new Date(d.getTime() + (9 * 60 * 60 * 1000));
+  const todayStr = (kst.toISOString().split('T')[0] && kst.toISOString().split('T')[0].startsWith('2026-'))
+    ? kst.toISOString().split('T')[0]
+    : "2026-09-02";
+
+  const dateList = [];
+  const base = new Date(`${todayStr}T00:00:00`);
+  for (let i = 6; i >= 0; i--) {
+    const dt = new Date(base);
+    dt.setDate(base.getDate() - i);
+    const yr = dt.getFullYear();
+    const m = String(dt.getMonth() + 1).padStart(2, '0');
+    const day = String(dt.getDate()).padStart(2, '0');
+    dateList.push(`${yr}-${m}-${day}`);
+  }
   let reservations: any[] = [];
   
   try {
@@ -26,8 +43,8 @@ function computeDailyComparisonSales() {
       .reduce((sum: number, r: any) => {
         let price = 10000;
         if (r.roomId.includes('room-jj-7')) price = 18000;
-        else if (r.roomId.endsWith('-1') || r.roomId.endsWith('-2')) price = 5000;
-        else if (r.roomId.endsWith('-3') || r.roomId.endsWith('-4') || r.roomId.endsWith('-5') || r.roomId.endsWith('-6')) price = 7000;
+        else if (r.roomId.endsWith('-1') || r.roomId.endsWith('-2')) price = 6000;
+        else if (r.roomId.endsWith('-3') || r.roomId.endsWith('-4') || r.roomId.endsWith('-5') || r.roomId.endsWith('-6')) price = 10000;
         return sum + (price * r.totalHours);
       }, 0);
 
@@ -37,19 +54,45 @@ function computeDailyComparisonSales() {
       .reduce((sum: number, r: any) => {
         let price = 10000;
         if (r.roomId.includes('room-sj-8')) price = 20000;
-        else if (r.roomId.endsWith('-1') || r.roomId.endsWith('-2')) price = 5000;
-        else if (r.roomId.endsWith('-3') || r.roomId.endsWith('-4') || r.roomId.endsWith('-5') || r.roomId.endsWith('-6') || r.roomId.endsWith('-7')) price = 7000;
+        else if (r.roomId.endsWith('-1') || r.roomId.endsWith('-2')) price = 6000;
+        else if (r.roomId.endsWith('-3') || r.roomId.endsWith('-4') || r.roomId.endsWith('-5') || r.roomId.endsWith('-6') || r.roomId.endsWith('-7')) price = 10000;
+        return sum + (price * r.totalHours);
+      }, 0);
+
+    // 알루점 매출 집계
+    const alAmount = reservations
+      .filter((r: any) => r.date === fullDate && r.roomId.startsWith('room-al-') && r.status !== 'canceled')
+      .reduce((sum: number, r: any) => {
+        let price = 6000;
+        if (r.roomId === 'room-al-1') price = 13000;
+        else if (r.roomId === 'room-al-7' || r.roomId === 'room-al-10') price = 10000;
+        return sum + (price * r.totalHours);
+      }, 0);
+
+    // 위례점 매출 집계
+    const wrAmount = reservations
+      .filter((r: any) => r.date === fullDate && r.roomId.startsWith('room-wr-') && r.status !== 'canceled')
+      .reduce((sum: number, r: any) => {
+        let price = 3500;
+        if (r.roomId === 'room-wr-8') price = 6000;
+        else if (r.roomId === 'room-wr-1' || r.roomId === 'room-wr-2') price = 2500;
         return sum + (price * r.totalHours);
       }, 0);
       
-    return { date: label, jeongja: jjAmount, suji: sjAmount };
+    return { date: label, jeongja: jjAmount, suji: sjAmount, alu: alAmount, wirye: wrAmount };
   });
 }
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const branch = searchParams.get('branch') || '정자점';
-  const date = searchParams.get('date') || '2026-08-29';
+  const d = new Date();
+  const kst = new Date(d.getTime() + (9 * 60 * 60 * 1000));
+  const fallbackToday = (kst.toISOString().split('T')[0] && kst.toISOString().split('T')[0].startsWith('2026-'))
+    ? kst.toISOString().split('T')[0]
+    : "2026-09-02";
+
+  const date = searchParams.get('date') || fallbackToday;
   const all = searchParams.get('all') === 'true';
 
   if (all) {
@@ -78,7 +121,20 @@ export async function GET(request: Request) {
     }
   }
 
-  const businessId = branch === '정자점' ? '1294414' : '1457642';
+  let businessId = '1294414';
+  try {
+    const configPath = path.join(process.cwd(), 'src/scripts/branchConfigs.json');
+    if (fs.existsSync(configPath)) {
+      const configData = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+      if (configData[branch] && configData[branch].businessId) {
+        businessId = configData[branch].businessId;
+      } else {
+        businessId = branch === '정자점' ? '1294414' : branch === '수지구청점' ? '1457642' : (branch === '위례점' || branch === '위례') ? '1720088' : '1689190';
+      }
+    }
+  } catch (e) {
+    businessId = branch === '정자점' ? '1294414' : branch === '수지구청점' ? '1457642' : (branch === '위례점' || branch === '위례') ? '1720088' : '1689190';
+  }
 
   try {
     const naverApiUrl = `https://booking.naver.com/api/v1/biz/${businessId}/calendar?date=${date}`;
@@ -100,7 +156,12 @@ export async function GET(request: Request) {
     clearTimeout(timeoutId);
 
     if (response.ok) {
-      const data = await response.json();
+      const rawText = await response.text();
+      if (!rawText || !rawText.trim().startsWith('{')) {
+        throw new Error("Naver API returned HTML/Invalid content instead of JSON");
+      }
+      
+      const data = JSON.parse(rawText);
       
       if (data && data.bizItems) {
         const reservations: any[] = [];
@@ -114,7 +175,11 @@ export async function GET(request: Request) {
                 const resourceSeq = item.order + 1;
                 const roomId = branch === '정자점' 
                   ? `room-jj-${resourceSeq}` 
-                  : `room-sj-${resourceSeq}`;
+                  : branch === '수지구청점'
+                    ? `room-sj-${resourceSeq}`
+                    : (branch === '위례점' || branch === '위례')
+                      ? `room-wr-${resourceSeq}`
+                      : `room-al-${resourceSeq}`;
 
                 reservations.push({
                   id: resId,
@@ -198,7 +263,13 @@ function getRealNaverBookingFallback(branch: string, date: string) {
     if (fs.existsSync(jsonPath)) {
       const fileData = fs.readFileSync(jsonPath, 'utf8');
       const reservations = JSON.parse(fileData);
-      const branchPrefix = branch === '정자점' ? 'room-jj-' : 'room-sj-';
+      const branchPrefix = branch === '정자점' 
+        ? 'room-jj-' 
+        : branch === '수지구청점' 
+          ? 'room-sj-' 
+          : (branch === '위례점' || branch === '위례')
+            ? 'room-wr-'
+            : 'room-al-';
       
       const filtered = reservations.filter((r: any) => 
         r.date === date && r.roomId.startsWith(branchPrefix)
@@ -212,6 +283,8 @@ function getRealNaverBookingFallback(branch: string, date: string) {
     console.error("Fallback load fail:", e);
   }
 
+  // 과거 목업 테스트용 정적 더미 분기는 실시간 DB 100% 전환에 따라 주석 처리합니다.
+  /*
   const list = [];
   if (date === '2026-08-29') {
     if (branch === '정자점') {
@@ -313,22 +386,41 @@ function getRealNaverBookingFallback(branch: string, date: string) {
       });
     }
   }
-  return list;
+  */
+  return [];
 }
 
 function getRealNaverRevenuesFallback(reservations: any[]) {
   return reservations.map((res, i) => {
     let price = 10000;
     const isJeongja = res.roomId.startsWith('room-jj-');
-    if (res.roomId.includes('room-jj-7')) price = 18000;
-    else if (res.roomId.includes('room-sj-8')) price = 20000;
-    else if (res.roomId.endsWith('-1') || res.roomId.endsWith('-2')) price = 5000;
-    else if (res.roomId.endsWith('-3') || res.roomId.endsWith('-4') || res.roomId.endsWith('-5') || res.roomId.endsWith('-6') || res.roomId.endsWith('-7')) price = 7000;
+    const isSuji = res.roomId.startsWith('room-sj-');
+    const isAlu = res.roomId.startsWith('room-al-');
+    const isWirye = res.roomId.startsWith('room-wr-');
+
+    if (isJeongja) {
+      if (res.roomId.includes('room-jj-7')) price = 18000;
+      else if (res.roomId.endsWith('-1') || res.roomId.endsWith('-2')) price = 6000;
+      else price = 10000;
+    } else if (isSuji) {
+      if (res.roomId.includes('room-sj-8')) price = 20000;
+      else if (res.roomId.endsWith('-1') || res.roomId.endsWith('-2')) price = 6000;
+      else price = 10000;
+    } else if (isAlu) {
+      if (res.roomId.includes('room-al-1')) price = 13000;
+      else if (res.roomId.includes('room-al-7') || res.roomId.includes('room-al-10')) price = 10000;
+      else price = 6000;
+    } else if (isWirye) {
+      if (res.roomId.includes('room-wr-8')) price = 6000;
+      else if (res.roomId.endsWith('-1') || res.roomId.endsWith('-2')) price = 2500;
+      else price = 3500;
+    }
 
     const paymentDate = `${res.date}T09:00:00.000Z`;
+    const branchPrefix = isJeongja ? 'jj' : isSuji ? 'sj' : isWirye ? 'wr' : 'al';
 
     return {
-      id: `rev-naver-${isJeongja ? 'jj' : 'sj'}-${res.id}`,
+      id: `rev-naver-${branchPrefix}-${res.id}`,
       reservationId: res.id,
       roomId: res.roomId,
       amount: price * res.totalHours,

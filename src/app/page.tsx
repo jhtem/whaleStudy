@@ -20,7 +20,7 @@ export default function StudyRoomAdmin() {
   const [revenues, setRevenues] = useState<Revenue[]>(initialRevenues);
   
   // Current Active Branch (default: 정자점)
-  const [currentBranch, setCurrentBranch] = useState<"정자점" | "수지구청점" | "위례점">("정자점");
+  const [currentBranch, setCurrentBranch] = useState<"정자점" | "수지구청점" | "위례점" | "알루">("정자점");
   
   // Naver Sync Status State
   const [syncStatus, setSyncStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -28,15 +28,31 @@ export default function StudyRoomAdmin() {
   const [syncDailySales, setSyncDailySales] = useState<any[]>([]);
   const [isMounted, setIsMounted] = useState(false);
 
-  // Simulated System Current Date & Time (as per metadata 2026-08-29, 17:00:00)
-  const SYSTEM_TODAY = "2026-08-29";
-  const SYSTEM_CURRENT_HOUR = 17.0; // 17시 (오후 5시)
+  // System Current Date & Time (2026-09-02 Wednesday)
+  const getKstToday = () => {
+    const d = new Date();
+    const kst = new Date(d.getTime() + (9 * 60 * 60 * 1000));
+    const iso = kst.toISOString().split('T')[0];
+    return (iso && iso.startsWith('2026-')) ? iso : "2026-09-02";
+  };
+
+  const SYSTEM_TODAY = getKstToday();
+  const SYSTEM_CURRENT_HOUR = 0.5; // 0시 30분
   
-  // Date Picker State for Timeline (Initial is today, min date is also today)
+  const getYesterday = (todayStr: string) => {
+    const d = new Date(`${todayStr}T00:00:00`);
+    d.setDate(d.getDate() - 1);
+    const yr = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${yr}-${m}-${day}`;
+  };
+
+  // Date Picker State for Timeline (Initial is today)
   const [selectedDate, setSelectedDate] = useState(SYSTEM_TODAY);
   
-  // 과거 매출 개별 조회를 위한 일자 쿼리 State
-  const [pastDateQuery, setPastDateQuery] = useState("2026-08-28");
+  // 과거 매출 개별 조회를 위한 일자 쿼리 State (초기값: D-1 어제 날짜)
+  const [pastDateQuery, setPastDateQuery] = useState(getYesterday(SYSTEM_TODAY));
   
   // Filter for Room Type in Timeline
   const [roomFilter, setRoomFilter] = useState("all");
@@ -46,6 +62,55 @@ export default function StudyRoomAdmin() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedResId, setSelectedResId] = useState<string | null>(null);
   const [isEditRoomOpen, setIsEditRoomOpen] = useState<string | null>(null);
+
+  // 지점 네이버 URL 설정 모달 State
+  const [isUrlModalOpen, setIsUrlModalOpen] = useState(false);
+  const [branchUrlConfigs, setBranchUrlConfigs] = useState<Record<string, any>>({});
+  const [editingUrlInput, setEditingUrlInput] = useState<Record<string, string>>({});
+
+  // 지점 URL 설정 목록 조회
+  const fetchBranchConfigs = async () => {
+    try {
+      const res = await fetch('/api/branches');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.configs) {
+          setBranchUrlConfigs(data.configs);
+        }
+      }
+    } catch (e) {
+      console.error("fetchBranchConfigs error:", e);
+    }
+  };
+
+  useEffect(() => {
+    fetchBranchConfigs();
+  }, []);
+
+  // 지점 URL 저장 핸들러
+  const handleSaveBranchUrl = async (bName: string, bookingUrl: string) => {
+    if (!bookingUrl) {
+      alert("네이버 예약 URL을 입력해 주세요.");
+      return;
+    }
+    try {
+      const res = await fetch('/api/branches', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ branchName: bName, bookingUrl })
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert(data.message);
+        fetchBranchConfigs();
+        syncNaverReservations(currentBranch, selectedDate);
+      } else {
+        alert(data.message || "URL 저장에 실패했습니다.");
+      }
+    } catch (e: any) {
+      alert("URL 저장 중 오류가 발생했습니다: " + e.message);
+    }
+  };
 
   // 과거 날짜별 매출 세부 집계 연산식 (useMemo 활용)
   const pastDateSales = useMemo(() => {
@@ -65,10 +130,28 @@ export default function StudyRoomAdmin() {
       })
       .reduce((sum, rev) => sum + (rev.amount || 0), 0);
 
+    const alAmount = revenues
+      .filter(rev => {
+        if (!rev || rev.status !== "paid" || !rev.roomId || !rev.roomId.startsWith("room-al-")) return false;
+        const linkedRes = reservations.find(r => r && r.id === rev.reservationId);
+        return linkedRes && linkedRes.date === pastDateQuery && linkedRes.status !== "canceled";
+      })
+      .reduce((sum, rev) => sum + (rev.amount || 0), 0);
+
+    const wrAmount = revenues
+      .filter(rev => {
+        if (!rev || rev.status !== "paid" || !rev.roomId || !rev.roomId.startsWith("room-wr-")) return false;
+        const linkedRes = reservations.find(r => r && r.id === rev.reservationId);
+        return linkedRes && linkedRes.date === pastDateQuery && linkedRes.status !== "canceled";
+      })
+      .reduce((sum, rev) => sum + (rev.amount || 0), 0);
+
     const jjCount = reservations.filter(r => r && r.date === pastDateQuery && r.roomId.startsWith("room-jj-") && r.status !== "canceled").length;
     const sjCount = reservations.filter(r => r && r.date === pastDateQuery && r.roomId.startsWith("room-sj-") && r.status !== "canceled").length;
+    const alCount = reservations.filter(r => r && r.date === pastDateQuery && r.roomId.startsWith("room-al-") && r.status !== "canceled").length;
+    const wrCount = reservations.filter(r => r && r.date === pastDateQuery && r.roomId.startsWith("room-wr-") && r.status !== "canceled").length;
 
-    return { jjAmount, sjAmount, jjCount, sjCount };
+    return { jjAmount, sjAmount, alAmount, wrAmount, jjCount, sjCount, alCount, wrCount };
   }, [reservations, revenues, pastDateQuery]);
 
   // Form States for New Reservation
@@ -103,7 +186,13 @@ export default function StudyRoomAdmin() {
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
-          const branchPrefix = branchName === '정자점' ? 'room-jj-' : branchName === '수지구청점' ? 'room-sj-' : 'room-wr-';
+          const branchPrefix = branchName === '정자점' 
+            ? 'room-jj-' 
+            : branchName === '수지구청점' 
+              ? 'room-sj-' 
+              : branchName === '알루' 
+                ? 'room-al-' 
+                : 'room-wr-';
           
           // 중복 병합 방지: 현재 지점 및 타겟 일자의 네이버 데이터만 정밀하게 지우고 새 데이터를 업데이트
           setReservations(prev => {
@@ -293,27 +382,79 @@ export default function StudyRoomAdmin() {
         .reduce((s, r) => s + (r.amount || 0), 0)
     };
 
-    // 일주일 일별 지점 매출 비교 데이터 계산 (예약 이용일자 기준 집계)
-    const dateList = ["2026-08-29", "2026-08-30", "2026-08-31", "2026-09-01", "2026-09-02", "2026-09-03", "2026-09-04"];
+    const monthlySalesAl = {
+      "6월": revenues
+        .filter(r => r && r.status === "paid" && r.paymentDate && String(r.paymentDate).includes("-06-") && r.roomId && r.roomId.startsWith("room-al-"))
+        .reduce((s, r) => s + (r.amount || 0), 0),
+      "7월": revenues
+        .filter(r => r && r.status === "paid" && r.paymentDate && String(r.paymentDate).includes("-07-") && r.roomId && r.roomId.startsWith("room-al-"))
+        .reduce((s, r) => s + (r.amount || 0), 0),
+      "8월": revenues
+        .filter(r => r && r.status === "paid" && r.paymentDate && String(r.paymentDate).includes("-08-") && r.roomId && r.roomId.startsWith("room-al-"))
+        .reduce((s, r) => s + (r.amount || 0), 0)
+    };
+
+    const monthlySalesWr = {
+      "6월": revenues
+        .filter(r => r && r.status === "paid" && r.paymentDate && String(r.paymentDate).includes("-06-") && r.roomId && r.roomId.startsWith("room-wr-"))
+        .reduce((s, r) => s + (r.amount || 0), 0),
+      "7월": revenues
+        .filter(r => r && r.status === "paid" && r.paymentDate && String(r.paymentDate).includes("-07-") && r.roomId && r.roomId.startsWith("room-wr-"))
+        .reduce((s, r) => s + (r.amount || 0), 0),
+      "8월": revenues
+        .filter(r => r && r.status === "paid" && r.paymentDate && String(r.paymentDate).includes("-08-") && r.roomId && r.roomId.startsWith("room-wr-"))
+        .reduce((s, r) => s + (r.amount || 0), 0)
+    };
+
+    // 오늘 기준 최근 7일간(D-6 ~ Today) 지점별 매출 비교 데이터 동적 계산
+    const getLast7Days = (todayStr: string) => {
+      const dates = [];
+      const base = new Date(`${todayStr}T00:00:00`);
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(base);
+        d.setDate(base.getDate() - i);
+        const yr = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        dates.push(`${yr}-${m}-${day}`);
+      }
+      return dates;
+    };
+    
+    const dateList = getLast7Days(SYSTEM_TODAY);
     const dailyComparisonSales = dateList.map(fullDate => {
       const label = fullDate.substring(5); // "08-29"
-      const jjAmount = revenues
-        .filter(rev => {
-          if (!rev || rev.status !== "paid" || !rev.roomId || !rev.roomId.startsWith("room-jj-")) return false;
-          const linkedRes = reservations.find(r => r && r.id === rev.reservationId);
-          return linkedRes && linkedRes.date === fullDate && linkedRes.status !== "canceled";
-        })
-        .reduce((sum, rev) => sum + (rev.amount || 0), 0);
+      
+      const getBranchSales = (branchPrefix: string) => {
+        const isFuture = fullDate > SYSTEM_TODAY;
+        if (isFuture) {
+          return reservations
+            .filter(res => {
+              if (!res || res.status === "canceled" || !res.roomId || !res.roomId.startsWith(`room-${branchPrefix}-`)) return false;
+              return res.date === fullDate;
+            })
+            .reduce((sum, res) => {
+              const room = rooms.find(rm => rm.id === res.roomId);
+              const price = room ? room.pricePerHour : 10000;
+              return sum + (price * (res.totalHours || 0));
+            }, 0);
+        } else {
+          return revenues
+            .filter(rev => {
+              if (!rev || rev.status !== "paid" || !rev.roomId || !rev.roomId.startsWith(`room-${branchPrefix}-`)) return false;
+              const linkedRes = reservations.find(r => r && r.id === rev.reservationId);
+              return linkedRes && linkedRes.date === fullDate && linkedRes.status !== "canceled";
+            })
+            .reduce((sum, rev) => sum + (rev.amount || 0), 0);
+        }
+      };
+
+      const jjAmount = getBranchSales("jj");
+      const sjAmount = getBranchSales("sj");
+      const alAmount = getBranchSales("al");
+      const wrAmount = getBranchSales("wr");
         
-      const sjAmount = revenues
-        .filter(rev => {
-          if (!rev || rev.status !== "paid" || !rev.roomId || !rev.roomId.startsWith("room-sj-")) return false;
-          const linkedRes = reservations.find(r => r && r.id === rev.reservationId);
-          return linkedRes && linkedRes.date === fullDate && linkedRes.status !== "canceled";
-        })
-        .reduce((sum, rev) => sum + (rev.amount || 0), 0);
-        
-      return { date: label, jeongja: jjAmount, suji: sjAmount };
+      return { date: label, jeongja: jjAmount, suji: sjAmount, alu: alAmount, wirye: wrAmount };
     });
 
     return {
@@ -322,6 +463,8 @@ export default function StudyRoomAdmin() {
       todayRevenue,
       monthlySalesJj,
       monthlySalesSj,
+      monthlySalesAl,
+      monthlySalesWr,
       occupiedRoomIds,
       dailyComparisonSales
     };
@@ -335,18 +478,20 @@ export default function StudyRoomAdmin() {
   // 꺾은선그래프 SVG Path 좌표 연산 (500x200 viewBox 기준, 동적 Y축 10만원 단위 스케일)
   const lineChartPaths = useMemo(() => {
     if (!isMounted) {
-      return { jjLine: "", jjArea: "", sjLine: "", sjArea: "", pointsJj: [], pointsSj: [], activeDailySales: [], ticks: [] };
+      return { jjLine: "", jjArea: "", sjLine: "", sjArea: "", alLine: "", alArea: "", wrLine: "", wrArea: "", pointsJj: [], pointsSj: [], pointsAl: [], pointsWr: [], activeDailySales: [], ticks: [] };
     }
 
-    // NaN 방지: d.jeongja 및 d.suji 속성을 안전하게 숫자로 변환
+    // NaN 방지: d.jeongja, d.suji, d.alu, d.wirye 속성을 안전하게 숫자로 변환
     const safeSales = activeDailySales.map(d => ({
       ...d,
       jeongja: typeof d.jeongja === 'number' && !isNaN(d.jeongja) ? d.jeongja : 0,
-      suji: typeof d.suji === 'number' && !isNaN(d.suji) ? d.suji : 0
+      suji: typeof d.suji === 'number' && !isNaN(d.suji) ? d.suji : 0,
+      alu: typeof d.alu === 'number' && !isNaN(d.alu) ? d.alu : 0,
+      wirye: typeof d.wirye === 'number' && !isNaN(d.wirye) ? d.wirye : 0
     }));
 
     const maxDailyRevenue = safeSales.length > 0 
-      ? Math.max(...safeSales.map(d => Math.max(d.jeongja, d.suji)))
+      ? Math.max(...safeSales.map(d => Math.max(d.jeongja, d.suji, d.alu, d.wirye)))
       : 0;
     
     // 최대 매출액을 10만원 단위 올림하여 maxVal 설정 (최소 10만원 시작)
@@ -371,6 +516,14 @@ export default function StudyRoomAdmin() {
       x: 70 + i * 62,
       y: 170 - (item.suji / maxVal) * 140
     }));
+    const pointsAl = safeSales.map((item, i) => ({
+      x: 70 + i * 62,
+      y: 170 - (item.alu / maxVal) * 140
+    }));
+    const pointsWr = safeSales.map((item, i) => ({
+      x: 70 + i * 62,
+      y: 170 - (item.wirye / maxVal) * 140
+    }));
 
     const jjLine = pointsJj.length > 0 ? "M " + pointsJj.map(p => `${p.x} ${p.y}`).join(" L ") : "";
     const jjArea = jjLine ? jjLine + ` L ${pointsJj[pointsJj.length - 1].x} 170 L ${pointsJj[0].x} 170 Z` : "";
@@ -378,7 +531,13 @@ export default function StudyRoomAdmin() {
     const sjLine = pointsSj.length > 0 ? "M " + pointsSj.map(p => `${p.x} ${p.y}`).join(" L ") : "";
     const sjArea = sjLine ? sjLine + ` L ${pointsSj[pointsSj.length - 1].x} 170 L ${pointsSj[0].x} 170 Z` : "";
 
-    return { jjLine, jjArea, sjLine, sjArea, pointsJj, pointsSj, activeDailySales: safeSales, ticks };
+    const alLine = pointsAl.length > 0 ? "M " + pointsAl.map(p => `${p.x} ${p.y}`).join(" L ") : "";
+    const alArea = alLine ? alLine + ` L ${pointsAl[pointsAl.length - 1].x} 170 L ${pointsAl[0].x} 170 Z` : "";
+
+    const wrLine = pointsWr.length > 0 ? "M " + pointsWr.map(p => `${p.x} ${p.y}`).join(" L ") : "";
+    const wrArea = wrLine ? wrLine + ` L ${pointsWr[pointsWr.length - 1].x} 170 L ${pointsWr[0].x} 170 Z` : "";
+
+    return { jjLine, jjArea, sjLine, sjArea, alLine, alArea, wrLine, wrArea, pointsJj, pointsSj, pointsAl, pointsWr, activeDailySales: safeSales, ticks };
   }, [activeDailySales]);
 
   // --- Handlers ---
@@ -425,8 +584,9 @@ export default function StudyRoomAdmin() {
       return;
     }
 
-    const resId = `res-${currentBranch === "정자점" ? "jj" : currentBranch === "수지구청점" ? "sj" : "wr"}-${String(reservations.length + 1).padStart(5, "0")}`;
-    const revId = `rev-${currentBranch === "정자점" ? "jj" : currentBranch === "수지구청점" ? "sj" : "wr"}-${String(revenues.length + 1).padStart(5, "0")}`;
+    const resPrefix = currentBranch === "정자점" ? "jj" : currentBranch === "수지구청점" ? "sj" : currentBranch === "알루" ? "al" : "wr";
+    const resId = `res-${resPrefix}-${String(reservations.length + 1).padStart(5, "0")}`;
+    const revId = `rev-${resPrefix}-${String(revenues.length + 1).padStart(5, "0")}`;
     const amount = selectedRoom.pricePerHour * totalHours;
 
     // 예약 객체 생성
@@ -546,60 +706,113 @@ export default function StudyRoomAdmin() {
     return { res, room, rev };
   }, [selectedResId, reservations, rooms, revenues]);
 
-  // 30분 단위 예약 및 빈 격자를 colSpan으로 렌더링하여 완벽한 데이터 정합성 제공
-  const renderSchedulerRow = (room: Room) => {
-    const rowCells: React.ReactNode[] = [];
-    const roomRes = filteredReservations
-      .filter(res => res.roomId === room.id)
-      .sort((a, b) => a.startTime - b.startTime);
-
-    let t = 7.0;
-    while (t < 24.0) {
-      // 1) 현재 시간 t에 딱 맞아떨어지는 활성 예약이 있는지 확인
-      const res = roomRes.find(r => r.startTime === t);
-      
-      if (res) {
-        // 예약 블록 렌더링 (colSpan 크기는 30분 슬롯 개수)
-        const span = Math.round(res.totalHours * 2);
-        
-        rowCells.push(
-          <td 
-            key={`res-${res.id}`} 
-            colSpan={span}
-            className={styles.timelineCell}
-            style={{ padding: 0, height: "80px", verticalAlign: "middle" }}
-          >
-            <div
-              className={`${styles.reservationBlockInside} ${
-                res.status === "completed" 
-                  ? styles.resStatusCompleted 
-                  : res.status === "canceled" 
-                  ? styles.resStatusCanceled 
-                  : styles.resStatusReserved
-              }`}
-            >
-              <div style={{ fontSize: "0.75rem", fontWeight: "700" }}>
-                {formatTime(res.startTime)}~ {formatTime(res.endTime)} ({res.totalHours % 1 === 0 ? res.totalHours : res.totalHours.toFixed(1)}h)
-              </div>
-            </div>
-          </td>
-        );
-        t = (res.endTime > res.startTime) ? res.endTime : t + 0.5; // 예약이 끝나는 시각으로 이동 (무한 루프 방지 세이프 가드)
-      } else {
-        // 2) 예약이 없는 빈 슬롯 렌더링
-        const isPast = selectedDate === SYSTEM_TODAY && t < SYSTEM_CURRENT_HOUR;
-        
-        rowCells.push(
-          <td 
-            key={`empty-${t}`} 
-            className={`${styles.timelineCell} ${isPast ? styles.pastCell : ""}`}
-            style={{ width: "35px", height: "80px" }}
-          />
-        );
-        t += 0.5;
-      }
+  // 가로 = 룸 번호, 세로 = 시간 (30분 단위) 축 반전 타임라인 렌더링 함수
+  const renderTransposedScheduler = () => {
+    const times: number[] = [];
+    for (let t = 7.0; t < 24.0; t += 0.5) {
+      times.push(t);
     }
-    return rowCells;
+
+    return times.map(t => {
+      const isHourHeader = t % 1 === 0;
+      const timeLabel = formatTime(t);
+      const isPastTime = selectedDate === SYSTEM_TODAY && t < SYSTEM_CURRENT_HOUR;
+
+      return (
+        <tr key={`time-row-${t}`} style={{ height: "36px" }}>
+          {/* 세로 1열: 시간 라벨 */}
+          <td 
+            style={{ 
+              width: "65px", 
+              minWidth: "65px", 
+              maxWidth: "65px",
+              textAlign: "center", 
+              fontWeight: isHourHeader ? "800" : "500", 
+              fontSize: "0.75rem",
+              backgroundColor: "var(--background)",
+              borderRight: "2px solid var(--border)",
+              borderBottom: "1px solid var(--border)",
+              color: isHourHeader ? "var(--text-primary)" : "var(--text-muted)",
+              padding: 0
+            }}
+          >
+            {timeLabel}
+          </td>
+
+          {/* 각 룸별 30분 셀 / 예약 블럭 */}
+          {activeRooms.map(room => {
+            const roomRes = filteredReservations
+              .filter(res => res.roomId === room.id && res.status !== "canceled")
+              .sort((a, b) => a.startTime - b.startTime);
+
+            // 시작점 슬롯인가?
+            const startRes = roomRes.find(r => Math.abs(r.startTime - t) < 0.01);
+
+            if (startRes) {
+              const rowSpan = Math.round(startRes.totalHours * 2);
+              return (
+                <td
+                  key={`res-${startRes.id}`}
+                  rowSpan={rowSpan}
+                  className={styles.timelineCell}
+                  onClick={() => setSelectedResId(startRes.id)}
+                  style={{
+                    padding: 0,
+                    verticalAlign: "middle",
+                    height: `${rowSpan * 36}px`,
+                    width: "75px",
+                    minWidth: "75px",
+                    maxWidth: "75px",
+                    borderRight: "1px solid var(--border)",
+                    borderBottom: "1px solid var(--border)"
+                  }}
+                >
+                  <div
+                    className={`${styles.reservationBlockInside} ${
+                      startRes.status === "completed" 
+                        ? styles.resStatusCompleted 
+                        : styles.resStatusReserved
+                    }`}
+                    style={{
+                      height: "calc(100% - 4px)",
+                      width: "calc(100% - 4px)",
+                      margin: "2px",
+                      borderRadius: "4px",
+                      cursor: "pointer"
+                    }}
+                    title={`${room.name}: ${formatTime(startRes.startTime)} ~ ${formatTime(startRes.endTime)} (${startRes.totalHours}시간)`}
+                  >
+                    {/* 지혜님 지침: 블럭 내 시작시간~종료시간 (소요시간h) 텍스트 표시 안 함 (순수 블럭으로만 표출) */}
+                  </div>
+                </td>
+              );
+            }
+
+            // 중간 연장 슬롯인가?
+            const inMiddleRes = roomRes.some(r => r.startTime < t && t < r.endTime);
+            if (inMiddleRes) {
+              return null;
+            }
+
+            // 빈 30분 슬롯
+            return (
+              <td
+                key={`empty-${room.id}-${t}`}
+                className={`${styles.timelineCell} ${isPastTime ? styles.pastCell : ""}`}
+                style={{ 
+                  height: "36px", 
+                  width: "75px",
+                  minWidth: "75px",
+                  maxWidth: "75px",
+                  borderRight: "1px solid var(--border)",
+                  borderBottom: "1px solid var(--border)"
+                }}
+              />
+            );
+          })}
+        </tr>
+      );
+    });
   };
 
 
@@ -650,7 +863,7 @@ export default function StudyRoomAdmin() {
          ========================================== */}
       <div className={styles.mainWrapper}>
         <header className={styles.header}>
-          <div className={styles.headerLeft}>
+          <div className={styles.headerLeft} style={{ display: "flex", gap: "10px", alignItems: "center" }}>
             <select
               value={currentBranch}
               onChange={(e) => setCurrentBranch(e.target.value as any)}
@@ -659,8 +872,28 @@ export default function StudyRoomAdmin() {
             >
               <option value="정자점">정자본점</option>
               <option value="수지구청점">수지구청점</option>
-              <option value="위례점">위례점 (오픈예정)</option>
+              <option value="위례점">위례점</option>
+              <option value="알루">알루점</option>
             </select>
+            <button
+              onClick={() => setIsUrlModalOpen(true)}
+              style={{
+                padding: "8px 12px",
+                borderRadius: "6px",
+                border: "1px solid var(--border)",
+                backgroundColor: "var(--bg-secondary)",
+                color: "var(--text-primary)",
+                fontSize: "0.85rem",
+                fontWeight: "600",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "5px"
+              }}
+              id="btn-open-url-setting"
+            >
+              ⚙️ 지점 URL 설정
+            </button>
           </div>
           <div className={styles.headerRight}>
             <button className={styles.iconBtn} aria-label="알림" id="notif-btn">
@@ -761,6 +994,14 @@ export default function StudyRoomAdmin() {
                             <stop offset="0%" stopColor="#4F46E5" stopOpacity="0.25"/>
                             <stop offset="100%" stopColor="#4F46E5" stopOpacity="0"/>
                           </linearGradient>
+                          <linearGradient id="al-grad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#F97316" stopOpacity="0.25"/>
+                            <stop offset="100%" stopColor="#F97316" stopOpacity="0"/>
+                          </linearGradient>
+                          <linearGradient id="wr-grad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#A855F7" stopOpacity="0.25"/>
+                            <stop offset="100%" stopColor="#A855F7" stopOpacity="0"/>
+                          </linearGradient>
                         </defs>
                         
                         {/* 동적 5만원 단위 Y축 격자선 및 라벨 렌더링 */}
@@ -790,10 +1031,14 @@ export default function StudyRoomAdmin() {
                         ))}
                         
                         {/* Area 면적 채우기 */}
+                        {lineChartPaths.wrArea && <path d={lineChartPaths.wrArea} fill="url(#wr-grad)" />}
+                        {lineChartPaths.alArea && <path d={lineChartPaths.alArea} fill="url(#al-grad)" />}
                         {lineChartPaths.sjArea && <path d={lineChartPaths.sjArea} fill="url(#sj-grad)" />}
                         {lineChartPaths.jjArea && <path d={lineChartPaths.jjArea} fill="url(#jj-grad)" />}
                         
                         {/* Lines 꺾은선 */}
+                        {lineChartPaths.wrLine && <path d={lineChartPaths.wrLine} fill="none" stroke="#A855F7" strokeWidth="3" strokeLinecap="round" />}
+                        {lineChartPaths.alLine && <path d={lineChartPaths.alLine} fill="none" stroke="#F97316" strokeWidth="3" strokeLinecap="round" />}
                         {lineChartPaths.sjLine && <path d={lineChartPaths.sjLine} fill="none" stroke="#4F46E5" strokeWidth="3" strokeLinecap="round" />}
                         {lineChartPaths.jjLine && <path d={lineChartPaths.jjLine} fill="none" stroke="#0D9488" strokeWidth="3" strokeLinecap="round" />}
 
@@ -812,6 +1057,8 @@ export default function StudyRoomAdmin() {
                           const x = 70 + idx * 62;
                           const jjP = lineChartPaths.pointsJj[idx];
                           const sjP = lineChartPaths.pointsSj[idx];
+                          const alP = lineChartPaths.pointsAl[idx];
+                          const wrP = lineChartPaths.pointsWr ? lineChartPaths.pointsWr[idx] : null;
                           return (
                             <g key={`dots-${idx}`} className={styles.svgDotGroup}>
                               {jjP && (
@@ -824,6 +1071,18 @@ export default function StudyRoomAdmin() {
                                 <g>
                                   <circle cx={x} cy={sjP.y} r="5" fill="#4F46E5" stroke="#ffffff" strokeWidth="2" style={{ cursor: "pointer" }} />
                                   <title>수지구청점: {item.suji.toLocaleString()}원</title>
+                                </g>
+                              )}
+                              {alP && (
+                                <g>
+                                  <circle cx={x} cy={alP.y} r="5" fill="#F97316" stroke="#ffffff" strokeWidth="2" style={{ cursor: "pointer" }} />
+                                  <title>알루점: {item.alu.toLocaleString()}원</title>
+                                </g>
+                              )}
+                              {wrP && (
+                                <g>
+                                  <circle cx={x} cy={wrP.y} r="5" fill="#A855F7" stroke="#ffffff" strokeWidth="2" style={{ cursor: "pointer" }} />
+                                  <title>위례점: {item.wirye.toLocaleString()}원</title>
                                 </g>
                               )}
                             </g>
@@ -839,6 +1098,14 @@ export default function StudyRoomAdmin() {
                       <div className={styles.legendItem}>
                         <span className={styles.legendColor} style={{ backgroundColor: "#4F46E5" }} />
                         <span>수지구청점</span>
+                      </div>
+                      <div className={styles.legendItem}>
+                        <span className={styles.legendColor} style={{ backgroundColor: "#F97316" }} />
+                        <span>알루점</span>
+                      </div>
+                      <div className={styles.legendItem}>
+                        <span className={styles.legendColor} style={{ backgroundColor: "#A855F7" }} />
+                        <span>위례점</span>
                       </div>
                     </div>
                   </div>
@@ -923,7 +1190,7 @@ export default function StudyRoomAdmin() {
                     </span>
                   </div>
                   
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "16px" }}>
                     <div style={{ backgroundColor: "rgba(13, 148, 136, 0.04)", border: "1px solid rgba(13, 148, 136, 0.15)", borderRadius: "8px", padding: "16px" }}>
                       <p style={{ margin: 0, fontSize: "0.85rem", color: "#0D9488", fontWeight: "700" }}>정자본점 매출</p>
                       <p style={{ margin: "10px 0 4px 0", fontSize: "1.4rem", fontWeight: "800", color: "var(--text-primary)" }}>
@@ -940,6 +1207,15 @@ export default function StudyRoomAdmin() {
                       </p>
                       <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--text-muted)" }}>
                         확정 이용예약 {pastDateSales.sjCount}건
+                      </p>
+                    </div>
+                    <div style={{ backgroundColor: "rgba(249, 115, 22, 0.04)", border: "1px solid rgba(249, 115, 22, 0.15)", borderRadius: "8px", padding: "16px" }}>
+                      <p style={{ margin: 0, fontSize: "0.85rem", color: "#F97316", fontWeight: "700" }}>알루점 매출</p>
+                      <p style={{ margin: "10px 0 4px 0", fontSize: "1.4rem", fontWeight: "800", color: "var(--text-primary)" }}>
+                        {pastDateSales.alAmount.toLocaleString()} 원
+                      </p>
+                      <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--text-muted)" }}>
+                        확정 이용예약 {pastDateSales.alCount}건
                       </p>
                     </div>
                   </div>
@@ -962,6 +1238,8 @@ export default function StudyRoomAdmin() {
                           <th style={{ padding: "10px", textAlign: "left", color: "var(--text-secondary)" }}>조회 기수</th>
                           <th style={{ padding: "10px", textAlign: "right", color: "var(--text-secondary)" }}>정자본점</th>
                           <th style={{ padding: "10px", textAlign: "right", color: "var(--text-secondary)" }}>수지구청점</th>
+                          <th style={{ padding: "10px", textAlign: "right", color: "var(--text-secondary)" }}>알루점</th>
+                          <th style={{ padding: "10px", textAlign: "right", color: "var(--text-secondary)" }}>위례점</th>
                           <th style={{ padding: "10px", textAlign: "right", color: "var(--text-primary)", fontWeight: "700" }}>합계</th>
                         </tr>
                       </thead>
@@ -970,24 +1248,30 @@ export default function StudyRoomAdmin() {
                           <td style={{ padding: "12px 10px", fontWeight: "600" }}>6월 이용매출</td>
                           <td style={{ padding: "12px 10px", textAlign: "right" }}>{stats.monthlySalesJj["6월"].toLocaleString()}원</td>
                           <td style={{ padding: "12px 10px", textAlign: "right" }}>{stats.monthlySalesSj["6월"].toLocaleString()}원</td>
+                          <td style={{ padding: "12px 10px", textAlign: "right" }}>{stats.monthlySalesAl["6월"].toLocaleString()}원</td>
+                          <td style={{ padding: "12px 10px", textAlign: "right" }}>{stats.monthlySalesWr["6월"].toLocaleString()}원</td>
                           <td style={{ padding: "12px 10px", textAlign: "right", fontWeight: "700", color: "var(--primary-teal)" }}>
-                            {(stats.monthlySalesJj["6월"] + stats.monthlySalesSj["6월"]).toLocaleString()}원
+                            {(stats.monthlySalesJj["6월"] + stats.monthlySalesSj["6월"] + stats.monthlySalesAl["6월"] + stats.monthlySalesWr["6월"]).toLocaleString()}원
                           </td>
                         </tr>
                         <tr style={{ borderBottom: "1px solid var(--border)" }}>
                           <td style={{ padding: "12px 10px", fontWeight: "600" }}>7월 이용매출</td>
                           <td style={{ padding: "12px 10px", textAlign: "right" }}>{stats.monthlySalesJj["7월"].toLocaleString()}원</td>
                           <td style={{ padding: "12px 10px", textAlign: "right" }}>{stats.monthlySalesSj["7월"].toLocaleString()}원</td>
+                          <td style={{ padding: "12px 10px", textAlign: "right" }}>{stats.monthlySalesAl["7월"].toLocaleString()}원</td>
+                          <td style={{ padding: "12px 10px", textAlign: "right" }}>{stats.monthlySalesWr["7월"].toLocaleString()}원</td>
                           <td style={{ padding: "12px 10px", textAlign: "right", fontWeight: "700", color: "var(--primary-teal)" }}>
-                            {(stats.monthlySalesJj["7월"] + stats.monthlySalesSj["7월"]).toLocaleString()}원
+                            {(stats.monthlySalesJj["7월"] + stats.monthlySalesSj["7월"] + stats.monthlySalesAl["7월"] + stats.monthlySalesWr["7월"]).toLocaleString()}원
                           </td>
                         </tr>
                         <tr style={{ borderBottom: "1px solid var(--border)" }}>
                           <td style={{ padding: "12px 10px", fontWeight: "600" }}>8월 이용매출</td>
                           <td style={{ padding: "12px 10px", textAlign: "right" }}>{stats.monthlySalesJj["8월"].toLocaleString()}원</td>
                           <td style={{ padding: "12px 10px", textAlign: "right" }}>{stats.monthlySalesSj["8월"].toLocaleString()}원</td>
+                          <td style={{ padding: "12px 10px", textAlign: "right" }}>{stats.monthlySalesAl["8월"].toLocaleString()}원</td>
+                          <td style={{ padding: "12px 10px", textAlign: "right" }}>{stats.monthlySalesWr["8월"].toLocaleString()}원</td>
                           <td style={{ padding: "12px 10px", textAlign: "right", fontWeight: "700", color: "var(--primary-teal)" }}>
-                            {(stats.monthlySalesJj["8월"] + stats.monthlySalesSj["8월"]).toLocaleString()}원
+                            {(stats.monthlySalesJj["8월"] + stats.monthlySalesSj["8월"] + stats.monthlySalesAl["8월"] + stats.monthlySalesWr["8월"]).toLocaleString()}원
                           </td>
                         </tr>
                       </tbody>
@@ -1021,15 +1305,13 @@ export default function StudyRoomAdmin() {
                     </button>
                   </div>
                 </div>
-                {currentBranch !== "위례점" && (
-                  <button
-                    onClick={() => setIsAddModalOpen(true)}
-                    className={styles.primaryBtn}
-                    id="add-res-btn"
-                  >
-                    ➕ 새 예약 등록
-                  </button>
-                )}
+                <button
+                  onClick={() => setIsAddModalOpen(true)}
+                  className={styles.primaryBtn}
+                  id="add-res-btn"
+                >
+                  ➕ 새 예약 등록
+                </button>
               </div>
 
               {/* Filter and Date Navigation Bar */}
@@ -1082,30 +1364,22 @@ export default function StudyRoomAdmin() {
                     운영 예정 지점으로 아직 등록된 예약 스케줄이 없습니다.
                   </div>
                 ) : (
-                  <table className={styles.timelineTable}>
+                  <table className={styles.timelineTable} style={{ width: "auto" }}>
                     <thead className={styles.timelineTableHeader}>
                       <tr>
-                        <th className={styles.roomColHeader}>룸 이름</th>
-                        {Array.from({ length: 17 }, (_, i) => i + 7).map(hour => (
-                          <th key={hour} className={styles.timeHeaderCell} colSpan={2}>
-                            {hour}:00
+                        <th style={{ width: "65px", minWidth: "65px", maxWidth: "65px", padding: "8px 4px", textAlign: "center", fontSize: "0.8rem", fontWeight: "700" }}>
+                          시간 / 룸
+                        </th>
+                        {activeRooms.map(room => (
+                          <th key={room.id} style={{ padding: "8px 4px", width: "75px", minWidth: "75px", maxWidth: "75px", textAlign: "center", borderLeft: "1px solid var(--border)" }}>
+                            <div style={{ fontWeight: "800", fontSize: "0.85rem", color: "var(--text-primary)", whiteSpace: "nowrap" }}>{room.name}</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", fontWeight: "400" }}>{room.capacity}인</div>
                           </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
-                      {activeRooms.map(room => (
-                        <tr key={room.id} className={styles.roomRow}>
-                          {/* Room Metadata Cell */}
-                          <td className={styles.roomCell}>
-                            <div>{room.name}</div>
-                            <div className={styles.roomCellSub}>정원 {room.capacity}명</div>
-                          </td>
-
-                          {/* colSpan Dynamic Cells rendering for perfect alignment */}
-                          {renderSchedulerRow(room)}
-                        </tr>
-                      ))}
+                      {renderTransposedScheduler()}
                     </tbody>
                   </table>
                 )}
@@ -1348,6 +1622,121 @@ export default function StudyRoomAdmin() {
                 <button type="submit" className={styles.primaryBtn}>수정 완료</button>
               </footer>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ==========================================
+         지점 네이버 예약 URL 설정 모달
+         ========================================== */}
+      {isUrlModalOpen && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0,0,0,0.75)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: "#0f172a",
+            border: "1px solid #334155",
+            borderRadius: "16px",
+            padding: "28px",
+            width: "92%",
+            maxWidth: "650px",
+            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7)",
+            color: "#f8fafc"
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", borderBottom: "1px solid #1e293b", paddingBottom: "12px" }}>
+              <h3 style={{ margin: 0, fontSize: "1.25rem", fontWeight: 800, color: "#ffffff" }}>
+                ⚙️ 지점별 네이버 예약 원본 URL 설정
+              </h3>
+              <button
+                onClick={() => setIsUrlModalOpen(false)}
+                style={{ background: "#1e293b", border: "1px solid #334155", borderRadius: "6px", color: "#94a3b8", fontSize: "1.1rem", width: "32px", height: "32px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+              >
+                ✕
+              </button>
+            </div>
+            
+            <p style={{ fontSize: "0.85rem", color: "#94a3b8", marginBottom: "20px", lineHeight: "1.5" }}>
+              지점별 네이버 예약 원본 주소를 설정합니다. 이 주소를 변수로 참조하여 모든 지점에 동일한 동적 스크래핑 추출 로직이 안전하게 적용됩니다.
+            </p>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              {["정자점", "수지구청점", "알루", "위례점"].map(bName => {
+                const cfg = branchUrlConfigs[bName] || {};
+                const inputVal = editingUrlInput[bName] ?? (cfg.bookingUrl || "");
+                return (
+                  <div key={bName} style={{ backgroundColor: "#1e293b", border: "1px solid #334155", borderRadius: "10px", padding: "14px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <label style={{ fontSize: "0.9rem", fontWeight: 700, color: "#38bdf8" }}>
+                        [{bName}] 네이버 예약 주소
+                      </label>
+                      <span style={{ fontSize: "0.75rem", color: "#a855f7", backgroundColor: "#0f172a", padding: "2px 8px", borderRadius: "4px", border: "1px solid #334155" }}>
+                        Business ID: {cfg.businessId || "미설정"}
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", gap: "8px" }}>
+                      <input
+                        type="text"
+                        value={inputVal}
+                        onChange={(e) => setEditingUrlInput({ ...editingUrlInput, [bName]: e.target.value })}
+                        placeholder={`https://booking.naver.com/booking/10/bizes/...`}
+                        style={{
+                          flex: 1,
+                          padding: "10px 14px",
+                          borderRadius: "6px",
+                          border: "1px solid #475569",
+                          backgroundColor: "#0f172a",
+                          color: "#ffffff",
+                          fontSize: "0.85rem",
+                          outline: "none"
+                        }}
+                      />
+                      <button
+                        onClick={() => handleSaveBranchUrl(bName, inputVal)}
+                        style={{
+                          padding: "10px 18px",
+                          borderRadius: "6px",
+                          border: "none",
+                          backgroundColor: "#0d9488",
+                          color: "#ffffff",
+                          fontSize: "0.85rem",
+                          fontWeight: 700,
+                          cursor: "pointer",
+                          whiteSpace: "nowrap"
+                        }}
+                      >
+                        저장
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div style={{ marginTop: "24px", textAlign: "right" }}>
+              <button
+                onClick={() => setIsUrlModalOpen(false)}
+                style={{
+                  padding: "10px 20px",
+                  borderRadius: "8px",
+                  border: "1px solid #475569",
+                  backgroundColor: "#334155",
+                  color: "#ffffff",
+                  fontWeight: 600,
+                  cursor: "pointer"
+                }}
+              >
+                닫기
+              </button>
+            </div>
           </div>
         </div>
       )}

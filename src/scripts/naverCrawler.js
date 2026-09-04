@@ -4,49 +4,115 @@ const path = require('path');
 
 const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
-function parseTimeIntervals(slots) {
-  const bookedSlots = slots.filter(s => s.disabled).map(s => {
-    let timeStr = s.originalLabel.replace('오전 ', '').replace('오후 ', '').trim();
-    let [h, m] = timeStr.split(':').map(Number);
-    let isPm = s.originalLabel.includes('오후');
-    if (isPm && h !== 12) h += 12;
-    if (!isPm && h === 12) h = 0;
-    return h + (m === 30 ? 0.5 : 0);
-  }).sort((a, b) => a - b);
+// 100% 네이버 원본 4개 지점 33개 룸 실물 URL 맵
+const BRANCH_ROOMS = {
+  '1294414': [
+    { name: 'ROOM1', url: 'https://m.booking.naver.com/booking/10/bizes/1294414/items/6401642' },
+    { name: 'ROOM2', url: 'https://m.booking.naver.com/booking/10/bizes/1294414/items/6413488' },
+    { name: 'ROOM3', url: 'https://m.booking.naver.com/booking/10/bizes/1294414/items/6413520' },
+    { name: 'ROOM4', url: 'https://m.booking.naver.com/booking/10/bizes/1294414/items/6413525' },
+    { name: 'ROOM5', url: 'https://m.booking.naver.com/booking/10/bizes/1294414/items/6413534' },
+    { name: 'ROOM6', url: 'https://m.booking.naver.com/booking/10/bizes/1294414/items/6413542' },
+    { name: 'ROOM7', url: 'https://m.booking.naver.com/booking/10/bizes/1294414/items/6413548' }
+  ],
+  '1457642': [
+    { name: 'ROOM1', url: 'https://m.booking.naver.com/booking/10/bizes/1457642/items/6911601' },
+    { name: 'ROOM2', url: 'https://m.booking.naver.com/booking/10/bizes/1457642/items/6911608' },
+    { name: 'ROOM3', url: 'https://m.booking.naver.com/booking/10/bizes/1457642/items/6911610' },
+    { name: 'ROOM4', url: 'https://m.booking.naver.com/booking/10/bizes/1457642/items/6911611' },
+    { name: 'ROOM5', url: 'https://m.booking.naver.com/booking/10/bizes/1457642/items/6911612' },
+    { name: 'ROOM6', url: 'https://m.booking.naver.com/booking/10/bizes/1457642/items/6911613' },
+    { name: 'ROOM7', url: 'https://m.booking.naver.com/booking/10/bizes/1457642/items/6911614' },
+    { name: 'ROOM8', url: 'https://m.booking.naver.com/booking/10/bizes/1457642/items/6911615' }
+  ],
+  '1689190': [
+    { name: 'ALU. 1', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7830318' },
+    { name: 'ALU. 2', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7830388' },
+    { name: 'ALU. 3', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836327' },
+    { name: 'ALU. 4', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836336' },
+    { name: 'ALU. 5', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836343' },
+    { name: 'ALU. 6', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836347' },
+    { name: 'ALU. 7', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836353' },
+    { name: 'ALU. 8', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836370' },
+    { name: 'ALU. 9', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836389' },
+    { name: 'ALU. 10', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836395' }
+  ],
+  '1720088': [
+    { name: 'ROOM1', url: 'https://m.booking.naver.com/booking/10/bizes/1720088/items/7993899' },
+    { name: 'ROOM2', url: 'https://m.booking.naver.com/booking/10/bizes/1720088/items/7993909' },
+    { name: 'ROOM3', url: 'https://m.booking.naver.com/booking/10/bizes/1720088/items/7993910' },
+    { name: 'ROOM4', url: 'https://m.booking.naver.com/booking/10/bizes/1720088/items/7993934' },
+    { name: 'ROOM5', url: 'https://m.booking.naver.com/booking/10/bizes/1720088/items/7993943' },
+    { name: 'ROOM6', url: 'https://m.booking.naver.com/booking/10/bizes/1720088/items/7993945' },
+    { name: 'ROOM7', url: 'https://m.booking.naver.com/booking/10/bizes/1720088/items/7993948' },
+    { name: 'ROOM8', url: 'https://m.booking.naver.com/booking/10/bizes/1720088/items/7993951' }
+  ]
+};
 
-  if (bookedSlots.length === 0) return [];
+function parse30MinSlots(slots) {
+  const bookedBlocks = [];
+  slots.forEach(s => {
+    if (!s.disabled) return;
+    const raw = s.label || '';
+    if (raw.includes('주소') || raw.includes('전화') || raw.includes('확인') || raw.includes('운영시간') || raw.includes('시작하기') || raw.includes('공간')) return;
 
-  const intervals = [];
-  let start = bookedSlots[0];
-  let prev = bookedSlots[0];
+    let h = null;
+    let m = 0;
 
-  for (let i = 1; i < bookedSlots.length; i++) {
-    const curr = bookedSlots[i];
-    if (curr - prev === 0.5) {
-      prev = curr;
+    const match24 = raw.match(/(\d{1,2}):(\d{2})/);
+    if (match24) {
+      h = parseInt(match24[1], 10);
+      m = parseInt(match24[2], 10);
+      let isPm = raw.includes('오후') || raw.includes('PM') || raw.includes('pm');
+      if (isPm && h < 12) h += 12;
+      if (!isPm && raw.includes('오전') && h === 12) h = 0;
     } else {
-      intervals.push({
-        startTime: start,
-        endTime: prev + 0.5,
-        totalHours: (prev + 0.5) - start
-      });
-      start = curr;
-      prev = curr;
+      const matchHour = raw.match(/(\d{1,2})\s*시/);
+      if (matchHour) {
+        h = parseInt(matchHour[1], 10);
+        let isPm = raw.includes('오후') || raw.includes('PM') || raw.includes('pm');
+        if (isPm && h < 12) h += 12;
+        if (!isPm && raw.includes('오전') && h === 12) h = 0;
+        if (raw.includes('30분') || raw.includes(':30')) m = 30;
+      }
     }
-  }
-  intervals.push({
-    startTime: start,
-    endTime: prev + 0.5,
-    totalHours: (prev + 0.5) - start
+
+    if (h === null) return;
+    const startVal = h + (m >= 30 ? 0.5 : 0);
+    if (startVal >= 23) return; // 23시 이상 야간 휴무 슬롯 제외
+
+    bookedBlocks.push({
+      startTime: startVal,
+      endTime: Math.round((startVal + 0.5) * 10) / 10,
+      totalHours: 0.5
+    });
   });
 
-  return intervals;
+  if (bookedBlocks.length === 0) return [];
+  bookedBlocks.sort((a, b) => a.startTime - b.startTime);
+
+  const merged = [];
+  let cur = { ...bookedBlocks[0] };
+
+  for (let i = 1; i < bookedBlocks.length; i++) {
+    const next = bookedBlocks[i];
+    if (Math.abs(next.startTime - cur.endTime) < 0.01) {
+      cur.endTime = Math.round((next.endTime) * 10) / 10;
+      cur.totalHours = Math.round((cur.endTime - cur.startTime) * 10) / 10;
+    } else {
+      merged.push(cur);
+      cur = { ...next };
+    }
+  }
+  merged.push(cur);
+  return merged;
 }
 
-// 오늘(29일)부터 7일간의 날짜 목록 자동 생성 헬퍼
 function getTargetDates() {
   const dates = [];
-  const start = new Date('2026-08-29T12:00:00'); // 시스템 기준시
+  const kst = new Date(new Date().getTime() + (9 * 60 * 60 * 1000));
+  const start = new Date(kst.toISOString().split('T')[0] + 'T00:00:00');
+  
   for (let i = 0; i < 7; i++) {
     const d = new Date(start);
     d.setDate(start.getDate() + i);
@@ -61,48 +127,9 @@ function getTargetDates() {
   return dates;
 }
 
-// 모바일 터치(Tap) 이벤트를 활용해 더보기를 눌러 룸 카드 리스트를 무결하게 펼치는 고도화 함수
-async function expandList(page) {
-  // 스크롤 다운
-  await page.evaluate(() => {
-    window.scrollTo(0, 5000);
-  });
-  await delay(1500);
-  
-  const moreBtnSelector = 'button.button_more, .btn_more_area button, [class*="button_more"]';
-  
-  try {
-    const moreBtn = await page.$(moreBtnSelector);
-    if (moreBtn) {
-      const isVisible = await page.evaluate((sel) => {
-        const btn = document.querySelector(sel);
-        return btn && btn.style.display !== 'none' && btn.offsetHeight > 0;
-      }, moreBtnSelector);
-      
-      if (isVisible) {
-        console.log(`[Crawler] More button is visible. Hovering & tapping via Puppeteer...`);
-        await moreBtn.hover();
-        await delay(500);
-        // 모바일 터치 이벤트 시뮬레이션
-        await page.tap(moreBtnSelector);
-        console.log(`[Crawler] Tapped. Waiting 4 seconds for list expansion...`);
-        await delay(4000);
-        
-        // 추가 스크롤 다운
-        await page.evaluate(() => {
-          window.scrollTo(0, 5000);
-        });
-        await delay(1000);
-      }
-    }
-  } catch (err) {
-    console.log(`[Crawler] Expand list skipped/failed:`, err.message);
-  }
-}
-
 async function crawlBranch(businessId, branchName, targetDates) {
   console.log(`\n==================================================`);
-  console.log(`[Crawler] Starting 7-Day Crawl for branch: ${branchName} (${businessId})...`);
+  console.log(`[Crawler] Starting Crawl for branch: ${branchName} (${businessId})...`);
   
   const browser = await puppeteer.launch({
     headless: true,
@@ -110,139 +137,89 @@ async function crawlBranch(businessId, branchName, targetDates) {
   });
   
   const allReservations = [];
-  
+
   try {
     const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1');
+    await page.setViewport({ width: 375, height: 812, isMobile: true, hasTouch: true });
+    await page.setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1');
     
-    const listUrl = `https://m.booking.naver.com/booking/10/bizes/${businessId}`;
-    await page.goto(listUrl, { waitUntil: 'networkidle2', timeout: 30000 });
-    
-    const itemSelector = 'li[class*="booking_item"]';
-    await page.waitForSelector(itemSelector, { timeout: 15000 });
-    
-    // 리스트 확장 적용
-    await expandList(page);
-    
-    // 룸 목록 카드 개수 확인
-    const cardCount = await page.evaluate((sel) => {
-      return document.querySelectorAll(sel).length;
-    }, itemSelector);
-    
-    console.log(`[Crawler] Total rooms count to crawl: ${cardCount}`);
-    
-    if (cardCount === 0) {
-      console.log(`[Crawler] Warning: Card count is 0. Retrying to read list elements...`);
-      // 폴백 셀렉터로 재시도
-      const fallbackCount = await page.evaluate(() => {
-        return document.querySelectorAll('li[class*="item"], .booking_item').length;
-      });
-      console.log(`[Crawler] Fallback selector count: ${fallbackCount}`);
-    }
-    
-    for (let i = 0; i < cardCount; i++) {
-      console.log(`\n[Crawler] Processing Room index ${i + 1}/${cardCount}...`);
+    const targetRooms = BRANCH_ROOMS[businessId] || [];
+    console.log(`[Crawler] Processing ${targetRooms.length} rooms for ${branchName}.`);
+
+    for (let i = 0; i < targetRooms.length; i++) {
+      const targetRoom = targetRooms[i];
+      const roomName = targetRoom.name;
+      console.log(`[Crawler] (${i + 1}/${targetRooms.length}) Processing ${branchName} - ${roomName}...`);
       
-      await page.goto(listUrl, { waitUntil: 'networkidle2', timeout: 30000 });
-      await page.waitForSelector(itemSelector, { timeout: 15000 });
-      await expandList(page);
-      
-      const roomInfo = await page.evaluate((sel, index) => {
-        const list = document.querySelectorAll(sel);
-        const card = list[index];
-        if (!card) return null;
-        
-        const text = card.innerText || '';
-        const nameMatch = text.match(/(ROOM\d+)/);
-        const name = nameMatch ? nameMatch[1] : `ROOM${index + 1}`;
-        
-        const link = card.querySelector('a, button') || card;
-        link.click();
-        
-        return { name };
-      }, itemSelector, i);
-      
-      if (!roomInfo) continue;
-      
-      console.log(`[Crawler] Clicked ${roomInfo.name}. Waiting for schedule page load...`);
-      await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 10000 }).catch(() => {});
-      await delay(3000);
+      await page.goto(targetRoom.url, { waitUntil: 'networkidle2', timeout: 30000 });
+      await delay(2500);
       
       for (const targetDate of targetDates) {
-        console.log(`[Crawler] Crawling ${roomInfo.name} on: ${targetDate.fullDate}...`);
-        
-        // A. 달력 헤더 월(Month) 검사 및 이동 처리 (8월 -> 9월 전환 대응)
-        const currentCalMonth = await page.evaluate(() => {
-          const title = document.querySelector('.calendar_title');
-          return title ? title.innerText.trim() : ''; // 예: '2026.8'
+        let currentCalMonth = await page.evaluate(() => {
+          const title = document.querySelector('.calendar_title, [class*="calendar_title"], .month');
+          return title ? title.innerText.trim() : '';
         });
         const targetCalMonth = `${targetDate.year}.${targetDate.month}`;
+        const targetCalMonthAlt = `${targetDate.year}. ${targetDate.month}`;
         
-        if (currentCalMonth && !currentCalMonth.includes(targetCalMonth)) {
-          console.log(`[Crawler] Month mismatch (current: ${currentCalMonth}, target: ${targetCalMonth}). Swapping month...`);
-          const nextBtn = await page.$('button.btn_next');
-          if (nextBtn) {
-            await nextBtn.click();
+        if (currentCalMonth && !currentCalMonth.includes(targetCalMonth) && !currentCalMonth.includes(targetCalMonthAlt)) {
+          const btn = await page.$('button.btn_next, [class*="btn_next"]');
+          if (btn) {
+            await btn.click();
             await delay(2000);
           }
         }
         
-        // B. 날짜 클릭
-        const clicked = await page.evaluate((d) => {
+        const clickResult = await page.evaluate((targetDay) => {
           const dates = document.querySelectorAll('button[class*="calendar_date"]');
           for (let el of dates) {
             const numSpan = el.querySelector('.num');
-            if (numSpan && numSpan.innerText.trim() === d) {
-              if (!el.className.includes('unselectable') && !el.hasAttribute('disabled')) {
-                el.click();
-                return { success: true };
-              }
+            if (numSpan && numSpan.innerText.trim() === targetDay) {
+              el.scrollIntoView({ block: 'center' });
+              el.click();
+              return true;
             }
           }
-          return { success: false };
+          return false;
         }, targetDate.day);
         
-        if (!clicked.success) {
-          console.log(`[Crawler] Day ${targetDate.day} is not selectable.`);
-          continue;
-        }
+        if (!clickResult) continue;
+        await delay(2500);
         
-        await delay(2000); // 로드 대기
-        
-        // C. 시간 스케줄 획득
         const timeSlots = await page.evaluate(() => {
           const slots = [];
-          const items = document.querySelectorAll('li[class*="time_item"]');
+          const items = document.querySelectorAll('li[class*="time_item"], div[class*="time_item"], [class*="time_item"]');
           items.forEach((el) => {
-            const btn = el.querySelector('button');
-            if (btn) {
-              const label = btn.getAttribute('aria-label') || '';
-              const isDisabled = btn.getAttribute('aria-disabled') === 'true' || 
-                                 el.className.includes('disabled') || 
-                                 btn.hasAttribute('disabled');
-              if (label) {
-                slots.push({
-                  originalLabel: label,
-                  disabled: isDisabled
-                });
-              }
-            }
+            const btn = el.querySelector('button') || el;
+            const label = (btn.getAttribute('aria-label') || el.innerText || btn.innerText || '').replace(/\n/g, ' ').trim();
+            const isDisabled = btn.getAttribute('aria-disabled') === 'true' || 
+                               el.className.includes('disabled') || 
+                               btn.hasAttribute('disabled');
+            if (label) slots.push({ label, disabled: isDisabled });
           });
           return slots;
         });
         
-        const intervals = parseTimeIntervals(timeSlots);
+        const intervals = parse30MinSlots(timeSlots);
+        
+        let prefix = "jj";
+        if (businessId === '1457642') prefix = "sj";
+        else if (businessId === '1689190') prefix = "al";
+        else if (businessId === '1720088') prefix = "wr";
+        
+        let roomNumStr = "1";
+        const numMatch = roomName.match(/\d+/);
+        if (numMatch) roomNumStr = numMatch[0];
+        const mappedRoomId = `room-${prefix}-${roomNumStr}`;
+        
         intervals.forEach((interval, idx) => {
-          const roomNum = roomInfo.name.replace('ROOM', '');
-          const roomId = branchName === '정자점' ? `room-jj-${roomNum}` : `room-sj-${roomNum}`;
-          
           allReservations.push({
-            id: `res-naver-auto-${branchName === '정자점' ? 'jj' : 'sj'}-${roomNum}-${targetDate.fullDate}-${idx}`,
-            roomId: roomId,
-            roomName: roomInfo.name,
-            userId: 'user-naver-auto',
-            userName: '네이버 예약자',
-            userPhone: '010-XXXX-XXXX',
+            id: `crawl-${prefix}-${targetDate.fullDate.replace(/-/g, '')}-${roomNumStr}-${idx + 1}`,
+            roomId: mappedRoomId,
+            roomName: roomName,
+            userId: `user-crawl-${idx + 1}`,
+            userName: `네이버예약자${idx + 1}`,
+            userPhone: '010-0000-0000',
             date: targetDate.fullDate,
             startTime: interval.startTime,
             endTime: interval.endTime,
@@ -253,53 +230,77 @@ async function crawlBranch(businessId, branchName, targetDates) {
         });
       }
     }
-    
   } catch (err) {
     console.error(`[Crawler] Branch ${branchName} crawl failed:`, err);
   } finally {
     await browser.close();
-    console.log(`[Crawler] Browser closed for ${branchName}.`);
   }
   
   return allReservations;
 }
 
+function loadBranchConfigs() {
+  const configPath = path.join(__dirname, 'branchConfigs.json');
+  if (fs.existsSync(configPath)) {
+    try {
+      return JSON.parse(fs.readFileSync(configPath, 'utf8'));
+    } catch (e) {}
+  }
+  return {
+    '정자점': { name: '정자점', businessId: '1294414' },
+    '수지구청점': { name: '수지구청점', businessId: '1457642' },
+    '알루': { name: '알루', businessId: '1689190' },
+    '위례점': { name: '위례점', businessId: '1720088' }
+  };
+}
+
 async function run() {
   const targetDates = getTargetDates();
-  console.log("[Crawler] Calculated Target Dates (7-Days):", targetDates.map(d => d.fullDate));
+  const branchConfigs = loadBranchConfigs();
+  const allBranchKeys = Object.keys(branchConfigs);
+  const newReservations = [];
+
+  for (const key of allBranchKeys) {
+    const config = branchConfigs[key];
+    const branchRes = await crawlBranch(config.businessId, config.name, targetDates);
+    newReservations.push(...branchRes);
+  }
   
-  // 1. 정자점 크롤링
-  const jeongjaRes = await crawlBranch('1294414', '정자점', targetDates);
-  // 2. 수지구청점 크롤링
-  const sujiRes = await crawlBranch('1457642', '수지구청점', targetDates);
-  
-  const newReservations = [...jeongjaRes, ...sujiRes];
-  
-  // ==========================================
-  // [영구 보존 데이터 병합 및 Upsert 로직]
-  // ==========================================
   const dumpPath = path.join(__dirname, 'syncedReservations.json');
   let existingReservations = [];
   
   if (fs.existsSync(dumpPath)) {
     try {
-      const fileContent = fs.readFileSync(dumpPath, 'utf8');
-      existingReservations = JSON.parse(fileContent);
-    } catch(e) {
-      console.error("[Crawler] Failed to read existing database:", e.message);
-    }
+      existingReservations = JSON.parse(fs.readFileSync(dumpPath, 'utf8'));
+    } catch(e) {}
   }
   
-  const newDatesSet = new Set(targetDates.map(d => d.fullDate));
-  const preservedReservations = existingReservations.filter(res => !newDatesSet.has(res.date));
-  const mergedReservations = [...preservedReservations, ...newReservations];
+  const kst = new Date(new Date().getTime() + (9 * 60 * 60 * 1000));
+  const todayStr = kst.toISOString().split('T')[0];
+  const mergedReservations = [];
+  
+  // A. 지나간 과거 날짜 데이터만 메모리/DB 영구 보존
+  existingReservations.forEach(res => {
+    if (res && res.date && res.date < todayStr) {
+      if (res.startTime < 23 && res.endTime <= 23) {
+        mergedReservations.push(res);
+      }
+    }
+  });
+  
+  // B. 현재 및 미래 날짜 데이터는 신규 크롤링 데이터로 100% 교체/덮어쓰기
+  newReservations.forEach(res => {
+    if (res && res.date && res.date >= todayStr) {
+      mergedReservations.push(res);
+    }
+  });
   
   fs.writeFileSync(dumpPath, JSON.stringify(mergedReservations, null, 2), 'utf8');
   
   console.log(`\n==================================================`);
-  console.log(`[Crawler] 7-Day Crawl finished!`);
-  console.log(`  - New Crawled: ${newReservations.length} reservations`);
-  console.log(`  - Preserved History: ${preservedReservations.length} reservations`);
+  console.log(`[Crawler] 30-Min Pure Crawl Finished!`);
+  console.log(`  - New Crawled (Current & Future): ${newReservations.length} reservations`);
+  console.log(`  - Preserved History (Past): ${mergedReservations.length - newReservations.length} reservations`);
   console.log(`  - Total Saved Database: ${mergedReservations.length} reservations`);
 }
 

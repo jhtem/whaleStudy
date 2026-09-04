@@ -1,0 +1,22 @@
+{
+  "정자점": {
+    "name": "정자점",
+    "businessId": "1294414",
+    "bookingUrl": "https://booking.naver.com/booking/10/bizes/1294414"
+  },
+  "수지구청점": {
+    "name": "수지구청점",
+    "businessId": "1457642",
+    "bookingUrl": "https://booking.naver.com/booking/10/bizes/1457642"
+  },
+  "알루": {
+    "name": "알루",
+    "businessId": "1689190",
+    "bookingUrl": "https://booking.naver.com/booking/10/bizes/1689190"
+  },
+  "위례점": {
+    "name": "위례점",
+    "businessId": "1720088",
+    "bookingUrl": "https://booking.naver.com/booking/10/bizes/1720088"
+  }
+}
