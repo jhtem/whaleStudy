@@ -720,7 +720,7 @@ export default function StudyRoomAdmin() {
 
       return (
         <tr key={`time-row-${t}`} style={{ height: "36px" }}>
-          {/* 세로 1열: 시간 라벨 */}
+          {/* 세로 1열: 시간 라벨 (Sticky 고정) */}
           <td 
             style={{ 
               width: "65px", 
@@ -733,7 +733,11 @@ export default function StudyRoomAdmin() {
               borderRight: "2px solid var(--border)",
               borderBottom: "1px solid var(--border)",
               color: isHourHeader ? "var(--text-primary)" : "var(--text-muted)",
-              padding: 0
+              padding: 0,
+              position: "sticky",
+              left: 0,
+              zIndex: 10,
+              boxShadow: "2px 0 5px rgba(0, 0, 0, 0.08)"
             }}
           >
             {timeLabel}
@@ -1367,7 +1371,22 @@ export default function StudyRoomAdmin() {
                   <table className={styles.timelineTable} style={{ width: "auto" }}>
                     <thead className={styles.timelineTableHeader}>
                       <tr>
-                        <th style={{ width: "65px", minWidth: "65px", maxWidth: "65px", padding: "8px 4px", textAlign: "center", fontSize: "0.8rem", fontWeight: "700" }}>
+                        <th 
+                          style={{ 
+                            width: "65px", 
+                            minWidth: "65px", 
+                            maxWidth: "65px", 
+                            padding: "8px 4px", 
+                            textAlign: "center", 
+                            fontSize: "0.8rem", 
+                            fontWeight: "700",
+                            position: "sticky",
+                            left: 0,
+                            zIndex: 20,
+                            backgroundColor: "var(--background)",
+                            boxShadow: "2px 0 5px rgba(0, 0, 0, 0.08)"
+                          }}
+                        >
                           시간 / 룸
                         </th>
                         {activeRooms.map(room => (
