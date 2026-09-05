@@ -116,46 +116,39 @@ export default function StudyRoomAdmin() {
     }
   };
 
-  // 과거 날짜별 매출 세부 집계 연산식 (useMemo 활용)
+  // 과거 날짜별 매출 세부 집계 연산식 (4개 지점 정자, 수지, 알루, 위례 완전 통합)
   const pastDateSales = useMemo(() => {
-    const jjAmount = revenues
-      .filter(rev => {
-        if (!rev || rev.status !== "paid" || !rev.roomId || !rev.roomId.startsWith("room-jj-")) return false;
+    const getSalesData = (prefix: string) => {
+      const branchRevs = revenues.filter(rev => {
+        if (!rev || rev.status !== "paid" || !rev.roomId || !rev.roomId.startsWith(`room-${prefix}-`)) return false;
         const linkedRes = reservations.find(r => r && r.id === rev.reservationId);
         return linkedRes && linkedRes.date === pastDateQuery && linkedRes.status !== "canceled";
-      })
-      .reduce((sum, rev) => sum + (rev.amount || 0), 0);
+      });
+      const amount = branchRevs.reduce((sum, rev) => sum + (rev.amount || 0), 0);
       
-    const sjAmount = revenues
-      .filter(rev => {
-        if (!rev || rev.status !== "paid" || !rev.roomId || !rev.roomId.startsWith("room-sj-")) return false;
-        const linkedRes = reservations.find(r => r && r.id === rev.reservationId);
-        return linkedRes && linkedRes.date === pastDateQuery && linkedRes.status !== "canceled";
-      })
-      .reduce((sum, rev) => sum + (rev.amount || 0), 0);
+      const branchRes = reservations.filter(r => r && r.date === pastDateQuery && r.roomId.startsWith(`room-${prefix}-`) && r.status !== "canceled");
+      const count = branchRes.length;
+      const hours = branchRes.reduce((sum, r) => sum + (r.totalHours || (r.endTime - r.startTime)), 0);
 
-    const alAmount = revenues
-      .filter(rev => {
-        if (!rev || rev.status !== "paid" || !rev.roomId || !rev.roomId.startsWith("room-al-")) return false;
-        const linkedRes = reservations.find(r => r && r.id === rev.reservationId);
-        return linkedRes && linkedRes.date === pastDateQuery && linkedRes.status !== "canceled";
-      })
-      .reduce((sum, rev) => sum + (rev.amount || 0), 0);
+      return { amount, count, hours };
+    };
 
-    const wrAmount = revenues
-      .filter(rev => {
-        if (!rev || rev.status !== "paid" || !rev.roomId || !rev.roomId.startsWith("room-wr-")) return false;
-        const linkedRes = reservations.find(r => r && r.id === rev.reservationId);
-        return linkedRes && linkedRes.date === pastDateQuery && linkedRes.status !== "canceled";
-      })
-      .reduce((sum, rev) => sum + (rev.amount || 0), 0);
+    const jj = getSalesData("jj");
+    const sj = getSalesData("sj");
+    const al = getSalesData("al");
+    const wr = getSalesData("wr");
 
-    const jjCount = reservations.filter(r => r && r.date === pastDateQuery && r.roomId.startsWith("room-jj-") && r.status !== "canceled").length;
-    const sjCount = reservations.filter(r => r && r.date === pastDateQuery && r.roomId.startsWith("room-sj-") && r.status !== "canceled").length;
-    const alCount = reservations.filter(r => r && r.date === pastDateQuery && r.roomId.startsWith("room-al-") && r.status !== "canceled").length;
-    const wrCount = reservations.filter(r => r && r.date === pastDateQuery && r.roomId.startsWith("room-wr-") && r.status !== "canceled").length;
+    const totalAmount = jj.amount + sj.amount + al.amount + wr.amount;
+    const totalCount = jj.count + sj.count + al.count + wr.count;
+    const totalHours = jj.hours + sj.hours + al.hours + wr.hours;
 
-    return { jjAmount, sjAmount, alAmount, wrAmount, jjCount, sjCount, alCount, wrCount };
+    return { 
+      jjAmount: jj.amount, jjCount: jj.count, jjHours: jj.hours,
+      sjAmount: sj.amount, sjCount: sj.count, sjHours: sj.hours,
+      alAmount: al.amount, alCount: al.count, alHours: al.hours,
+      wrAmount: wr.amount, wrCount: wr.count, wrHours: wr.hours,
+      totalAmount, totalCount, totalHours
+    };
   }, [reservations, revenues, pastDateQuery]);
 
   // Form States for New Reservation
@@ -1195,57 +1188,185 @@ export default function StudyRoomAdmin() {
 
               {/* 과거 매출 데이터 연계 종합 분석 섹션 (과거 데이터 쌓임 대응 및 월 누적 요약) */}
               <div className={styles.dashboardLayout} style={{ marginTop: "24px" }}>
-                {/* Left: 과거 일별 매출 개별 검색 조회기 */}
+                {/* Left: 과거 일별 매출 명확 비교 조회기 */}
                 <div className={styles.dashboardSection}>
-                  <div className={styles.sectionHeader}>
-                    <h3 className={styles.sectionTitle}>📅 과거 일별 지점 매출 조회</h3>
-                    <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>과거일 검색</span>
+                  <div className={styles.sectionHeader} style={{ flexWrap: "wrap", gap: "8px" }}>
+                    <h3 className={styles.sectionTitle}>📅 과거 일별 지점 매출 비교</h3>
+                    {/* Quick Date Chips */}
+                    <div style={{ display: "flex", gap: "4px", flexWrap: "wrap" }}>
+                      <button
+                        onClick={() => setPastDateQuery(SYSTEM_TODAY)}
+                        style={{
+                          padding: "2px 8px",
+                          borderRadius: "12px",
+                          fontSize: "0.7rem",
+                          fontWeight: "600",
+                          border: "1px solid var(--border)",
+                          backgroundColor: pastDateQuery === SYSTEM_TODAY ? "var(--primary-teal)" : "var(--bg-secondary)",
+                          color: pastDateQuery === SYSTEM_TODAY ? "#ffffff" : "var(--text-secondary)",
+                          cursor: "pointer"
+                        }}
+                      >
+                        오늘
+                      </button>
+                      <button
+                        onClick={() => setPastDateQuery(getYesterday(SYSTEM_TODAY))}
+                        style={{
+                          padding: "2px 8px",
+                          borderRadius: "12px",
+                          fontSize: "0.7rem",
+                          fontWeight: "600",
+                          border: "1px solid var(--border)",
+                          backgroundColor: pastDateQuery === getYesterday(SYSTEM_TODAY) ? "var(--primary-teal)" : "var(--bg-secondary)",
+                          color: pastDateQuery === getYesterday(SYSTEM_TODAY) ? "#ffffff" : "var(--text-secondary)",
+                          cursor: "pointer"
+                        }}
+                      >
+                        어제
+                      </button>
+                      <button
+                        onClick={() => setPastDateQuery("2026-09-03")}
+                        style={{
+                          padding: "2px 8px",
+                          borderRadius: "12px",
+                          fontSize: "0.7rem",
+                          fontWeight: "600",
+                          border: "1px solid var(--border)",
+                          backgroundColor: pastDateQuery === "2026-09-03" ? "var(--primary-teal)" : "var(--bg-secondary)",
+                          color: pastDateQuery === "2026-09-03" ? "#ffffff" : "var(--text-secondary)",
+                          cursor: "pointer"
+                        }}
+                      >
+                        09-03
+                      </button>
+                      <button
+                        onClick={() => setPastDateQuery("2026-09-02")}
+                        style={{
+                          padding: "2px 8px",
+                          borderRadius: "12px",
+                          fontSize: "0.7rem",
+                          fontWeight: "600",
+                          border: "1px solid var(--border)",
+                          backgroundColor: pastDateQuery === "2026-09-02" ? "var(--primary-teal)" : "var(--bg-secondary)",
+                          color: pastDateQuery === "2026-09-02" ? "#ffffff" : "var(--text-secondary)",
+                          cursor: "pointer"
+                        }}
+                      >
+                        09-02
+                      </button>
+                    </div>
                   </div>
-                  <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", marginBottom: "16px", lineHeight: "1.4" }}>
-                    조회하고자 하는 과거 일자를 선택하면, 데이터 파일에서 지점별 예약 완료 건수와 정합 매출 총액을 즉시 연산해 줍니다.
-                  </p>
-                  <div style={{ display: "flex", gap: "10px", alignItems: "center", marginBottom: "20px" }}>
-                    <input 
-                      type="date" 
-                      value={pastDateQuery} 
-                      max={SYSTEM_TODAY}
-                      onChange={(e) => setPastDateQuery(e.target.value)}
-                      className={styles.selectInput}
-                      style={{ maxWidth: "220px", padding: "8px 12px", border: "1px solid var(--border)", borderRadius: "6px" }}
-                    />
-                    <span style={{ fontSize: "0.85rem", color: "var(--text-secondary)", fontWeight: "600" }}>
-                      {getDayOfWeek(pastDateQuery)} 기준 집계
-                    </span>
+
+                  <div style={{ display: "flex", gap: "10px", alignItems: "center", marginBottom: "14px", flexWrap: "wrap" }}>
+                    <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                      <input 
+                        type="date" 
+                        value={pastDateQuery} 
+                        max={SYSTEM_TODAY}
+                        onChange={(e) => setPastDateQuery(e.target.value)}
+                        className={styles.selectInput}
+                        style={{ maxWidth: "160px", padding: "4px 8px", border: "1px solid var(--border)", borderRadius: "6px", fontSize: "0.85rem" }}
+                      />
+                      <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: "600" }}>
+                        ({getDayOfWeek(pastDateQuery)})
+                      </span>
+                    </div>
+
+                    {/* 지점별 매출 점유 비중 바 */}
+                    <div style={{ flex: 1, minWidth: "180px", backgroundColor: "var(--bg-secondary)", padding: "6px 10px", borderRadius: "6px", border: "1px solid var(--border)" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.7rem", fontWeight: "700", marginBottom: "4px" }}>
+                        <span>매출 점유 비중</span>
+                        <span style={{ color: "var(--primary-teal)" }}>총 {pastDateSales.totalAmount.toLocaleString()}원</span>
+                      </div>
+                      <div style={{ height: "8px", borderRadius: "4px", overflow: "hidden", display: "flex", backgroundColor: "rgba(0,0,0,0.06)" }}>
+                        {pastDateSales.totalAmount > 0 ? (
+                          <>
+                            <div style={{ width: `${(pastDateSales.jjAmount / pastDateSales.totalAmount) * 100}%`, backgroundColor: "#0D9488" }} title={`정자: ${((pastDateSales.jjAmount / pastDateSales.totalAmount) * 100).toFixed(1)}%`} />
+                            <div style={{ width: `${(pastDateSales.sjAmount / pastDateSales.totalAmount) * 100}%`, backgroundColor: "#4F46E5" }} title={`수지: ${((pastDateSales.sjAmount / pastDateSales.totalAmount) * 100).toFixed(1)}%`} />
+                            <div style={{ width: `${(pastDateSales.alAmount / pastDateSales.totalAmount) * 100}%`, backgroundColor: "#F97316" }} title={`알루: ${((pastDateSales.alAmount / pastDateSales.totalAmount) * 100).toFixed(1)}%`} />
+                            <div style={{ width: `${(pastDateSales.wrAmount / pastDateSales.totalAmount) * 100}%`, backgroundColor: "#A855F7" }} title={`위례: ${((pastDateSales.wrAmount / pastDateSales.totalAmount) * 100).toFixed(1)}%`} />
+                          </>
+                        ) : (
+                          <div style={{ width: "100%", backgroundColor: "var(--border)", textAlign: "center", fontSize: "0.65rem", color: "var(--text-muted)" }}>매출 없음</div>
+                        )}
+                      </div>
+                    </div>
                   </div>
                   
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "16px" }}>
-                    <div style={{ backgroundColor: "rgba(13, 148, 136, 0.04)", border: "1px solid rgba(13, 148, 136, 0.15)", borderRadius: "8px", padding: "16px" }}>
-                      <p style={{ margin: 0, fontSize: "0.85rem", color: "#0D9488", fontWeight: "700" }}>정자본점 매출</p>
-                      <p style={{ margin: "10px 0 4px 0", fontSize: "1.4rem", fontWeight: "800", color: "var(--text-primary)" }}>
-                        {pastDateSales.jjAmount.toLocaleString()} 원
+                  {/* 4개 지점 + 통합 5개 비교 카드 그리드 */}
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", marginBottom: "14px" }}>
+                    <div style={{ backgroundColor: "rgba(13, 148, 136, 0.05)", border: "1px solid rgba(13, 148, 136, 0.2)", borderRadius: "8px", padding: "10px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ fontSize: "0.8rem", color: "#0D9488", fontWeight: "700" }}>🏢 정자본점</span>
+                        <span style={{ fontSize: "0.7rem", color: "#0D9488", fontWeight: "700" }}>
+                          {pastDateSales.totalAmount > 0 ? ((pastDateSales.jjAmount / pastDateSales.totalAmount) * 100).toFixed(1) : 0}%
+                        </span>
+                      </div>
+                      <p style={{ margin: "6px 0 2px 0", fontSize: "1.15rem", fontWeight: "800", color: "var(--text-primary)" }}>
+                        {pastDateSales.jjAmount.toLocaleString()}원
                       </p>
-                      <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--text-muted)" }}>
-                        확정 이용예약 {pastDateSales.jjCount}건
-                      </p>
-                    </div>
-                    <div style={{ backgroundColor: "rgba(79, 70, 229, 0.04)", border: "1px solid rgba(79, 70, 229, 0.15)", borderRadius: "8px", padding: "16px" }}>
-                      <p style={{ margin: 0, fontSize: "0.85rem", color: "#4F46E5", fontWeight: "700" }}>수지구청점 매출</p>
-                      <p style={{ margin: "10px 0 4px 0", fontSize: "1.4rem", fontWeight: "800", color: "var(--text-primary)" }}>
-                        {pastDateSales.sjAmount.toLocaleString()} 원
-                      </p>
-                      <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--text-muted)" }}>
-                        확정 이용예약 {pastDateSales.sjCount}건
+                      <p style={{ margin: 0, fontSize: "0.7rem", color: "var(--text-muted)" }}>
+                        {pastDateSales.jjCount}건 ({pastDateSales.jjHours.toFixed(1)}h)
                       </p>
                     </div>
-                    <div style={{ backgroundColor: "rgba(249, 115, 22, 0.04)", border: "1px solid rgba(249, 115, 22, 0.15)", borderRadius: "8px", padding: "16px" }}>
-                      <p style={{ margin: 0, fontSize: "0.85rem", color: "#F97316", fontWeight: "700" }}>알루점 매출</p>
-                      <p style={{ margin: "10px 0 4px 0", fontSize: "1.4rem", fontWeight: "800", color: "var(--text-primary)" }}>
-                        {pastDateSales.alAmount.toLocaleString()} 원
+
+                    <div style={{ backgroundColor: "rgba(79, 70, 229, 0.05)", border: "1px solid rgba(79, 70, 229, 0.2)", borderRadius: "8px", padding: "10px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ fontSize: "0.8rem", color: "#4F46E5", fontWeight: "700" }}>🏫 수지구청점</span>
+                        <span style={{ fontSize: "0.7rem", color: "#4F46E5", fontWeight: "700" }}>
+                          {pastDateSales.totalAmount > 0 ? ((pastDateSales.sjAmount / pastDateSales.totalAmount) * 100).toFixed(1) : 0}%
+                        </span>
+                      </div>
+                      <p style={{ margin: "6px 0 2px 0", fontSize: "1.15rem", fontWeight: "800", color: "var(--text-primary)" }}>
+                        {pastDateSales.sjAmount.toLocaleString()}원
                       </p>
-                      <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--text-muted)" }}>
-                        확정 이용예약 {pastDateSales.alCount}건
+                      <p style={{ margin: 0, fontSize: "0.7rem", color: "var(--text-muted)" }}>
+                        {pastDateSales.sjCount}건 ({pastDateSales.sjHours.toFixed(1)}h)
                       </p>
                     </div>
+
+                    <div style={{ backgroundColor: "rgba(249, 115, 22, 0.05)", border: "1px solid rgba(249, 115, 22, 0.2)", borderRadius: "8px", padding: "10px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ fontSize: "0.8rem", color: "#F97316", fontWeight: "700" }}>☕ 알루점 (16룸)</span>
+                        <span style={{ fontSize: "0.7rem", color: "#F97316", fontWeight: "700" }}>
+                          {pastDateSales.totalAmount > 0 ? ((pastDateSales.alAmount / pastDateSales.totalAmount) * 100).toFixed(1) : 0}%
+                        </span>
+                      </div>
+                      <p style={{ margin: "6px 0 2px 0", fontSize: "1.15rem", fontWeight: "800", color: "var(--text-primary)" }}>
+                        {pastDateSales.alAmount.toLocaleString()}원
+                      </p>
+                      <p style={{ margin: 0, fontSize: "0.7rem", color: "var(--text-muted)" }}>
+                        {pastDateSales.alCount}건 ({pastDateSales.alHours.toFixed(1)}h)
+                      </p>
+                    </div>
+
+                    <div style={{ backgroundColor: "rgba(168, 85, 247, 0.05)", border: "1px solid rgba(168, 85, 247, 0.2)", borderRadius: "8px", padding: "10px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ fontSize: "0.8rem", color: "#A855F7", fontWeight: "700" }}>🏙️ 위례점</span>
+                        <span style={{ fontSize: "0.7rem", color: "#A855F7", fontWeight: "700" }}>
+                          {pastDateSales.totalAmount > 0 ? ((pastDateSales.wrAmount / pastDateSales.totalAmount) * 100).toFixed(1) : 0}%
+                        </span>
+                      </div>
+                      <p style={{ margin: "6px 0 2px 0", fontSize: "1.15rem", fontWeight: "800", color: "var(--text-primary)" }}>
+                        {pastDateSales.wrAmount.toLocaleString()}원
+                      </p>
+                      <p style={{ margin: 0, fontSize: "0.7rem", color: "var(--text-muted)" }}>
+                        {pastDateSales.wrCount}건 ({pastDateSales.wrHours.toFixed(1)}h)
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* 4개 지점 통합 총합 바 카드 */}
+                  <div style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--border)", borderRadius: "8px", padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <span style={{ fontSize: "0.8rem", fontWeight: "800", color: "var(--text-primary)" }}>🌐 4개 지점 일 매출 총합계</span>
+                      <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginLeft: "8px" }}>
+                        총 {pastDateSales.totalCount}건 ({pastDateSales.totalHours.toFixed(1)}시간)
+                      </span>
+                    </div>
+                    <span style={{ fontSize: "1.25rem", fontWeight: "800", color: "var(--primary-teal)" }}>
+                      {pastDateSales.totalAmount.toLocaleString()}원
+                    </span>
                   </div>
                 </div>
 
