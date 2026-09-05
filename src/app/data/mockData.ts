@@ -71,6 +71,12 @@ export const mockRooms: Room[] = [
   { id: 'room-al-8', branch: '알루', name: 'ALU. 8', capacity: 2, pricePerHour: 8000, description: '30분당 4,000원 (1시간 8,000원)' },
   { id: 'room-al-9', branch: '알루', name: 'ALU. 9', capacity: 2, pricePerHour: 8000, description: '30분당 4,000원 (1시간 8,000원)' },
   { id: 'room-al-10', branch: '알루', name: 'ALU. 10', capacity: 4, pricePerHour: 8000, description: '30분당 4,000원 (1시간 8,000원)' },
+  { id: 'room-al-11', branch: '알루', name: 'ALU. 11', capacity: 4, pricePerHour: 8000, description: '30분당 4,000원 (1시간 8,000원)' },
+  { id: 'room-al-12', branch: '알루', name: 'ALU. 12', capacity: 4, pricePerHour: 8000, description: '30분당 4,000원 (1시간 8,000원)' },
+  { id: 'room-al-13', branch: '알루', name: 'ALU. 13', capacity: 4, pricePerHour: 8000, description: '30분당 4,000원 (1시간 8,000원)' },
+  { id: 'room-al-14', branch: '알루', name: 'ALU. 14', capacity: 4, pricePerHour: 8000, description: '30분당 4,000원 (1시간 8,000원)' },
+  { id: 'room-al-15', branch: '알루', name: 'ALU. 15', capacity: 4, pricePerHour: 8000, description: '30분당 4,000원 (1시간 8,000원)' },
+  { id: 'room-al-16', branch: '알루', name: 'ALU. 16', capacity: 4, pricePerHour: 8000, description: '30분당 4,000원 (1시간 8,000원)' },
 
   // === 위례점 (총 8개 룸) ===
   { id: 'room-wr-1', branch: '위례점', name: 'ROOM1', capacity: 2, pricePerHour: 5000, description: '30분당 2,500원 (1시간 5,000원)' },

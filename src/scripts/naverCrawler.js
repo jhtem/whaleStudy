@@ -35,7 +35,13 @@ const BRANCH_ROOMS = {
     { name: 'ALU. 7', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836353' },
     { name: 'ALU. 8', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836370' },
     { name: 'ALU. 9', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836389' },
-    { name: 'ALU. 10', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836395' }
+    { name: 'ALU. 10', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836400' },
+    { name: 'ALU. 11', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836411' },
+    { name: 'ALU. 12', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836428' },
+    { name: 'ALU. 13', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836437' },
+    { name: 'ALU. 14', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836444' },
+    { name: 'ALU. 15', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836456' },
+    { name: 'ALU. 16', url: 'https://m.booking.naver.com/booking/10/bizes/1689190/items/7836461' }
   ],
   '1720088': [
     { name: 'ROOM1', url: 'https://m.booking.naver.com/booking/10/bizes/1720088/items/7993899' },
