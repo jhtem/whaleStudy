@@ -68,6 +68,10 @@ export default function StudyRoomAdmin() {
   const [branchUrlConfigs, setBranchUrlConfigs] = useState<Record<string, any>>({});
   const [editingUrlInput, setEditingUrlInput] = useState<Record<string, string>>({});
 
+  // 지점별 룸 가격 안내 모달 State
+  const [isPriceModalOpen, setIsPriceModalOpen] = useState(false);
+  const [selectedPriceBranch, setSelectedPriceBranch] = useState<"정자점" | "수지구청점" | "알루" | "위례점">("정자점");
+
   // 지점 URL 설정 목록 조회
   const fetchBranchConfigs = async () => {
     try {
@@ -895,6 +899,28 @@ export default function StudyRoomAdmin() {
               id="btn-open-url-setting"
             >
               ⚙️ 지점 URL 설정
+            </button>
+            <button
+              onClick={() => {
+                setSelectedPriceBranch(currentBranch);
+                setIsPriceModalOpen(true);
+              }}
+              style={{
+                padding: "8px 12px",
+                borderRadius: "6px",
+                border: "1px solid var(--border)",
+                backgroundColor: "var(--bg-secondary)",
+                color: "var(--text-primary)",
+                fontSize: "0.85rem",
+                fontWeight: "600",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "5px"
+              }}
+              id="btn-open-price-modal"
+            >
+              🏷️ 지점별 룸 가격 안내
             </button>
           </div>
           <div className={styles.headerRight}>
@@ -1754,6 +1780,92 @@ export default function StudyRoomAdmin() {
                 닫기
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ==========================================
+         Overlay: Branch Room Price Modal (지점별 룸 가격 안내 팝업 모달)
+         ========================================== */}
+      {isPriceModalOpen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent} style={{ maxWidth: "720px", width: "90%" }}>
+            <header className={styles.modalHeader}>
+              <h3 className={styles.modalTitle}>🏷️ 지점별 룸 가격 및 수용인원 안내</h3>
+              <button onClick={() => setIsPriceModalOpen(false)} className={styles.closeBtn}>×</button>
+            </header>
+            
+            <div style={{ padding: "20px" }}>
+              <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", marginBottom: "16px" }}>
+                각 지점별 룸 공간의 수용 인원 및 1시간당 가격 정보를 한눈에 확인하실 수 있습니다.
+              </p>
+
+              {/* 지점 선택 탭 버튼 */}
+              <div style={{ display: "flex", gap: "8px", marginBottom: "20px", borderBottom: "1px solid var(--border)", paddingBottom: "12px" }}>
+                {(["정자점", "수지구청점", "알루", "위례점"] as const).map(b => (
+                  <button
+                    key={b}
+                    onClick={() => setSelectedPriceBranch(b)}
+                    style={{
+                      padding: "8px 16px",
+                      borderRadius: "6px",
+                      border: "none",
+                      backgroundColor: selectedPriceBranch === b ? "var(--primary-teal)" : "var(--bg-secondary)",
+                      color: selectedPriceBranch === b ? "#ffffff" : "var(--text-primary)",
+                      fontWeight: "700",
+                      fontSize: "0.85rem",
+                      cursor: "pointer"
+                    }}
+                  >
+                    {b === "정자점" ? "정자본점" : b === "알루" ? "알루점" : b}
+                  </button>
+                ))}
+              </div>
+
+              {/* 해당 지점 룸 리스트 가격 안내 테이블 */}
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
+                  <thead>
+                    <tr style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "1px solid var(--border)" }}>
+                      <th style={{ padding: "10px", textAlign: "left", color: "var(--text-secondary)" }}>룸 이름</th>
+                      <th style={{ padding: "10px", textAlign: "center", color: "var(--text-secondary)" }}>수용 인원</th>
+                      <th style={{ padding: "10px", textAlign: "right", color: "var(--text-secondary)" }}>1시간당 가격</th>
+                      <th style={{ padding: "10px", textAlign: "left", color: "var(--text-secondary)" }}>공간 옵션 설명</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rooms
+                      .filter(r => r.branch === selectedPriceBranch)
+                      .map(r => (
+                        <tr key={r.id} style={{ borderBottom: "1px solid var(--border)" }}>
+                          <td style={{ padding: "12px 10px", fontWeight: "700", color: "var(--text-primary)" }}>
+                            {r.name}
+                          </td>
+                          <td style={{ padding: "12px 10px", textAlign: "center", color: "var(--text-secondary)" }}>
+                            👥 {r.capacity}인실
+                          </td>
+                          <td style={{ padding: "12px 10px", textAlign: "right", fontWeight: "800", color: "var(--primary-teal)" }}>
+                            {r.pricePerHour.toLocaleString()} 원
+                          </td>
+                          <td style={{ padding: "12px 10px", color: "var(--text-muted)", fontSize: "0.8rem" }}>
+                            {r.description}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <footer className={styles.modalFooter}>
+              <button 
+                onClick={() => setIsPriceModalOpen(false)} 
+                className={styles.primaryBtn}
+                style={{ padding: "8px 20px" }}
+              >
+                닫기
+              </button>
+            </footer>
           </div>
         </div>
       )}
