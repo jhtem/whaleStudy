@@ -1,8 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 import { NextResponse } from 'next/server';
+import { mockRooms } from '@/app/data/mockData';
 
 export const dynamic = 'force-dynamic';
+
+// 마스터 원장(mockRooms) 기반 동적 단가 조회 헬퍼 함수
+function getMasterRoomPrice(roomId: string): number {
+  const target = mockRooms.find(r => r.id === roomId);
+  return target ? target.pricePerHour : 7000;
+}
 
 // 오늘 기준 최근 7일간(D-6 ~ Today) 지점별 매출 비교 데이터를 백엔드 데이터베이스 전체를 기반으로 정밀 연산하는 헬퍼 함수
 function computeDailyComparisonSales() {
@@ -35,49 +42,24 @@ function computeDailyComparisonSales() {
   }
   
   return dateList.map(fullDate => {
-    const label = fullDate.substring(5); // "08-29"
+    const label = fullDate.substring(5);
     
-    // 정자점 매출 집계
+    // 마스터 원장의 pricePerHour 기반 동적 매출 연산
     const jjAmount = reservations
       .filter((r: any) => r.date === fullDate && r.roomId.startsWith('room-jj-') && r.status !== 'canceled')
-      .reduce((sum: number, r: any) => {
-        let price = 10000;
-        if (r.roomId.includes('room-jj-7')) price = 18000;
-        else if (r.roomId.endsWith('-1') || r.roomId.endsWith('-2')) price = 6000;
-        else if (r.roomId.endsWith('-3') || r.roomId.endsWith('-4') || r.roomId.endsWith('-5') || r.roomId.endsWith('-6')) price = 10000;
-        return sum + (price * r.totalHours);
-      }, 0);
+      .reduce((sum: number, r: any) => sum + (getMasterRoomPrice(r.roomId) * r.totalHours), 0);
 
-    // 수지구청점 매출 집계
     const sjAmount = reservations
       .filter((r: any) => r.date === fullDate && r.roomId.startsWith('room-sj-') && r.status !== 'canceled')
-      .reduce((sum: number, r: any) => {
-        let price = 10000;
-        if (r.roomId.includes('room-sj-8')) price = 20000;
-        else if (r.roomId.endsWith('-1') || r.roomId.endsWith('-2')) price = 6000;
-        else if (r.roomId.endsWith('-3') || r.roomId.endsWith('-4') || r.roomId.endsWith('-5') || r.roomId.endsWith('-6') || r.roomId.endsWith('-7')) price = 10000;
-        return sum + (price * r.totalHours);
-      }, 0);
+      .reduce((sum: number, r: any) => sum + (getMasterRoomPrice(r.roomId) * r.totalHours), 0);
 
-    // 알루점 매출 집계
     const alAmount = reservations
       .filter((r: any) => r.date === fullDate && r.roomId.startsWith('room-al-') && r.status !== 'canceled')
-      .reduce((sum: number, r: any) => {
-        let price = 6000;
-        if (r.roomId === 'room-al-1') price = 13000;
-        else if (r.roomId === 'room-al-7' || r.roomId === 'room-al-10') price = 10000;
-        return sum + (price * r.totalHours);
-      }, 0);
+      .reduce((sum: number, r: any) => sum + (getMasterRoomPrice(r.roomId) * r.totalHours), 0);
 
-    // 위례점 매출 집계
     const wrAmount = reservations
       .filter((r: any) => r.date === fullDate && r.roomId.startsWith('room-wr-') && r.status !== 'canceled')
-      .reduce((sum: number, r: any) => {
-        let price = 3500;
-        if (r.roomId === 'room-wr-8') price = 6000;
-        else if (r.roomId === 'room-wr-1' || r.roomId === 'room-wr-2') price = 2500;
-        return sum + (price * r.totalHours);
-      }, 0);
+      .reduce((sum: number, r: any) => sum + (getMasterRoomPrice(r.roomId) * r.totalHours), 0);
       
     return { date: label, jeongja: jjAmount, suji: sjAmount, alu: alAmount, wirye: wrAmount };
   });
@@ -392,29 +374,10 @@ function getRealNaverBookingFallback(branch: string, date: string) {
 
 function getRealNaverRevenuesFallback(reservations: any[]) {
   return reservations.map((res, i) => {
-    let price = 10000;
+    const price = getMasterRoomPrice(res.roomId);
     const isJeongja = res.roomId.startsWith('room-jj-');
     const isSuji = res.roomId.startsWith('room-sj-');
-    const isAlu = res.roomId.startsWith('room-al-');
     const isWirye = res.roomId.startsWith('room-wr-');
-
-    if (isJeongja) {
-      if (res.roomId.includes('room-jj-7')) price = 18000;
-      else if (res.roomId.endsWith('-1') || res.roomId.endsWith('-2')) price = 6000;
-      else price = 10000;
-    } else if (isSuji) {
-      if (res.roomId.includes('room-sj-8')) price = 20000;
-      else if (res.roomId.endsWith('-1') || res.roomId.endsWith('-2')) price = 6000;
-      else price = 10000;
-    } else if (isAlu) {
-      if (res.roomId.includes('room-al-1')) price = 13000;
-      else if (res.roomId.includes('room-al-7') || res.roomId.includes('room-al-10')) price = 10000;
-      else price = 6000;
-    } else if (isWirye) {
-      if (res.roomId.includes('room-wr-8')) price = 6000;
-      else if (res.roomId.endsWith('-1') || res.roomId.endsWith('-2')) price = 2500;
-      else price = 3500;
-    }
 
     const paymentDate = `${res.date}T09:00:00.000Z`;
     const branchPrefix = isJeongja ? 'jj' : isSuji ? 'sj' : isWirye ? 'wr' : 'al';
