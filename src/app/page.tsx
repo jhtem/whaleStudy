@@ -194,13 +194,13 @@ export default function StudyRoomAdmin() {
                 ? 'room-al-' 
                 : 'room-wr-';
           
-          // 중복 병합 방지: 현재 지점 및 타겟 일자의 네이버 데이터만 정밀하게 지우고 새 데이터를 업데이트
+          // 해당 지점(branchPrefix)의 모든 기존 수집/실시간 데이터를 100% 깔끔하게 제거 후 최신 데이터로 교체 (중복 덧붙이기 뻥튀기 완전 차단)
           setReservations(prev => {
             const safeReservations = data.reservations || [];
             return (prev || []).filter(res => {
               if (!res || !res.id) return false;
-              const isTargetNaver = res.id.includes("-naver-") && res.date === targetDate && res.roomId && res.roomId.startsWith(branchPrefix);
-              return !isTargetNaver;
+              const isTargetBranch = res.roomId && res.roomId.startsWith(branchPrefix);
+              return !isTargetBranch;
             }).concat(safeReservations);
           });
           
@@ -208,10 +208,8 @@ export default function StudyRoomAdmin() {
             const safeRevenues = data.revenues || [];
             return (prev || []).filter(rev => {
               if (!rev || !rev.id) return false;
-              const isTargetNaver = rev.id.includes("-naver-") && 
-                rev.roomId && rev.roomId.startsWith(branchPrefix) && 
-                rev.paymentDate && rev.paymentDate.startsWith(targetDate);
-              return !isTargetNaver;
+              const isTargetBranch = rev.roomId && rev.roomId.startsWith(branchPrefix);
+              return !isTargetBranch;
             }).concat(safeRevenues);
           });
           
