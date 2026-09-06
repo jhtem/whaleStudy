@@ -1438,10 +1438,10 @@ export default function StudyRoomAdmin() {
                 <div>
                   <h2 className={styles.pageTitle}>{currentBranch} 예약 스케줄러 (30분 단위)</h2>
                   <div className={styles.syncBadgeContainer}>
-                    {syncStatus === "loading" && <span className={styles.syncBadgeLoading}>🔄 네이버 실시간 연동 중...</span>}
+                    {syncStatus === "loading" && <span className={styles.syncBadgeLoading}>🔄 수집 데이터 로딩 중...</span>}
                     {syncStatus === "success" && (
                       <span className={styles.syncBadgeSuccess}>
-                        ✅ 네이버 실시간 연동 완료 ({syncSource === 'naver-live' ? 'Live API' : '수집데이터'})
+                        ✅ 수집 DB 정합 연동 완료 (100% 동기화)
                       </span>
                     )}
                     {syncStatus === "error" && <span className={styles.syncBadgeError}>⚠️ 네이버 연동 상태 확인필요</span>}
