@@ -179,6 +179,10 @@ async function crawlBranch(businessId, branchName, targetDates) {
         const clickResult = await page.evaluate((targetDay) => {
           const dates = document.querySelectorAll('button[class*="calendar_date"]');
           for (let el of dates) {
+            // 이전달/다음달 날짜(other_month, unselectable) 제외
+            if (el.className.includes('other') || el.className.includes('disabled') || el.getAttribute('aria-disabled') === 'true') {
+              continue;
+            }
             const numSpan = el.querySelector('.num');
             if (numSpan && numSpan.innerText.trim() === targetDay) {
               el.scrollIntoView({ block: 'center' });
@@ -190,7 +194,7 @@ async function crawlBranch(businessId, branchName, targetDates) {
         }, targetDate.day);
         
         if (!clickResult) continue;
-        await delay(2500);
+        await delay(3000);
         
         const timeSlots = await page.evaluate(() => {
           const slots = [];
