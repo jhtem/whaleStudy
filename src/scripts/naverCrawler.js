@@ -85,7 +85,6 @@ function parse30MinSlots(slots) {
 
     if (h === null) return;
     const startVal = h + (m >= 30 ? 0.5 : 0);
-    if (startVal >= 23) return; // 23시 이상 야간 휴무 슬롯 제외
 
     bookedBlocks.push({
       startTime: startVal,
