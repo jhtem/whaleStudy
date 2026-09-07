@@ -194,45 +194,19 @@ export default function StudyRoomAdmin() {
     return rooms.filter(r => r.branch === currentBranch);
   }, [rooms, currentBranch]);
 
-  // 실시간 네이버 예약 현황 자동 동기화 Fetcher
-  const syncNaverReservations = async (branchName: string, targetDate: string) => {
+  // 실시간 네이버 예약 현황 자동 동기화 Fetcher (마스터 572건 전체 데이터 보존)
+  const syncNaverReservations = async (branchName?: string, targetDate?: string) => {
     setSyncStatus("loading");
     try {
-      const response = await fetch(`/api/sync?branch=${encodeURIComponent(branchName)}&date=${targetDate}&_t=${Date.now()}`);
+      const response = await fetch(`/api/sync?all=true&_t=${Date.now()}`);
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
-          const branchPrefix = branchName === '정자점' 
-            ? 'room-jj-' 
-            : branchName === '수지구청점' 
-              ? 'room-sj-' 
-              : branchName === '알루' 
-                ? 'room-al-' 
-                : 'room-wr-';
-          
-          // 해당 지점(branchPrefix)의 모든 기존 수집/실시간 데이터를 100% 깔끔하게 제거 후 최신 데이터로 교체 (중복 덧붙이기 뻥튀기 완전 차단)
-          setReservations(prev => {
-            const safeReservations = data.reservations || [];
-            return (prev || []).filter(res => {
-              if (!res || !res.id) return false;
-              const isTargetBranch = res.roomId && res.roomId.startsWith(branchPrefix);
-              return !isTargetBranch;
-            }).concat(safeReservations);
-          });
-          
-          setRevenues(prev => {
-            const safeRevenues = data.revenues || [];
-            return (prev || []).filter(rev => {
-              if (!rev || !rev.id) return false;
-              const isTargetBranch = rev.roomId && rev.roomId.startsWith(branchPrefix);
-              return !isTargetBranch;
-            }).concat(safeRevenues);
-          });
-          
+          setReservations(data.reservations || []);
+          setRevenues(data.revenues || []);
           if (data.dailyComparisonSales) {
             setSyncDailySales(data.dailyComparisonSales);
           }
-          
           setSyncSource(data.source);
           setSyncStatus("success");
           return;
