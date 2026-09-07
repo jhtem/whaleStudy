@@ -48,6 +48,15 @@ export default function StudyRoomAdmin() {
     return `${yr}-${m}-${day}`;
   };
 
+  const getTomorrow = (todayStr: string) => {
+    const d = new Date(`${todayStr}T00:00:00`);
+    d.setDate(d.getDate() + 1);
+    const yr = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${yr}-${m}-${day}`;
+  };
+
   // Date Picker State for Timeline (Initial is today)
   const [selectedDate, setSelectedDate] = useState(SYSTEM_TODAY);
   
@@ -116,7 +125,7 @@ export default function StudyRoomAdmin() {
     }
   };
 
-  // 과거 날짜별 매출 세부 집계 연산식 (4개 지점 정자, 수지, 알루, 위례 완전 통합)
+  // 과거 확정 매출 & 미래 예약 예측 매출 통합 연산식
   const pastDateSales = useMemo(() => {
     const getSalesData = (prefix: string) => {
       const branchRevs = revenues.filter(rev => {
@@ -130,7 +139,17 @@ export default function StudyRoomAdmin() {
       const count = branchRes.length;
       const hours = branchRes.reduce((sum, r) => sum + (r.totalHours || (r.endTime - r.startTime)), 0);
 
-      return { amount, count, hours };
+      // 확정 결제 매출액이 0원이나 예약이 존재하는 경우(미래 예약 예측 등), 룸 시간당 요금 기반 예측 매출 자동 연산
+      let effectiveAmount = amount;
+      if (effectiveAmount === 0 && count > 0) {
+        effectiveAmount = branchRes.reduce((sum, r) => {
+          const roomObj = rooms.find(m => m.id === r.roomId);
+          const price = roomObj ? roomObj.pricePerHour : 7000;
+          return sum + (price * (r.totalHours || (r.endTime - r.startTime)));
+        }, 0);
+      }
+
+      return { amount: effectiveAmount, count, hours };
     };
 
     const jj = getSalesData("jj");
@@ -149,7 +168,7 @@ export default function StudyRoomAdmin() {
       wrAmount: wr.amount, wrCount: wr.count, wrHours: wr.hours,
       totalAmount, totalCount, totalHours
     };
-  }, [reservations, revenues, pastDateQuery]);
+  }, [reservations, revenues, pastDateQuery, rooms]);
 
   // Form States for New Reservation
   const [newResForm, setNewResForm] = useState({
@@ -1240,34 +1259,19 @@ export default function StudyRoomAdmin() {
 
               {/* 과거 매출 데이터 연계 종합 분석 섹션 (과거 데이터 쌓임 대응 및 월 누적 요약) */}
               <div className={styles.dashboardLayout} style={{ marginTop: "24px" }}>
-                {/* Left: 과거 일별 매출 명확 비교 조회기 */}
+                {/* Left: 일별 매출 비교 (과거 매출 및 미래 예측 매출) */}
                 <div className={styles.dashboardSection}>
                   <div className={styles.sectionHeader} style={{ flexWrap: "wrap", gap: "8px" }}>
-                    <h3 className={styles.sectionTitle}>📅 과거 일별 지점 매출 비교</h3>
-                    {/* Quick Date Chips */}
+                    <h3 className={styles.sectionTitle}>📊 일별 매출 비교</h3>
+                    {/* Quick Date Chips (어제, 오늘, 내일 기본 제공) */}
                     <div style={{ display: "flex", gap: "4px", flexWrap: "wrap" }}>
-                      <button
-                        onClick={() => setPastDateQuery(SYSTEM_TODAY)}
-                        style={{
-                          padding: "2px 8px",
-                          borderRadius: "12px",
-                          fontSize: "0.7rem",
-                          fontWeight: "600",
-                          border: "1px solid var(--border)",
-                          backgroundColor: pastDateQuery === SYSTEM_TODAY ? "var(--primary-teal)" : "var(--bg-secondary)",
-                          color: pastDateQuery === SYSTEM_TODAY ? "#ffffff" : "var(--text-secondary)",
-                          cursor: "pointer"
-                        }}
-                      >
-                        오늘
-                      </button>
                       <button
                         onClick={() => setPastDateQuery(getYesterday(SYSTEM_TODAY))}
                         style={{
-                          padding: "2px 8px",
+                          padding: "2px 10px",
                           borderRadius: "12px",
-                          fontSize: "0.7rem",
-                          fontWeight: "600",
+                          fontSize: "0.75rem",
+                          fontWeight: "700",
                           border: "1px solid var(--border)",
                           backgroundColor: pastDateQuery === getYesterday(SYSTEM_TODAY) ? "var(--primary-teal)" : "var(--bg-secondary)",
                           color: pastDateQuery === getYesterday(SYSTEM_TODAY) ? "#ffffff" : "var(--text-secondary)",
@@ -1277,51 +1281,102 @@ export default function StudyRoomAdmin() {
                         어제
                       </button>
                       <button
-                        onClick={() => setPastDateQuery("2026-09-03")}
+                        onClick={() => setPastDateQuery(SYSTEM_TODAY)}
                         style={{
-                          padding: "2px 8px",
+                          padding: "2px 10px",
                           borderRadius: "12px",
-                          fontSize: "0.7rem",
-                          fontWeight: "600",
+                          fontSize: "0.75rem",
+                          fontWeight: "700",
                           border: "1px solid var(--border)",
-                          backgroundColor: pastDateQuery === "2026-09-03" ? "var(--primary-teal)" : "var(--bg-secondary)",
-                          color: pastDateQuery === "2026-09-03" ? "#ffffff" : "var(--text-secondary)",
+                          backgroundColor: pastDateQuery === SYSTEM_TODAY ? "var(--primary-teal)" : "var(--bg-secondary)",
+                          color: pastDateQuery === SYSTEM_TODAY ? "#ffffff" : "var(--text-secondary)",
                           cursor: "pointer"
                         }}
                       >
-                        09-03
+                        오늘
                       </button>
                       <button
-                        onClick={() => setPastDateQuery("2026-09-02")}
+                        onClick={() => setPastDateQuery(getTomorrow(SYSTEM_TODAY))}
                         style={{
-                          padding: "2px 8px",
+                          padding: "2px 10px",
                           borderRadius: "12px",
-                          fontSize: "0.7rem",
-                          fontWeight: "600",
+                          fontSize: "0.75rem",
+                          fontWeight: "700",
                           border: "1px solid var(--border)",
-                          backgroundColor: pastDateQuery === "2026-09-02" ? "var(--primary-teal)" : "var(--bg-secondary)",
-                          color: pastDateQuery === "2026-09-02" ? "#ffffff" : "var(--text-secondary)",
+                          backgroundColor: pastDateQuery === getTomorrow(SYSTEM_TODAY) ? "var(--primary-teal)" : "var(--bg-secondary)",
+                          color: pastDateQuery === getTomorrow(SYSTEM_TODAY) ? "#ffffff" : "var(--text-secondary)",
                           cursor: "pointer"
                         }}
                       >
-                        09-02
+                        내일
                       </button>
                     </div>
                   </div>
 
                   <div style={{ display: "flex", gap: "10px", alignItems: "center", marginBottom: "14px", flexWrap: "wrap" }}>
-                    <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                    <div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
+                      {/* 좌측 화살표 버튼 ◀ */}
+                      <button
+                        onClick={() => setPastDateQuery(prev => getYesterday(prev))}
+                        style={{
+                          padding: "4px 10px",
+                          borderRadius: "6px",
+                          border: "1px solid var(--border)",
+                          backgroundColor: "var(--bg-secondary)",
+                          color: "var(--text-primary)",
+                          cursor: "pointer",
+                          fontWeight: "700",
+                          fontSize: "0.85rem"
+                        }}
+                        title="어제 (이전 날짜)"
+                        id="btn-past-date-prev"
+                      >
+                        ◀
+                      </button>
                       <input 
                         type="date" 
                         value={pastDateQuery} 
-                        max={SYSTEM_TODAY}
                         onChange={(e) => setPastDateQuery(e.target.value)}
                         className={styles.selectInput}
                         style={{ maxWidth: "160px", padding: "4px 8px", border: "1px solid var(--border)", borderRadius: "6px", fontSize: "0.85rem" }}
+                        id="input-past-date"
                       />
-                      <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: "600" }}>
+                      {/* 우측 화살표 버튼 ▶ */}
+                      <button
+                        onClick={() => setPastDateQuery(prev => getTomorrow(prev))}
+                        style={{
+                          padding: "4px 10px",
+                          borderRadius: "6px",
+                          border: "1px solid var(--border)",
+                          backgroundColor: "var(--bg-secondary)",
+                          color: "var(--text-primary)",
+                          cursor: "pointer",
+                          fontWeight: "700",
+                          fontSize: "0.85rem"
+                        }}
+                        title="내일 (다음 날짜)"
+                        id="btn-past-date-next"
+                      >
+                        ▶
+                      </button>
+                      <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)", fontWeight: "600", marginLeft: "4px" }}>
                         ({getDayOfWeek(pastDateQuery)})
                       </span>
+                      {pastDateQuery < SYSTEM_TODAY && (
+                        <span style={{ fontSize: "0.72rem", padding: "2px 6px", borderRadius: "4px", backgroundColor: "rgba(107, 114, 128, 0.15)", color: "var(--text-secondary)", fontWeight: "600" }}>
+                          과거 확정
+                        </span>
+                      )}
+                      {pastDateQuery === SYSTEM_TODAY && (
+                        <span style={{ fontSize: "0.72rem", padding: "2px 6px", borderRadius: "4px", backgroundColor: "rgba(13, 148, 136, 0.15)", color: "#0D9488", fontWeight: "600" }}>
+                          오늘 실시간
+                        </span>
+                      )}
+                      {pastDateQuery > SYSTEM_TODAY && (
+                        <span style={{ fontSize: "0.72rem", padding: "2px 6px", borderRadius: "4px", backgroundColor: "rgba(79, 70, 229, 0.15)", color: "#4F46E5", fontWeight: "600" }}>
+                          미래 예측
+                        </span>
+                      )}
                     </div>
 
                     {/* 지점별 매출 점유 비중 바 */}
