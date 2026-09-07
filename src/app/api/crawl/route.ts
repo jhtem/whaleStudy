@@ -17,19 +17,26 @@ export async function POST() {
 
   isCrawlingRunning = true;
   const scriptPath = path.join(process.cwd(), 'src/scripts/naverCrawler.js');
+  const nodePath = process.execPath || 'node';
 
   return new Promise<NextResponse>((resolve) => {
-    console.log('[CrawlAPI] Triggering naverCrawler.js execution...');
+    console.log('[CrawlAPI] Triggering naverCrawler.js execution using node:', nodePath);
 
-    exec(`node "${scriptPath}"`, { cwd: process.cwd(), timeout: 180000 }, (error, stdout, stderr) => {
+    const env = {
+      ...process.env,
+      PATH: `${process.env.PATH || ''}:/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin`
+    };
+
+    exec(`"${nodePath}" "${scriptPath}"`, { cwd: process.cwd(), timeout: 300000, maxBuffer: 20 * 1024 * 1024, env }, (error, stdout, stderr) => {
       isCrawlingRunning = false;
 
       if (error) {
-        console.error('[CrawlAPI] Crawler execution error:', error);
+        console.error('[CrawlAPI] Crawler execution error:', error, 'Stderr:', stderr);
+        const detailMsg = stderr || error.message || '알 수 없는 스크래퍼 오류';
         resolve(NextResponse.json({
           success: false,
-          message: '스크래퍼 실행 중 오류가 발생했습니다: ' + error.message,
-          error: error.message
+          message: '스크래퍼 실행 중 오류가 발생했습니다: ' + detailMsg,
+          error: detailMsg
         }, { status: 500 }));
         return;
       }
