@@ -226,28 +226,59 @@ export default function StudyRoomAdmin() {
     }
   };
 
+  // 전체 예약/매출 마스터 데이터 로드 헬퍼 함수
+  const loadAllReservations = async () => {
+    try {
+      const response = await fetch(`/api/sync?all=true&_t=${Date.now()}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setReservations(data.reservations);
+          setRevenues(data.revenues);
+          if (data.dailyComparisonSales) {
+            setSyncDailySales(data.dailyComparisonSales);
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load master reservations:", err);
+    }
+  };
+
+  // 네이버 실물 웹 스크래퍼 즉시 실행 핸들러
+  const [isCrawlExecuting, setIsCrawlExecuting] = useState(false);
+
+  const handleRunCrawlerNow = async () => {
+    if (isCrawlExecuting) {
+      alert("현재 네이버 스크래퍼가 실행 중입니다. 잠시만 기다려 주세요.");
+      return;
+    }
+    
+    if (!confirm("네이버 4개 지점(총 39개 룸) 전체의 실시간 예약 현황을 스크래핑해 오시겠습니까?\n(약 40초~1분 소요)")) {
+      return;
+    }
+
+    setIsCrawlExecuting(true);
+    try {
+      const res = await fetch('/api/crawl', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        alert(data.message);
+        // 수집 완료 후 마스터 예약 데이터 자동 재로드
+        await loadAllReservations();
+      } else {
+        alert(data.message || "스크래퍼 실행 실패");
+      }
+    } catch (e: any) {
+      alert("스크래퍼 실행 중 오류가 발생했습니다: " + e.message);
+    } finally {
+      setIsCrawlExecuting(false);
+    }
+  };
+
   // 컴포넌트 최초 마운트 세팅 및 전체 예약/매출 데이터 최초 1회 마스터 로드
   useEffect(() => {
     setIsMounted(true);
-    
-    const loadAllReservations = async () => {
-      try {
-        const response = await fetch(`/api/sync?all=true&_t=${Date.now()}`);
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success) {
-            setReservations(data.reservations);
-            setRevenues(data.revenues);
-            if (data.dailyComparisonSales) {
-              setSyncDailySales(data.dailyComparisonSales);
-            }
-          }
-        }
-      } catch (err) {
-        console.error("Failed to load initial master reservations:", err);
-      }
-    };
-    
     loadAllReservations();
   }, []);
 
@@ -915,6 +946,27 @@ export default function StudyRoomAdmin() {
             >
               🏷️ 지점별 룸 가격 안내
             </button>
+            <button
+              onClick={handleRunCrawlerNow}
+              disabled={isCrawlExecuting}
+              style={{
+                padding: "8px 14px",
+                borderRadius: "6px",
+                border: "none",
+                backgroundColor: isCrawlExecuting ? "#6b7280" : "#2563eb",
+                color: "#ffffff",
+                fontSize: "0.85rem",
+                fontWeight: "700",
+                cursor: isCrawlExecuting ? "not-allowed" : "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                boxShadow: "0 2px 4px rgba(37, 99, 235, 0.2)"
+              }}
+              id="btn-run-crawler-header"
+            >
+              {isCrawlExecuting ? "🔄 네이버 스크래퍼 실행 중..." : "🚀 네이버 스크래퍼 즉시 실행"}
+            </button>
           </div>
           <div className={styles.headerRight}>
             <button className={styles.iconBtn} aria-label="알림" id="notif-btn">
@@ -1451,6 +1503,27 @@ export default function StudyRoomAdmin() {
                       title="실시간 네이버 예약 새로 긁어오기"
                     >
                       새로고침
+                    </button>
+                    <button 
+                      onClick={handleRunCrawlerNow}
+                      disabled={isCrawlExecuting}
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: "6px",
+                        border: "none",
+                        backgroundColor: isCrawlExecuting ? "#6b7280" : "#2563eb",
+                        color: "#ffffff",
+                        fontSize: "0.8rem",
+                        fontWeight: "700",
+                        cursor: isCrawlExecuting ? "not-allowed" : "pointer",
+                        marginLeft: "8px",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "4px"
+                      }}
+                      id="btn-run-crawler-scheduler"
+                    >
+                      {isCrawlExecuting ? "🔄 스크래핑 진행 중..." : "🚀 네이버 스크래퍼 즉시 실행"}
                     </button>
                   </div>
                 </div>
