@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 
@@ -20,29 +20,54 @@ export async function POST() {
   const nodePath = process.execPath || 'node';
 
   return new Promise<NextResponse>((resolve) => {
-    console.log('[CrawlAPI] Triggering naverCrawler.js execution using node:', nodePath);
+    console.log('[CrawlAPI] Spawning naverCrawler.js using node:', nodePath);
 
     const env = {
       ...process.env,
       PATH: `${process.env.PATH || ''}:/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin`
     };
 
-    exec(`"${nodePath}" "${scriptPath}"`, { cwd: process.cwd(), timeout: 300000, maxBuffer: 20 * 1024 * 1024, env }, (error, stdout, stderr) => {
-      isCrawlingRunning = false;
+    const child = spawn(nodePath, [scriptPath], {
+      cwd: process.cwd(),
+      env
+    });
 
-      if (error) {
-        console.error('[CrawlAPI] Crawler execution error:', error, 'Stderr:', stderr);
-        const detailMsg = stderr || error.message || '알 수 없는 스크래퍼 오류';
+    let stdoutData = '';
+    let stderrData = '';
+
+    child.stdout.on('data', (data) => {
+      stdoutData += data.toString();
+    });
+
+    child.stderr.on('data', (data) => {
+      stderrData += data.toString();
+    });
+
+    child.on('error', (err) => {
+      isCrawlingRunning = false;
+      console.error('[CrawlAPI] Spawn error:', err);
+      resolve(NextResponse.json({
+        success: false,
+        message: '스크래퍼 프로세스 기동 실패: ' + err.message,
+        error: err.message
+      }, { status: 500 }));
+    });
+
+    child.on('close', (code) => {
+      isCrawlingRunning = false;
+      console.log(`[CrawlAPI] Crawler process exited with code ${code}`);
+
+      if (code !== 0) {
+        console.error('[CrawlAPI] Stderr output:', stderrData);
+        const errMsg = stderrData ? stderrData.trim().slice(-300) : `종료 코드 ${code}`;
         resolve(NextResponse.json({
           success: false,
-          message: '스크래퍼 실행 중 오류가 발생했습니다: ' + detailMsg,
-          error: detailMsg
+          message: '스크래퍼 실행 중 오류가 발생했습니다: ' + errMsg,
+          error: errMsg
         }, { status: 500 }));
         return;
       }
 
-      console.log('[CrawlAPI] Crawler finished successfully.');
-      
       // syncedReservations.json 파일 읽기
       try {
         const jsonPath = path.join(process.cwd(), 'src/scripts/syncedReservations.json');
