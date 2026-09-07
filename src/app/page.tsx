@@ -60,8 +60,8 @@ export default function StudyRoomAdmin() {
   // Date Picker State for Timeline (Initial is today)
   const [selectedDate, setSelectedDate] = useState(SYSTEM_TODAY);
   
-  // 과거 매출 개별 조회를 위한 일자 쿼리 State (초기값: D-1 어제 날짜)
-  const [pastDateQuery, setPastDateQuery] = useState(getYesterday(SYSTEM_TODAY));
+  // 일별 매출 조회를 위한 일자 쿼리 State (초기값: 오늘 날짜)
+  const [pastDateQuery, setPastDateQuery] = useState(SYSTEM_TODAY);
   
   // Filter for Room Type in Timeline
   const [roomFilter, setRoomFilter] = useState("all");
@@ -1407,26 +1407,25 @@ export default function StudyRoomAdmin() {
                     <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem", textAlign: "center" }}>
                       <thead>
                         <tr style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "2px solid var(--border)" }}>
-                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "var(--text-primary)", textAlign: "left", width: "20%" }}>지점명</th>
-                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "var(--text-primary)", width: "23%" }}>
+                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "var(--text-primary)", textAlign: "left", width: "25%" }}>지점명</th>
+                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "var(--text-primary)", width: "25%" }}>
                             <div>{threeDaySalesData.day1.date.substring(5)} {getDayOfWeek(threeDaySalesData.day1.date)}</div>
                             <div style={{ fontSize: "0.68rem", color: "var(--text-muted)", fontWeight: "600" }}>
                               {threeDaySalesData.day1.date < SYSTEM_TODAY ? "과거 확정" : threeDaySalesData.day1.date === SYSTEM_TODAY ? "오늘 실시간" : "미래 예측"}
                             </div>
                           </th>
-                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "#0D9488", backgroundColor: "rgba(13, 148, 136, 0.08)", width: "24%" }}>
+                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "#0D9488", backgroundColor: "rgba(13, 148, 136, 0.08)", width: "25%" }}>
                             <div>{threeDaySalesData.day2.date.substring(5)} {getDayOfWeek(threeDaySalesData.day2.date)} ⭐</div>
                             <div style={{ fontSize: "0.68rem", color: "#0D9488", fontWeight: "700" }}>
                               {threeDaySalesData.day2.date < SYSTEM_TODAY ? "과거 확정" : threeDaySalesData.day2.date === SYSTEM_TODAY ? "오늘 실시간" : "미래 예측"}
                             </div>
                           </th>
-                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "var(--text-primary)", width: "23%" }}>
+                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "var(--text-primary)", width: "25%" }}>
                             <div>{threeDaySalesData.day3.date.substring(5)} {getDayOfWeek(threeDaySalesData.day3.date)}</div>
                             <div style={{ fontSize: "0.68rem", color: "var(--text-muted)", fontWeight: "600" }}>
                               {threeDaySalesData.day3.date < SYSTEM_TODAY ? "과거 확정" : threeDaySalesData.day3.date === SYSTEM_TODAY ? "오늘 실시간" : "미래 예측"}
                             </div>
                           </th>
-                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "var(--primary-teal)", backgroundColor: "var(--bg-secondary)", width: "25%" }}>3일간 합계</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1445,9 +1444,6 @@ export default function StudyRoomAdmin() {
                             <div style={{ fontWeight: "700" }}>{threeDaySalesData.day3.jj.amount.toLocaleString()}원</div>
                             <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day3.jj.count}건 ({threeDaySalesData.day3.jj.hours.toFixed(1)}h)</div>
                           </td>
-                          <td style={{ padding: "10px 8px", fontWeight: "800", color: "var(--text-primary)", backgroundColor: "var(--bg-secondary)" }}>
-                            {(threeDaySalesData.day1.jj.amount + threeDaySalesData.day2.jj.amount + threeDaySalesData.day3.jj.amount).toLocaleString()}원
-                          </td>
                         </tr>
 
                         {/* 2. 수지구청점 */}
@@ -1464,9 +1460,6 @@ export default function StudyRoomAdmin() {
                           <td style={{ padding: "10px 8px" }}>
                             <div style={{ fontWeight: "700" }}>{threeDaySalesData.day3.sj.amount.toLocaleString()}원</div>
                             <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day3.sj.count}건 ({threeDaySalesData.day3.sj.hours.toFixed(1)}h)</div>
-                          </td>
-                          <td style={{ padding: "10px 8px", fontWeight: "800", color: "var(--text-primary)", backgroundColor: "var(--bg-secondary)" }}>
-                            {(threeDaySalesData.day1.sj.amount + threeDaySalesData.day2.sj.amount + threeDaySalesData.day3.sj.amount).toLocaleString()}원
                           </td>
                         </tr>
 
@@ -1485,9 +1478,6 @@ export default function StudyRoomAdmin() {
                             <div style={{ fontWeight: "700" }}>{threeDaySalesData.day3.al.amount.toLocaleString()}원</div>
                             <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day3.al.count}건 ({threeDaySalesData.day3.al.hours.toFixed(1)}h)</div>
                           </td>
-                          <td style={{ padding: "10px 8px", fontWeight: "800", color: "var(--text-primary)", backgroundColor: "var(--bg-secondary)" }}>
-                            {(threeDaySalesData.day1.al.amount + threeDaySalesData.day2.al.amount + threeDaySalesData.day3.al.amount).toLocaleString()}원
-                          </td>
                         </tr>
 
                         {/* 4. 위례점 */}
@@ -1505,9 +1495,6 @@ export default function StudyRoomAdmin() {
                             <div style={{ fontWeight: "700" }}>{threeDaySalesData.day3.wr.amount.toLocaleString()}원</div>
                             <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day3.wr.count}건 ({threeDaySalesData.day3.wr.hours.toFixed(1)}h)</div>
                           </td>
-                          <td style={{ padding: "10px 8px", fontWeight: "800", color: "var(--text-primary)", backgroundColor: "var(--bg-secondary)" }}>
-                            {(threeDaySalesData.day1.wr.amount + threeDaySalesData.day2.wr.amount + threeDaySalesData.day3.wr.amount).toLocaleString()}원
-                          </td>
                         </tr>
 
                         {/* Footer: 4개 지점 일별 총합계 */}
@@ -1524,9 +1511,6 @@ export default function StudyRoomAdmin() {
                           <td style={{ padding: "12px 8px", color: "var(--text-primary)" }}>
                             <div style={{ fontSize: "0.95rem" }}>{threeDaySalesData.day3.totalAmount.toLocaleString()}원</div>
                             <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", fontWeight: "600" }}>{threeDaySalesData.day3.totalCount}건 ({threeDaySalesData.day3.totalHours.toFixed(1)}h)</div>
-                          </td>
-                          <td style={{ padding: "12px 8px", color: "var(--primary-teal)", fontSize: "1.05rem", backgroundColor: "rgba(13, 148, 136, 0.2)" }}>
-                            {(threeDaySalesData.day1.totalAmount + threeDaySalesData.day2.totalAmount + threeDaySalesData.day3.totalAmount).toLocaleString()}원
                           </td>
                         </tr>
                       </tbody>
