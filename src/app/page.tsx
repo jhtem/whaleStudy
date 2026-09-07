@@ -170,6 +170,55 @@ export default function StudyRoomAdmin() {
     };
   }, [reservations, revenues, pastDateQuery, rooms]);
 
+  // 3일치 연속 지점별 매출 통합 연산식 (선택일 기준 어제-오늘-내일 또는 3일 연속 비교)
+  const threeDaySalesData = useMemo(() => {
+    const getSalesForDateAndBranch = (targetDate: string, prefix: string) => {
+      const branchRevs = revenues.filter(rev => {
+        if (!rev || rev.status !== "paid" || !rev.roomId || !rev.roomId.startsWith(`room-${prefix}-`)) return false;
+        const linkedRes = reservations.find(r => r && r.id === rev.reservationId);
+        return linkedRes && linkedRes.date === targetDate && linkedRes.status !== "canceled";
+      });
+      const amount = branchRevs.reduce((sum, rev) => sum + (rev.amount || 0), 0);
+      
+      const branchRes = reservations.filter(r => r && r.date === targetDate && r.roomId.startsWith(`room-${prefix}-`) && r.status !== "canceled");
+      const count = branchRes.length;
+      const hours = branchRes.reduce((sum, r) => sum + (r.totalHours || (r.endTime - r.startTime)), 0);
+
+      let effectiveAmount = amount;
+      if (effectiveAmount === 0 && count > 0) {
+        effectiveAmount = branchRes.reduce((sum, r) => {
+          const roomObj = rooms.find(m => m.id === r.roomId);
+          const price = roomObj ? roomObj.pricePerHour : 7000;
+          return sum + (price * (r.totalHours || (r.endTime - r.startTime)));
+        }, 0);
+      }
+
+      return { amount: effectiveAmount, count, hours };
+    };
+
+    const calcForDate = (dateStr: string) => {
+      const jj = getSalesForDateAndBranch(dateStr, "jj");
+      const sj = getSalesForDateAndBranch(dateStr, "sj");
+      const al = getSalesForDateAndBranch(dateStr, "al");
+      const wr = getSalesForDateAndBranch(dateStr, "wr");
+      const totalAmount = jj.amount + sj.amount + al.amount + wr.amount;
+      const totalCount = jj.count + sj.count + al.count + wr.count;
+      const totalHours = jj.hours + sj.hours + al.hours + wr.hours;
+
+      return { date: dateStr, jj, sj, al, wr, totalAmount, totalCount, totalHours };
+    };
+
+    const day1 = getYesterday(pastDateQuery);
+    const day2 = pastDateQuery;
+    const day3 = getTomorrow(pastDateQuery);
+
+    return {
+      day1: calcForDate(day1),
+      day2: calcForDate(day2),
+      day3: calcForDate(day3)
+    };
+  }, [reservations, revenues, pastDateQuery, rooms]);
+
   // Form States for New Reservation
   const [newResForm, setNewResForm] = useState({
     userName: "",
@@ -1353,7 +1402,138 @@ export default function StudyRoomAdmin() {
                       )}
                     </div>
 
-                    {/* 지점별 매출 점유 비중 바 */}
+                  {/* 3일치 지점별 매출 한눈에 보기 종합 비교 표 */}
+                  <div style={{ overflowX: "auto", marginBottom: "16px", borderRadius: "8px", border: "1px solid var(--border)" }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem", textAlign: "center" }}>
+                      <thead>
+                        <tr style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "2px solid var(--border)" }}>
+                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "var(--text-primary)", textAlign: "left", width: "20%" }}>지점명</th>
+                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "var(--text-primary)", width: "23%" }}>
+                            <div>{threeDaySalesData.day1.date.substring(5)} {getDayOfWeek(threeDaySalesData.day1.date)}</div>
+                            <div style={{ fontSize: "0.68rem", color: "var(--text-muted)", fontWeight: "600" }}>
+                              {threeDaySalesData.day1.date < SYSTEM_TODAY ? "과거 확정" : threeDaySalesData.day1.date === SYSTEM_TODAY ? "오늘 실시간" : "미래 예측"}
+                            </div>
+                          </th>
+                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "#0D9488", backgroundColor: "rgba(13, 148, 136, 0.08)", width: "24%" }}>
+                            <div>{threeDaySalesData.day2.date.substring(5)} {getDayOfWeek(threeDaySalesData.day2.date)} ⭐</div>
+                            <div style={{ fontSize: "0.68rem", color: "#0D9488", fontWeight: "700" }}>
+                              {threeDaySalesData.day2.date < SYSTEM_TODAY ? "과거 확정" : threeDaySalesData.day2.date === SYSTEM_TODAY ? "오늘 실시간" : "미래 예측"}
+                            </div>
+                          </th>
+                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "var(--text-primary)", width: "23%" }}>
+                            <div>{threeDaySalesData.day3.date.substring(5)} {getDayOfWeek(threeDaySalesData.day3.date)}</div>
+                            <div style={{ fontSize: "0.68rem", color: "var(--text-muted)", fontWeight: "600" }}>
+                              {threeDaySalesData.day3.date < SYSTEM_TODAY ? "과거 확정" : threeDaySalesData.day3.date === SYSTEM_TODAY ? "오늘 실시간" : "미래 예측"}
+                            </div>
+                          </th>
+                          <th style={{ padding: "10px 8px", fontWeight: "700", color: "var(--primary-teal)", backgroundColor: "var(--bg-secondary)", width: "25%" }}>3일간 합계</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {/* 1. 정자본점 */}
+                        <tr style={{ borderBottom: "1px solid var(--border)" }}>
+                          <td style={{ padding: "10px 8px", textAlign: "left", fontWeight: "700", color: "#0D9488" }}>🏢 정자본점</td>
+                          <td style={{ padding: "10px 8px" }}>
+                            <div style={{ fontWeight: "700" }}>{threeDaySalesData.day1.jj.amount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day1.jj.count}건 ({threeDaySalesData.day1.jj.hours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "10px 8px", backgroundColor: "rgba(13, 148, 136, 0.04)" }}>
+                            <div style={{ fontWeight: "800", color: "#0D9488" }}>{threeDaySalesData.day2.jj.amount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day2.jj.count}건 ({threeDaySalesData.day2.jj.hours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "10px 8px" }}>
+                            <div style={{ fontWeight: "700" }}>{threeDaySalesData.day3.jj.amount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day3.jj.count}건 ({threeDaySalesData.day3.jj.hours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "10px 8px", fontWeight: "800", color: "var(--text-primary)", backgroundColor: "var(--bg-secondary)" }}>
+                            {(threeDaySalesData.day1.jj.amount + threeDaySalesData.day2.jj.amount + threeDaySalesData.day3.jj.amount).toLocaleString()}원
+                          </td>
+                        </tr>
+
+                        {/* 2. 수지구청점 */}
+                        <tr style={{ borderBottom: "1px solid var(--border)" }}>
+                          <td style={{ padding: "10px 8px", textAlign: "left", fontWeight: "700", color: "#4F46E5" }}>🏫 수지구청점</td>
+                          <td style={{ padding: "10px 8px" }}>
+                            <div style={{ fontWeight: "700" }}>{threeDaySalesData.day1.sj.amount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day1.sj.count}건 ({threeDaySalesData.day1.sj.hours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "10px 8px", backgroundColor: "rgba(13, 148, 136, 0.04)" }}>
+                            <div style={{ fontWeight: "800", color: "#4F46E5" }}>{threeDaySalesData.day2.sj.amount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day2.sj.count}건 ({threeDaySalesData.day2.sj.hours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "10px 8px" }}>
+                            <div style={{ fontWeight: "700" }}>{threeDaySalesData.day3.sj.amount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day3.sj.count}건 ({threeDaySalesData.day3.sj.hours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "10px 8px", fontWeight: "800", color: "var(--text-primary)", backgroundColor: "var(--bg-secondary)" }}>
+                            {(threeDaySalesData.day1.sj.amount + threeDaySalesData.day2.sj.amount + threeDaySalesData.day3.sj.amount).toLocaleString()}원
+                          </td>
+                        </tr>
+
+                        {/* 3. 알루점 */}
+                        <tr style={{ borderBottom: "1px solid var(--border)" }}>
+                          <td style={{ padding: "10px 8px", textAlign: "left", fontWeight: "700", color: "#F97316" }}>☕ 알루점</td>
+                          <td style={{ padding: "10px 8px" }}>
+                            <div style={{ fontWeight: "700" }}>{threeDaySalesData.day1.al.amount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day1.al.count}건 ({threeDaySalesData.day1.al.hours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "10px 8px", backgroundColor: "rgba(13, 148, 136, 0.04)" }}>
+                            <div style={{ fontWeight: "800", color: "#F97316" }}>{threeDaySalesData.day2.al.amount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day2.al.count}건 ({threeDaySalesData.day2.al.hours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "10px 8px" }}>
+                            <div style={{ fontWeight: "700" }}>{threeDaySalesData.day3.al.amount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day3.al.count}건 ({threeDaySalesData.day3.al.hours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "10px 8px", fontWeight: "800", color: "var(--text-primary)", backgroundColor: "var(--bg-secondary)" }}>
+                            {(threeDaySalesData.day1.al.amount + threeDaySalesData.day2.al.amount + threeDaySalesData.day3.al.amount).toLocaleString()}원
+                          </td>
+                        </tr>
+
+                        {/* 4. 위례점 */}
+                        <tr style={{ borderBottom: "2px solid var(--border)" }}>
+                          <td style={{ padding: "10px 8px", textAlign: "left", fontWeight: "700", color: "#A855F7" }}>🏙️ 위례점</td>
+                          <td style={{ padding: "10px 8px" }}>
+                            <div style={{ fontWeight: "700" }}>{threeDaySalesData.day1.wr.amount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day1.wr.count}건 ({threeDaySalesData.day1.wr.hours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "10px 8px", backgroundColor: "rgba(13, 148, 136, 0.04)" }}>
+                            <div style={{ fontWeight: "800", color: "#A855F7" }}>{threeDaySalesData.day2.wr.amount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day2.wr.count}건 ({threeDaySalesData.day2.wr.hours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "10px 8px" }}>
+                            <div style={{ fontWeight: "700" }}>{threeDaySalesData.day3.wr.amount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{threeDaySalesData.day3.wr.count}건 ({threeDaySalesData.day3.wr.hours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "10px 8px", fontWeight: "800", color: "var(--text-primary)", backgroundColor: "var(--bg-secondary)" }}>
+                            {(threeDaySalesData.day1.wr.amount + threeDaySalesData.day2.wr.amount + threeDaySalesData.day3.wr.amount).toLocaleString()}원
+                          </td>
+                        </tr>
+
+                        {/* Footer: 4개 지점 일별 총합계 */}
+                        <tr style={{ backgroundColor: "rgba(13, 148, 136, 0.1)", fontWeight: "800" }}>
+                          <td style={{ padding: "12px 8px", textAlign: "left", color: "var(--primary-teal)", fontSize: "0.9rem" }}>🌐 지점 총합계</td>
+                          <td style={{ padding: "12px 8px", color: "var(--text-primary)" }}>
+                            <div style={{ fontSize: "0.95rem" }}>{threeDaySalesData.day1.totalAmount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", fontWeight: "600" }}>{threeDaySalesData.day1.totalCount}건 ({threeDaySalesData.day1.totalHours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "12px 8px", color: "#0D9488", backgroundColor: "rgba(13, 148, 136, 0.15)" }}>
+                            <div style={{ fontSize: "1rem" }}>{threeDaySalesData.day2.totalAmount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "#0D9488", fontWeight: "600" }}>{threeDaySalesData.day2.totalCount}건 ({threeDaySalesData.day2.totalHours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "12px 8px", color: "var(--text-primary)" }}>
+                            <div style={{ fontSize: "0.95rem" }}>{threeDaySalesData.day3.totalAmount.toLocaleString()}원</div>
+                            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", fontWeight: "600" }}>{threeDaySalesData.day3.totalCount}건 ({threeDaySalesData.day3.totalHours.toFixed(1)}h)</div>
+                          </td>
+                          <td style={{ padding: "12px 8px", color: "var(--primary-teal)", fontSize: "1.05rem", backgroundColor: "rgba(13, 148, 136, 0.2)" }}>
+                            {(threeDaySalesData.day1.totalAmount + threeDaySalesData.day2.totalAmount + threeDaySalesData.day3.totalAmount).toLocaleString()}원
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* 지점별 매출 점유 비중 바 */}
                     <div style={{ flex: 1, minWidth: "180px", backgroundColor: "var(--bg-secondary)", padding: "6px 10px", borderRadius: "6px", border: "1px solid var(--border)" }}>
                       <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.7rem", fontWeight: "700", marginBottom: "4px" }}>
                         <span>매출 점유 비중</span>
