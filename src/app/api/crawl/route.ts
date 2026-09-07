@@ -16,7 +16,8 @@ export async function POST() {
   }
 
   isCrawlingRunning = true;
-  const scriptPath = path.join(process.cwd(), 'src/scripts/naverCrawler.js');
+  const scriptName = ['naver', 'Crawler.js'].join('');
+  const scriptPath = path.resolve(process.cwd(), 'src', 'scripts', scriptName);
   const nodePath = process.execPath || 'node';
 
   return new Promise<NextResponse>((resolve) => {
@@ -27,7 +28,7 @@ export async function POST() {
       PATH: `${process.env.PATH || ''}:/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin`
     };
 
-    const child = spawn(nodePath, [scriptPath], {
+    const child = spawn(/*turbopackIgnore: true*/ nodePath, [scriptPath], {
       cwd: process.cwd(),
       env
     });
@@ -70,7 +71,8 @@ export async function POST() {
 
       // syncedReservations.json 파일 읽기
       try {
-        const jsonPath = path.join(process.cwd(), 'src/scripts/syncedReservations.json');
+        const jsonName = ['synced', 'Reservations.json'].join('');
+        const jsonPath = path.resolve(process.cwd(), 'src', 'scripts', jsonName);
         let totalCount = 0;
         if (fs.existsSync(jsonPath)) {
           const fileData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
