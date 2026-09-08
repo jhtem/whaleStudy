@@ -381,18 +381,11 @@ export default function StudyRoomAdmin() {
     return `${year}-${month}-${day}`;
   };
 
-  // --- Date Navigation Helpers (Past Date Blocked) ---
+  // --- Date Navigation Helpers ---
   const handlePrevDay = () => {
     const d = new Date(selectedDate.replace(/-/g, "/"));
     d.setDate(d.getDate() - 1);
-    const prevDateStr = formatDateString(d);
-    
-    // 과거 날짜 조회 차단
-    if (prevDateStr < SYSTEM_TODAY) {
-      alert("지난 날짜의 예약 현황은 조회할 수 없습니다.");
-      return;
-    }
-    setSelectedDate(prevDateStr);
+    setSelectedDate(formatDateString(d));
   };
 
   const handleNextDay = () => {
@@ -1745,18 +1738,33 @@ export default function StudyRoomAdmin() {
 
               {/* Filter and Date Navigation Bar */}
               <div className={styles.filterBar}>
-                <div className={styles.dateNav}>
+                <div className={styles.dateNav} style={{ display: "flex", gap: "6px", alignItems: "center" }}>
                   <button 
                     onClick={handlePrevDay} 
                     className={styles.dateButton}
-                    disabled={selectedDate <= SYSTEM_TODAY}
-                    style={{ opacity: selectedDate <= SYSTEM_TODAY ? 0.4 : 1, cursor: selectedDate <= SYSTEM_TODAY ? "not-allowed" : "pointer" }}
+                    style={{ cursor: "pointer" }}
+                    id="btn-timeline-prev"
                   >
                     ◀ 이전
                   </button>
-                  <button onClick={handleSetToday} className={styles.dateButton} style={{ color: "var(--primary-teal)" }}>오늘</button>
-                  <span className={styles.currentDate}>{selectedDate} {getDayOfWeek(selectedDate)}</span>
-                  <button onClick={handleNextDay} className={styles.dateButton}>다음 ▶</button>
+                  <input 
+                    type="date" 
+                    value={selectedDate} 
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    className={styles.selectInput}
+                    style={{ maxWidth: "150px", padding: "4px 8px", borderRadius: "6px", border: "1px solid var(--border)", fontSize: "0.85rem" }}
+                    id="input-timeline-date"
+                  />
+                  <button 
+                    onClick={handleNextDay} 
+                    className={styles.dateButton}
+                    style={{ cursor: "pointer" }}
+                    id="btn-timeline-next"
+                  >
+                    다음 ▶
+                  </button>
+                  <button onClick={handleSetToday} className={styles.dateButton} style={{ color: "var(--primary-teal)", fontWeight: "700" }}>오늘</button>
+                  <span className={styles.currentDate}>({getDayOfWeek(selectedDate)})</span>
                 </div>
                 
                 <div className={styles.filtersGroup}>
