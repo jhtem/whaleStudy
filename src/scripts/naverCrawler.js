@@ -284,32 +284,78 @@ async function run() {
     } catch(e) {}
   }
   
-  const kst = new Date(new Date().getTime() + (9 * 60 * 60 * 1000));
-  const todayStr = kst.toISOString().split('T')[0];
-  const mergedReservations = [];
-  
-  // A. 지나간 과거 날짜 데이터만 메모리/DB 영구 보존
+  const now = new Date();
+  const kstDateStr = now.toLocaleDateString('sv-SE', { timeZone: 'Asia/Seoul' });
+  const kstTimeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Seoul', hour12: false });
+  const [hStr, mStr] = kstTimeStr.split(':');
+  const currentHour = parseInt(hStr, 10) + (parseInt(mStr, 10) >= 30 ? 0.5 : 0);
+
+  const getResKey = (r) => {
+    if (!r) return null;
+    if (r.roomId && r.date && r.startTime !== undefined && r.endTime !== undefined) {
+      return `${r.roomId}_${r.date}_${r.startTime}_${r.endTime}`;
+    }
+    return r.id || null;
+  };
+
+  const mergedMap = new Map();
+  let pastDaysCount = 0;
+  let todayPastCount = 0;
+
+  // 1. 기존 DB 데이터 처리 (과거 날짜 100% 영구 보존 + 당일 현재 시각 이전 데이터 보존)
   existingReservations.forEach(res => {
-    if (res && res.date && res.date < todayStr) {
-      if (res.startTime < 23 && res.endTime <= 23) {
-        mergedReservations.push(res);
+    if (!res || !res.date) return;
+    const key = getResKey(res);
+    if (!key) return;
+
+    if (res.date < kstDateStr) {
+      mergedMap.set(key, res);
+      pastDaysCount++;
+    } else if (res.date === kstDateStr) {
+      if (res.startTime < currentHour || res.endTime <= currentHour) {
+        mergedMap.set(key, res);
+        todayPastCount++;
+      }
+    } else {
+      const maxTargetDate = targetDates[targetDates.length - 1]?.fullDate;
+      if (maxTargetDate && res.date > maxTargetDate) {
+        mergedMap.set(key, res);
       }
     }
   });
-  
-  // B. 현재 및 미래 날짜 데이터는 신규 크롤링 데이터로 100% 교체/덮어쓰기
+
+  // 2. 신규 크롤링 데이터 반영 (당일 현재 시각 이후 + 미래 날짜 갱신)
+  let newAddedCount = 0;
   newReservations.forEach(res => {
-    if (res && res.date && res.date >= todayStr) {
-      mergedReservations.push(res);
+    if (!res || !res.date) return;
+    const key = getResKey(res);
+    if (!key) return;
+
+    if (res.date > kstDateStr) {
+      mergedMap.set(key, res);
+      newAddedCount++;
+    } else if (res.date === kstDateStr) {
+      if (res.startTime >= currentHour || !mergedMap.has(key)) {
+        mergedMap.set(key, res);
+        newAddedCount++;
+      }
     }
   });
-  
+
+  const mergedReservations = Array.from(mergedMap.values());
+  mergedReservations.sort((a, b) => {
+    if (a.date !== b.date) return a.date.localeCompare(b.date);
+    if (a.roomId !== b.roomId) return a.roomId.localeCompare(b.roomId);
+    return a.startTime - b.startTime;
+  });
+
   fs.writeFileSync(dumpPath, JSON.stringify(mergedReservations, null, 2), 'utf8');
-  
+
   console.log(`\n==================================================`);
   console.log(`[Crawler] 30-Min Pure Crawl Finished!`);
-  console.log(`  - New Crawled (Current & Future): ${newReservations.length} reservations`);
-  console.log(`  - Preserved History (Past): ${mergedReservations.length - newReservations.length} reservations`);
+  console.log(`  - Preserved History (Past Days): ${pastDaysCount} reservations`);
+  console.log(`  - Preserved History (Today Past Hours): ${todayPastCount} reservations`);
+  console.log(`  - Updated / New Crawled (Current & Future): ${newAddedCount} reservations`);
   console.log(`  - Total Saved Database: ${mergedReservations.length} reservations`);
 }
 

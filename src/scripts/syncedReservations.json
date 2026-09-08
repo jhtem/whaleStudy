@@ -119,11 +119,11 @@
     "userName": "네이버 예약자",
     "userPhone": "010-XXXX-XXXX",
     "date": "2026-08-30",
-    "startTime": 20.5,
-    "endTime": 21,
+    "startTime": 21,
+    "endTime": 21.5,
     "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-08-30T11:58:21.454Z"
+    "createdAt": "2026-08-30T12:20:24.605Z"
   },
   {
     "id": "res-naver-auto-jj-3-2026-08-30-1",
@@ -315,11 +315,11 @@
     "userName": "네이버 예약자",
     "userPhone": "010-XXXX-XXXX",
     "date": "2026-08-30",
-    "startTime": 20.5,
-    "endTime": 21,
+    "startTime": 21,
+    "endTime": 21.5,
     "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-08-30T11:58:42.796Z"
+    "createdAt": "2026-08-30T12:20:46.375Z"
   },
   {
     "id": "res-naver-auto-sj-2-2026-08-29-0",
@@ -399,11 +399,11 @@
     "userName": "네이버 예약자",
     "userPhone": "010-XXXX-XXXX",
     "date": "2026-08-30",
-    "startTime": 20.5,
-    "endTime": 21,
+    "startTime": 21,
+    "endTime": 21.5,
     "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-08-30T11:59:29.165Z"
+    "createdAt": "2026-08-30T12:21:32.723Z"
   },
   {
     "id": "res-naver-auto-sj-5-2026-08-29-0",
@@ -504,34 +504,6 @@
     "createdAt": "2026-08-30T12:01:19.695Z"
   },
   {
-    "id": "res-naver-auto-jj-3-2026-08-30-0",
-    "roomId": "room-jj-3",
-    "roomName": "ROOM3",
-    "userId": "user-naver-auto",
-    "userName": "네이버 예약자",
-    "userPhone": "010-XXXX-XXXX",
-    "date": "2026-08-30",
-    "startTime": 21,
-    "endTime": 21.5,
-    "totalHours": 0.5,
-    "status": "reserved",
-    "createdAt": "2026-08-30T12:20:24.605Z"
-  },
-  {
-    "id": "res-naver-auto-sj-1-2026-08-30-0",
-    "roomId": "room-sj-1",
-    "roomName": "ROOM1",
-    "userId": "user-naver-auto",
-    "userName": "네이버 예약자",
-    "userPhone": "010-XXXX-XXXX",
-    "date": "2026-08-30",
-    "startTime": 21,
-    "endTime": 21.5,
-    "totalHours": 0.5,
-    "status": "reserved",
-    "createdAt": "2026-08-30T12:20:46.375Z"
-  },
-  {
     "id": "res-naver-auto-sj-3-2026-08-30-0",
     "roomId": "room-sj-3",
     "roomName": "ROOM3",
@@ -544,20 +516,6 @@
     "totalHours": 1,
     "status": "reserved",
     "createdAt": "2026-08-30T12:21:12.087Z"
-  },
-  {
-    "id": "res-naver-auto-sj-4-2026-08-30-0",
-    "roomId": "room-sj-4",
-    "roomName": "ROOM4",
-    "userId": "user-naver-auto",
-    "userName": "네이버 예약자",
-    "userPhone": "010-XXXX-XXXX",
-    "date": "2026-08-30",
-    "startTime": 21,
-    "endTime": 21.5,
-    "totalHours": 0.5,
-    "status": "reserved",
-    "createdAt": "2026-08-30T12:21:32.723Z"
   },
   {
     "id": "res-naver-auto-sj-5-2026-08-30-0",
@@ -3339,11 +3297,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 15.5,
-    "endTime": 17,
-    "totalHours": 1.5,
+    "startTime": 22,
+    "endTime": 24,
+    "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:53:39.439Z"
+    "createdAt": "2026-09-08T13:16:12.831Z"
   },
   {
     "id": "crawl-jj-20260908-1-2",
@@ -3381,11 +3339,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-09",
-    "startTime": 16,
-    "endTime": 18,
-    "totalHours": 2,
+    "startTime": 6,
+    "endTime": 7,
+    "totalHours": 1,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:53:42.470Z"
+    "createdAt": "2026-09-08T13:16:15.869Z"
   },
   {
     "id": "crawl-jj-20260909-1-2",
@@ -3395,11 +3353,11 @@
     "userName": "네이버예약자2",
     "userPhone": "010-0000-0000",
     "date": "2026-09-09",
-    "startTime": 19,
-    "endTime": 20,
-    "totalHours": 1,
+    "startTime": 15,
+    "endTime": 18,
+    "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:53:42.470Z"
+    "createdAt": "2026-09-08T13:16:15.869Z"
   },
   {
     "id": "crawl-jj-20260909-1-3",
@@ -3409,11 +3367,11 @@
     "userName": "네이버예약자3",
     "userPhone": "010-0000-0000",
     "date": "2026-09-09",
-    "startTime": 20.5,
-    "endTime": 22,
-    "totalHours": 1.5,
+    "startTime": 19,
+    "endTime": 20,
+    "totalHours": 1,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:53:42.470Z"
+    "createdAt": "2026-09-08T13:16:15.869Z"
   },
   {
     "id": "crawl-jj-20260910-1-1",
@@ -3423,11 +3381,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-10",
-    "startTime": 21,
+    "startTime": 19,
     "endTime": 23,
-    "totalHours": 2,
+    "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:53:45.499Z"
+    "createdAt": "2026-09-08T13:16:18.901Z"
   },
   {
     "id": "crawl-jj-20260911-1-1",
@@ -3441,7 +3399,7 @@
     "endTime": 12.5,
     "totalHours": 1.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:53:48.514Z"
+    "createdAt": "2026-09-08T13:16:21.934Z"
   },
   {
     "id": "crawl-jj-20260911-1-2",
@@ -3452,10 +3410,10 @@
     "userPhone": "010-0000-0000",
     "date": "2026-09-11",
     "startTime": 13,
-    "endTime": 16,
-    "totalHours": 3,
+    "endTime": 18.5,
+    "totalHours": 5.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:53:48.514Z"
+    "createdAt": "2026-09-08T13:16:21.934Z"
   },
   {
     "id": "crawl-jj-20260911-1-3",
@@ -3465,11 +3423,11 @@
     "userName": "네이버예약자3",
     "userPhone": "010-0000-0000",
     "date": "2026-09-11",
-    "startTime": 17,
-    "endTime": 18.5,
-    "totalHours": 1.5,
+    "startTime": 19,
+    "endTime": 23,
+    "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:53:48.514Z"
+    "createdAt": "2026-09-08T13:16:21.934Z"
   },
   {
     "id": "crawl-jj-20260911-1-4",
@@ -3493,11 +3451,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-12",
-    "startTime": 14,
-    "endTime": 22,
-    "totalHours": 8,
+    "startTime": 7,
+    "endTime": 14,
+    "totalHours": 7,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:53:51.528Z"
+    "createdAt": "2026-09-08T13:16:24.968Z"
   },
   {
     "id": "crawl-jj-20260913-1-1",
@@ -3511,7 +3469,7 @@
     "endTime": 18,
     "totalHours": 8,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:53:54.553Z"
+    "createdAt": "2026-09-08T13:16:27.999Z"
   },
   {
     "id": "crawl-jj-20260913-1-2",
@@ -3525,7 +3483,7 @@
     "endTime": 22,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:53:54.553Z"
+    "createdAt": "2026-09-08T13:16:27.999Z"
   },
   {
     "id": "crawl-jj-20260907-2-1",
@@ -3549,11 +3507,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 14,
-    "endTime": 16,
-    "totalHours": 2,
+    "startTime": 22,
+    "endTime": 23,
+    "totalHours": 1,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:04.744Z"
+    "createdAt": "2026-09-08T13:16:38.234Z"
   },
   {
     "id": "crawl-jj-20260908-2-2",
@@ -3581,7 +3539,7 @@
     "endTime": 12.5,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:07.771Z"
+    "createdAt": "2026-09-08T13:16:41.268Z"
   },
   {
     "id": "crawl-jj-20260909-2-2",
@@ -3595,7 +3553,7 @@
     "endTime": 21.5,
     "totalHours": 7,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:07.771Z"
+    "createdAt": "2026-09-08T13:16:41.268Z"
   },
   {
     "id": "crawl-jj-20260910-2-1",
@@ -3609,7 +3567,7 @@
     "endTime": 19.5,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:10.794Z"
+    "createdAt": "2026-09-08T13:16:44.300Z"
   },
   {
     "id": "crawl-jj-20260910-2-2",
@@ -3623,7 +3581,7 @@
     "endTime": 23.5,
     "totalHours": 3.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:10.794Z"
+    "createdAt": "2026-09-08T13:16:44.300Z"
   },
   {
     "id": "crawl-jj-20260911-2-1",
@@ -3633,11 +3591,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-11",
-    "startTime": 17.5,
-    "endTime": 23.5,
-    "totalHours": 6,
+    "startTime": 16,
+    "endTime": 17,
+    "totalHours": 1,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:13.828Z"
+    "createdAt": "2026-09-08T13:16:47.333Z"
   },
   {
     "id": "crawl-jj-20260912-2-1",
@@ -3651,7 +3609,7 @@
     "endTime": 12.5,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:16.862Z"
+    "createdAt": "2026-09-08T13:16:50.364Z"
   },
   {
     "id": "crawl-jj-20260912-2-2",
@@ -3662,10 +3620,10 @@
     "userPhone": "010-0000-0000",
     "date": "2026-09-12",
     "startTime": 13.5,
-    "endTime": 22,
-    "totalHours": 8.5,
+    "endTime": 16,
+    "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:16.862Z"
+    "createdAt": "2026-09-08T13:16:50.364Z"
   },
   {
     "id": "crawl-jj-20260913-2-1",
@@ -3679,7 +3637,7 @@
     "endTime": 13,
     "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:19.900Z"
+    "createdAt": "2026-09-08T13:16:53.397Z"
   },
   {
     "id": "crawl-jj-20260913-2-2",
@@ -3693,7 +3651,7 @@
     "endTime": 17,
     "totalHours": 3.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:19.900Z"
+    "createdAt": "2026-09-08T13:16:53.397Z"
   },
   {
     "id": "crawl-jj-20260913-2-3",
@@ -3707,7 +3665,7 @@
     "endTime": 21.5,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:19.900Z"
+    "createdAt": "2026-09-08T13:16:53.397Z"
   },
   {
     "id": "crawl-jj-20260907-3-1",
@@ -3731,11 +3689,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 16.5,
-    "endTime": 19.5,
-    "totalHours": 3,
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:30.306Z"
+    "createdAt": "2026-09-08T13:17:03.759Z"
   },
   {
     "id": "crawl-jj-20260908-3-2",
@@ -3763,7 +3721,7 @@
     "endTime": 15,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:33.339Z"
+    "createdAt": "2026-09-08T13:17:06.794Z"
   },
   {
     "id": "crawl-jj-20260909-3-2",
@@ -3773,11 +3731,11 @@
     "userName": "네이버예약자2",
     "userPhone": "010-0000-0000",
     "date": "2026-09-09",
-    "startTime": 17,
-    "endTime": 20.5,
-    "totalHours": 3.5,
+    "startTime": 16,
+    "endTime": 16.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:33.339Z"
+    "createdAt": "2026-09-08T13:17:06.794Z"
   },
   {
     "id": "crawl-jj-20260910-3-1",
@@ -3791,7 +3749,7 @@
     "endTime": 19.5,
     "totalHours": 1.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:36.362Z"
+    "createdAt": "2026-09-08T13:17:09.824Z"
   },
   {
     "id": "crawl-jj-20260910-3-2",
@@ -3805,7 +3763,7 @@
     "endTime": 22.5,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:36.362Z"
+    "createdAt": "2026-09-08T13:17:09.824Z"
   },
   {
     "id": "crawl-jj-20260911-3-1",
@@ -3819,7 +3777,7 @@
     "endTime": 17,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:39.384Z"
+    "createdAt": "2026-09-08T13:17:12.856Z"
   },
   {
     "id": "crawl-jj-20260911-3-2",
@@ -3833,7 +3791,7 @@
     "endTime": 21.5,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:39.384Z"
+    "createdAt": "2026-09-08T13:17:12.856Z"
   },
   {
     "id": "crawl-jj-20260912-3-1",
@@ -3847,7 +3805,7 @@
     "endTime": 13,
     "totalHours": 5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:42.410Z"
+    "createdAt": "2026-09-08T13:17:15.888Z"
   },
   {
     "id": "crawl-jj-20260912-3-2",
@@ -3861,7 +3819,7 @@
     "endTime": 21.5,
     "totalHours": 7.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:42.410Z"
+    "createdAt": "2026-09-08T13:17:15.888Z"
   },
   {
     "id": "crawl-jj-20260913-3-1",
@@ -3875,7 +3833,7 @@
     "endTime": 13,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:45.438Z"
+    "createdAt": "2026-09-08T13:17:18.924Z"
   },
   {
     "id": "crawl-jj-20260913-3-2",
@@ -3889,7 +3847,7 @@
     "endTime": 22,
     "totalHours": 8,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:45.438Z"
+    "createdAt": "2026-09-08T13:17:18.924Z"
   },
   {
     "id": "crawl-jj-20260907-4-1",
@@ -3913,11 +3871,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 17.5,
-    "endTime": 20.5,
-    "totalHours": 3,
+    "startTime": 22,
+    "endTime": 23,
+    "totalHours": 1,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:55.782Z"
+    "createdAt": "2026-09-08T13:17:29.472Z"
   },
   {
     "id": "crawl-jj-20260908-4-2",
@@ -3945,7 +3903,7 @@
     "endTime": 16,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:54:58.815Z"
+    "createdAt": "2026-09-08T13:17:32.507Z"
   },
   {
     "id": "crawl-jj-20260909-4-2",
@@ -3987,7 +3945,7 @@
     "endTime": 19.5,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:01.843Z"
+    "createdAt": "2026-09-08T13:17:35.532Z"
   },
   {
     "id": "crawl-jj-20260911-4-1",
@@ -4001,7 +3959,7 @@
     "endTime": 15.5,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:04.875Z"
+    "createdAt": "2026-09-08T13:17:38.560Z"
   },
   {
     "id": "crawl-jj-20260911-4-2",
@@ -4015,7 +3973,7 @@
     "endTime": 19,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:04.875Z"
+    "createdAt": "2026-09-08T13:17:38.560Z"
   },
   {
     "id": "crawl-jj-20260911-4-3",
@@ -4029,7 +3987,7 @@
     "endTime": 21.5,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:04.875Z"
+    "createdAt": "2026-09-08T13:17:38.560Z"
   },
   {
     "id": "crawl-jj-20260912-4-1",
@@ -4043,7 +4001,7 @@
     "endTime": 12.5,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:07.908Z"
+    "createdAt": "2026-09-08T13:17:41.575Z"
   },
   {
     "id": "crawl-jj-20260912-4-2",
@@ -4057,7 +4015,7 @@
     "endTime": 15.5,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:07.908Z"
+    "createdAt": "2026-09-08T13:17:41.575Z"
   },
   {
     "id": "crawl-jj-20260912-4-3",
@@ -4071,7 +4029,7 @@
     "endTime": 18,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:07.908Z"
+    "createdAt": "2026-09-08T13:17:41.575Z"
   },
   {
     "id": "crawl-jj-20260912-4-4",
@@ -4085,7 +4043,7 @@
     "endTime": 22,
     "totalHours": 3.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:07.908Z"
+    "createdAt": "2026-09-08T13:17:41.575Z"
   },
   {
     "id": "crawl-jj-20260913-4-1",
@@ -4099,7 +4057,7 @@
     "endTime": 18,
     "totalHours": 8.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:10.932Z"
+    "createdAt": "2026-09-08T13:17:44.607Z"
   },
   {
     "id": "crawl-jj-20260907-5-1",
@@ -4123,11 +4081,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 17,
-    "endTime": 21,
-    "totalHours": 4,
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:21.253Z"
+    "createdAt": "2026-09-08T13:17:54.844Z"
   },
   {
     "id": "crawl-jj-20260909-5-1",
@@ -4141,7 +4099,7 @@
     "endTime": 21.5,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:24.284Z"
+    "createdAt": "2026-09-08T13:17:57.881Z"
   },
   {
     "id": "crawl-jj-20260910-5-1",
@@ -4155,7 +4113,7 @@
     "endTime": 20,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:27.317Z"
+    "createdAt": "2026-09-08T13:18:00.910Z"
   },
   {
     "id": "crawl-jj-20260911-5-1",
@@ -4169,7 +4127,7 @@
     "endTime": 16,
     "totalHours": 1,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:30.341Z"
+    "createdAt": "2026-09-08T13:18:03.941Z"
   },
   {
     "id": "crawl-jj-20260911-5-2",
@@ -4183,7 +4141,7 @@
     "endTime": 22,
     "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:30.341Z"
+    "createdAt": "2026-09-08T13:18:03.941Z"
   },
   {
     "id": "crawl-jj-20260912-5-1",
@@ -4197,7 +4155,7 @@
     "endTime": 16,
     "totalHours": 6,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:33.375Z"
+    "createdAt": "2026-09-08T13:18:06.975Z"
   },
   {
     "id": "crawl-jj-20260912-5-2",
@@ -4211,7 +4169,7 @@
     "endTime": 23.5,
     "totalHours": 3.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:33.375Z"
+    "createdAt": "2026-09-08T13:18:06.975Z"
   },
   {
     "id": "crawl-jj-20260913-5-1",
@@ -4225,7 +4183,7 @@
     "endTime": 17.5,
     "totalHours": 8.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:36.391Z"
+    "createdAt": "2026-09-08T13:18:10.014Z"
   },
   {
     "id": "crawl-jj-20260913-5-2",
@@ -4239,7 +4197,7 @@
     "endTime": 20.5,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:36.391Z"
+    "createdAt": "2026-09-08T13:18:10.014Z"
   },
   {
     "id": "crawl-jj-20260907-6-1",
@@ -4263,11 +4221,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 20,
-    "endTime": 22,
-    "totalHours": 2,
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:46.884Z"
+    "createdAt": "2026-09-08T13:18:20.241Z"
   },
   {
     "id": "crawl-jj-20260909-6-1",
@@ -4277,11 +4235,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-09",
-    "startTime": 18,
+    "startTime": 17,
     "endTime": 22,
-    "totalHours": 4,
+    "totalHours": 5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:49.916Z"
+    "createdAt": "2026-09-08T13:18:23.279Z"
   },
   {
     "id": "crawl-jj-20260910-6-1",
@@ -4295,7 +4253,7 @@
     "endTime": 16,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:52.947Z"
+    "createdAt": "2026-09-08T13:18:26.310Z"
   },
   {
     "id": "crawl-jj-20260910-6-2",
@@ -4309,7 +4267,7 @@
     "endTime": 22,
     "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:52.947Z"
+    "createdAt": "2026-09-08T13:18:26.310Z"
   },
   {
     "id": "crawl-jj-20260911-6-1",
@@ -4323,7 +4281,7 @@
     "endTime": 18,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:55.972Z"
+    "createdAt": "2026-09-08T13:18:29.341Z"
   },
   {
     "id": "crawl-jj-20260911-6-2",
@@ -4337,7 +4295,7 @@
     "endTime": 22.5,
     "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:55.972Z"
+    "createdAt": "2026-09-08T13:18:29.341Z"
   },
   {
     "id": "crawl-jj-20260912-6-1",
@@ -4351,7 +4309,7 @@
     "endTime": 12,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:59.007Z"
+    "createdAt": "2026-09-08T13:18:32.370Z"
   },
   {
     "id": "crawl-jj-20260912-6-2",
@@ -4365,7 +4323,7 @@
     "endTime": 15,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:59.007Z"
+    "createdAt": "2026-09-08T13:18:32.370Z"
   },
   {
     "id": "crawl-jj-20260912-6-3",
@@ -4379,7 +4337,7 @@
     "endTime": 18,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:55:59.007Z"
+    "createdAt": "2026-09-08T13:18:32.370Z"
   },
   {
     "id": "crawl-jj-20260913-6-1",
@@ -4393,7 +4351,7 @@
     "endTime": 13.5,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:02.040Z"
+    "createdAt": "2026-09-08T13:18:35.402Z"
   },
   {
     "id": "crawl-jj-20260913-6-2",
@@ -4407,7 +4365,7 @@
     "endTime": 17,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:02.040Z"
+    "createdAt": "2026-09-08T13:18:35.402Z"
   },
   {
     "id": "crawl-jj-20260913-6-3",
@@ -4421,7 +4379,7 @@
     "endTime": 23,
     "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:02.040Z"
+    "createdAt": "2026-09-08T13:18:35.402Z"
   },
   {
     "id": "crawl-jj-20260907-7-1",
@@ -4445,11 +4403,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 17,
-    "endTime": 20,
-    "totalHours": 3,
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:12.442Z"
+    "createdAt": "2026-09-08T13:18:45.737Z"
   },
   {
     "id": "crawl-jj-20260909-7-1",
@@ -4463,7 +4421,7 @@
     "endTime": 21,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:15.473Z"
+    "createdAt": "2026-09-08T13:18:48.772Z"
   },
   {
     "id": "crawl-jj-20260911-7-1",
@@ -4473,11 +4431,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-11",
-    "startTime": 19.5,
-    "endTime": 22,
-    "totalHours": 2.5,
+    "startTime": 15.5,
+    "endTime": 17.5,
+    "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:21.538Z"
+    "createdAt": "2026-09-08T13:18:54.835Z"
   },
   {
     "id": "crawl-jj-20260912-7-1",
@@ -4491,7 +4449,7 @@
     "endTime": 11,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:24.567Z"
+    "createdAt": "2026-09-08T13:18:57.865Z"
   },
   {
     "id": "crawl-jj-20260912-7-2",
@@ -4505,7 +4463,7 @@
     "endTime": 21,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:24.567Z"
+    "createdAt": "2026-09-08T13:18:57.865Z"
   },
   {
     "id": "crawl-jj-20260913-7-1",
@@ -4519,7 +4477,7 @@
     "endTime": 13.5,
     "totalHours": 4.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:27.598Z"
+    "createdAt": "2026-09-08T13:19:00.902Z"
   },
   {
     "id": "crawl-jj-20260913-7-2",
@@ -4533,7 +4491,7 @@
     "endTime": 18,
     "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:27.598Z"
+    "createdAt": "2026-09-08T13:19:00.902Z"
   },
   {
     "id": "crawl-sj-20260907-1-1",
@@ -4557,11 +4515,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 19,
-    "endTime": 21,
-    "totalHours": 2,
+    "startTime": 22,
+    "endTime": 23,
+    "totalHours": 1,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:38.438Z"
+    "createdAt": "2026-09-08T13:19:11.747Z"
   },
   {
     "id": "crawl-sj-20260909-1-1",
@@ -4575,7 +4533,7 @@
     "endTime": 16.5,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:41.471Z"
+    "createdAt": "2026-09-08T13:19:14.783Z"
   },
   {
     "id": "crawl-sj-20260909-1-2",
@@ -4589,7 +4547,7 @@
     "endTime": 23,
     "totalHours": 3.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:41.471Z"
+    "createdAt": "2026-09-08T13:19:14.783Z"
   },
   {
     "id": "crawl-sj-20260910-1-1",
@@ -4603,7 +4561,7 @@
     "endTime": 12,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:44.501Z"
+    "createdAt": "2026-09-08T13:19:17.815Z"
   },
   {
     "id": "crawl-sj-20260910-1-2",
@@ -4613,11 +4571,11 @@
     "userName": "네이버예약자2",
     "userPhone": "010-0000-0000",
     "date": "2026-09-10",
-    "startTime": 19,
-    "endTime": 21.5,
-    "totalHours": 2.5,
+    "startTime": 15,
+    "endTime": 17,
+    "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:44.501Z"
+    "createdAt": "2026-09-08T13:19:17.815Z"
   },
   {
     "id": "crawl-sj-20260911-1-1",
@@ -4631,7 +4589,7 @@
     "endTime": 12,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:47.515Z"
+    "createdAt": "2026-09-08T13:19:20.847Z"
   },
   {
     "id": "crawl-sj-20260912-1-1",
@@ -4645,7 +4603,7 @@
     "endTime": 12.5,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:50.538Z"
+    "createdAt": "2026-09-08T13:19:23.880Z"
   },
   {
     "id": "crawl-sj-20260912-1-2",
@@ -4659,7 +4617,7 @@
     "endTime": 16,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:50.538Z"
+    "createdAt": "2026-09-08T13:19:23.880Z"
   },
   {
     "id": "crawl-sj-20260912-1-3",
@@ -4669,11 +4627,11 @@
     "userName": "네이버예약자3",
     "userPhone": "010-0000-0000",
     "date": "2026-09-12",
-    "startTime": 20,
+    "startTime": 17,
     "endTime": 23,
-    "totalHours": 3,
+    "totalHours": 6,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:50.538Z"
+    "createdAt": "2026-09-08T13:19:23.880Z"
   },
   {
     "id": "crawl-sj-20260913-1-1",
@@ -4687,7 +4645,7 @@
     "endTime": 12,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:53.571Z"
+    "createdAt": "2026-09-08T13:19:26.912Z"
   },
   {
     "id": "crawl-sj-20260913-1-2",
@@ -4701,7 +4659,7 @@
     "endTime": 18,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:56:53.571Z"
+    "createdAt": "2026-09-08T13:19:26.912Z"
   },
   {
     "id": "crawl-sj-20260907-2-1",
@@ -4725,11 +4683,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 12,
-    "endTime": 16,
-    "totalHours": 4,
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:57:03.739Z"
+    "createdAt": "2026-09-08T13:19:37.042Z"
   },
   {
     "id": "crawl-sj-20260908-2-2",
@@ -4757,7 +4715,7 @@
     "endTime": 21,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:57:06.759Z"
+    "createdAt": "2026-09-08T13:19:40.079Z"
   },
   {
     "id": "crawl-sj-20260910-2-1",
@@ -4767,11 +4725,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-10",
-    "startTime": 20,
-    "endTime": 23,
-    "totalHours": 3,
+    "startTime": 17.5,
+    "endTime": 19.5,
+    "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:57:09.776Z"
+    "createdAt": "2026-09-08T13:19:43.111Z"
   },
   {
     "id": "crawl-sj-20260912-2-1",
@@ -4785,7 +4743,7 @@
     "endTime": 12.5,
     "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:57:15.810Z"
+    "createdAt": "2026-09-08T13:19:49.175Z"
   },
   {
     "id": "crawl-sj-20260912-2-2",
@@ -4799,7 +4757,7 @@
     "endTime": 17,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:57:15.810Z"
+    "createdAt": "2026-09-08T13:19:49.175Z"
   },
   {
     "id": "crawl-sj-20260912-2-3",
@@ -4813,7 +4771,7 @@
     "endTime": 22,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:57:15.810Z"
+    "createdAt": "2026-09-08T13:19:49.175Z"
   },
   {
     "id": "crawl-sj-20260913-2-1",
@@ -4827,7 +4785,7 @@
     "endTime": 12,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:57:18.850Z"
+    "createdAt": "2026-09-08T13:19:52.205Z"
   },
   {
     "id": "crawl-sj-20260907-3-1",
@@ -4855,7 +4813,7 @@
     "endTime": 21,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:57:32.108Z"
+    "createdAt": "2026-09-08T13:20:05.753Z"
   },
   {
     "id": "crawl-sj-20260912-3-1",
@@ -4869,7 +4827,7 @@
     "endTime": 13,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:57:41.212Z"
+    "createdAt": "2026-09-08T13:20:14.846Z"
   },
   {
     "id": "crawl-sj-20260912-3-2",
@@ -4883,7 +4841,7 @@
     "endTime": 16,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:57:41.212Z"
+    "createdAt": "2026-09-08T13:20:14.847Z"
   },
   {
     "id": "crawl-sj-20260912-3-3",
@@ -4897,7 +4855,7 @@
     "endTime": 22,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:57:41.212Z"
+    "createdAt": "2026-09-08T13:20:14.847Z"
   },
   {
     "id": "crawl-sj-20260913-3-1",
@@ -4911,7 +4869,7 @@
     "endTime": 16,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:57:44.245Z"
+    "createdAt": "2026-09-08T13:20:17.879Z"
   },
   {
     "id": "crawl-sj-20260907-4-1",
@@ -4939,7 +4897,7 @@
     "endTime": 20,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:57:57.446Z"
+    "createdAt": "2026-09-08T13:20:31.147Z"
   },
   {
     "id": "crawl-sj-20260912-4-1",
@@ -4953,7 +4911,7 @@
     "endTime": 13,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:06.538Z"
+    "createdAt": "2026-09-08T13:20:40.244Z"
   },
   {
     "id": "crawl-sj-20260912-4-2",
@@ -4967,7 +4925,7 @@
     "endTime": 17,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:06.538Z"
+    "createdAt": "2026-09-08T13:20:40.244Z"
   },
   {
     "id": "crawl-sj-20260912-4-3",
@@ -4981,7 +4939,7 @@
     "endTime": 22,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:06.538Z"
+    "createdAt": "2026-09-08T13:20:40.244Z"
   },
   {
     "id": "crawl-sj-20260913-4-1",
@@ -4995,7 +4953,7 @@
     "endTime": 17,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:09.563Z"
+    "createdAt": "2026-09-08T13:20:43.278Z"
   },
   {
     "id": "crawl-sj-20260907-5-1",
@@ -5019,11 +4977,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 16,
-    "endTime": 18,
-    "totalHours": 2,
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:19.791Z"
+    "createdAt": "2026-09-08T13:20:53.449Z"
   },
   {
     "id": "crawl-sj-20260909-5-1",
@@ -5033,11 +4991,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-09",
-    "startTime": 18,
-    "endTime": 20,
-    "totalHours": 2,
+    "startTime": 13,
+    "endTime": 16,
+    "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:22.822Z"
+    "createdAt": "2026-09-08T13:20:56.483Z"
   },
   {
     "id": "crawl-sj-20260910-5-1",
@@ -5062,10 +5020,10 @@
     "userPhone": "010-0000-0000",
     "date": "2026-09-12",
     "startTime": 9,
-    "endTime": 12.5,
-    "totalHours": 3.5,
+    "endTime": 10.5,
+    "totalHours": 1.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:31.904Z"
+    "createdAt": "2026-09-08T13:21:05.577Z"
   },
   {
     "id": "crawl-sj-20260912-5-2",
@@ -5075,11 +5033,11 @@
     "userName": "네이버예약자2",
     "userPhone": "010-0000-0000",
     "date": "2026-09-12",
-    "startTime": 16,
-    "endTime": 18,
-    "totalHours": 2,
+    "startTime": 14,
+    "endTime": 15.5,
+    "totalHours": 1.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:31.904Z"
+    "createdAt": "2026-09-08T13:21:05.577Z"
   },
   {
     "id": "crawl-sj-20260907-6-1",
@@ -5103,11 +5061,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 15,
-    "endTime": 17,
-    "totalHours": 2,
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:45.137Z"
+    "createdAt": "2026-09-08T13:21:18.849Z"
   },
   {
     "id": "crawl-sj-20260908-6-2",
@@ -5131,11 +5089,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-09",
-    "startTime": 16,
-    "endTime": 18,
+    "startTime": 11,
+    "endTime": 13,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:48.167Z"
+    "createdAt": "2026-09-08T13:21:21.884Z"
   },
   {
     "id": "crawl-sj-20260909-6-2",
@@ -5145,11 +5103,11 @@
     "userName": "네이버예약자2",
     "userPhone": "010-0000-0000",
     "date": "2026-09-09",
-    "startTime": 19,
-    "endTime": 22,
-    "totalHours": 3,
+    "startTime": 16,
+    "endTime": 18,
+    "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:48.167Z"
+    "createdAt": "2026-09-08T13:21:21.884Z"
   },
   {
     "id": "crawl-sj-20260910-6-1",
@@ -5163,7 +5121,7 @@
     "endTime": 12,
     "totalHours": 1,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:51.193Z"
+    "createdAt": "2026-09-08T13:21:24.916Z"
   },
   {
     "id": "crawl-sj-20260910-6-2",
@@ -5177,7 +5135,7 @@
     "endTime": 21.5,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:51.193Z"
+    "createdAt": "2026-09-08T13:21:24.916Z"
   },
   {
     "id": "crawl-sj-20260911-6-1",
@@ -5187,11 +5145,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-11",
-    "startTime": 19,
+    "startTime": 17,
     "endTime": 22,
-    "totalHours": 3,
+    "totalHours": 5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:54.224Z"
+    "createdAt": "2026-09-08T13:21:27.949Z"
   },
   {
     "id": "crawl-sj-20260912-6-1",
@@ -5205,7 +5163,7 @@
     "endTime": 12,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:57.254Z"
+    "createdAt": "2026-09-08T13:21:30.981Z"
   },
   {
     "id": "crawl-sj-20260912-6-2",
@@ -5219,7 +5177,7 @@
     "endTime": 18,
     "totalHours": 5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:57.254Z"
+    "createdAt": "2026-09-08T13:21:30.981Z"
   },
   {
     "id": "crawl-sj-20260912-6-3",
@@ -5233,7 +5191,7 @@
     "endTime": 23,
     "totalHours": 1.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:58:57.254Z"
+    "createdAt": "2026-09-08T13:21:30.981Z"
   },
   {
     "id": "crawl-sj-20260913-6-1",
@@ -5244,10 +5202,10 @@
     "userPhone": "010-0000-0000",
     "date": "2026-09-13",
     "startTime": 9.5,
-    "endTime": 15.5,
-    "totalHours": 6,
+    "endTime": 12.5,
+    "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:00.286Z"
+    "createdAt": "2026-09-08T13:21:34.016Z"
   },
   {
     "id": "crawl-sj-20260913-6-2",
@@ -5257,11 +5215,11 @@
     "userName": "네이버예약자2",
     "userPhone": "010-0000-0000",
     "date": "2026-09-13",
-    "startTime": 18.5,
-    "endTime": 23,
-    "totalHours": 4.5,
+    "startTime": 13.5,
+    "endTime": 15.5,
+    "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:00.286Z"
+    "createdAt": "2026-09-08T13:21:34.016Z"
   },
   {
     "id": "crawl-sj-20260907-7-1",
@@ -5285,11 +5243,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 13,
-    "endTime": 19,
-    "totalHours": 6,
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:10.467Z"
+    "createdAt": "2026-09-08T13:21:44.231Z"
   },
   {
     "id": "crawl-sj-20260908-7-2",
@@ -5317,7 +5275,7 @@
     "endTime": 21.5,
     "totalHours": 3.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:13.499Z"
+    "createdAt": "2026-09-08T13:21:47.267Z"
   },
   {
     "id": "crawl-sj-20260910-7-1",
@@ -5331,7 +5289,7 @@
     "endTime": 12,
     "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:16.531Z"
+    "createdAt": "2026-09-08T13:21:50.299Z"
   },
   {
     "id": "crawl-sj-20260910-7-2",
@@ -5345,7 +5303,7 @@
     "endTime": 21,
     "totalHours": 5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:16.531Z"
+    "createdAt": "2026-09-08T13:21:50.299Z"
   },
   {
     "id": "crawl-sj-20260911-7-1",
@@ -5359,7 +5317,7 @@
     "endTime": 17,
     "totalHours": 9,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:19.563Z"
+    "createdAt": "2026-09-08T13:21:53.330Z"
   },
   {
     "id": "crawl-sj-20260911-7-2",
@@ -5373,7 +5331,7 @@
     "endTime": 20,
     "totalHours": 1.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:19.563Z"
+    "createdAt": "2026-09-08T13:21:53.330Z"
   },
   {
     "id": "crawl-sj-20260911-7-3",
@@ -5387,7 +5345,7 @@
     "endTime": 23,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:19.563Z"
+    "createdAt": "2026-09-08T13:21:53.330Z"
   },
   {
     "id": "crawl-sj-20260912-7-1",
@@ -5401,7 +5359,7 @@
     "endTime": 12,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:22.600Z"
+    "createdAt": "2026-09-08T13:21:56.362Z"
   },
   {
     "id": "crawl-sj-20260912-7-2",
@@ -5415,7 +5373,7 @@
     "endTime": 16,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:22.600Z"
+    "createdAt": "2026-09-08T13:21:56.362Z"
   },
   {
     "id": "crawl-sj-20260912-7-3",
@@ -5429,7 +5387,7 @@
     "endTime": 21,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:22.600Z"
+    "createdAt": "2026-09-08T13:21:56.362Z"
   },
   {
     "id": "crawl-sj-20260913-7-1",
@@ -5439,11 +5397,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-13",
-    "startTime": 9.5,
-    "endTime": 12,
-    "totalHours": 2.5,
+    "startTime": 14.5,
+    "endTime": 16.5,
+    "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:25.631Z"
+    "createdAt": "2026-09-08T13:21:59.399Z"
   },
   {
     "id": "crawl-sj-20260913-7-2",
@@ -5453,11 +5411,11 @@
     "userName": "네이버예약자2",
     "userPhone": "010-0000-0000",
     "date": "2026-09-13",
-    "startTime": 14.5,
-    "endTime": 16.5,
-    "totalHours": 2,
+    "startTime": 18,
+    "endTime": 22,
+    "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:25.631Z"
+    "createdAt": "2026-09-08T13:21:59.399Z"
   },
   {
     "id": "crawl-sj-20260913-7-3",
@@ -5495,11 +5453,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 18.5,
-    "endTime": 20.5,
-    "totalHours": 2,
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:35.794Z"
+    "createdAt": "2026-09-08T13:22:09.728Z"
   },
   {
     "id": "crawl-sj-20260909-8-1",
@@ -5513,7 +5471,7 @@
     "endTime": 19,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:38.826Z"
+    "createdAt": "2026-09-08T13:22:12.765Z"
   },
   {
     "id": "crawl-sj-20260909-8-2",
@@ -5527,7 +5485,7 @@
     "endTime": 23,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:38.826Z"
+    "createdAt": "2026-09-08T13:22:12.765Z"
   },
   {
     "id": "crawl-sj-20260912-8-1",
@@ -5541,7 +5499,7 @@
     "endTime": 24,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T13:59:47.913Z"
+    "createdAt": "2026-09-08T13:22:21.861Z"
   },
   {
     "id": "crawl-al-20260907-1-1",
@@ -5565,11 +5523,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 21,
+    "startTime": 22,
     "endTime": 23.5,
-    "totalHours": 2.5,
+    "totalHours": 1.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:01.905Z"
+    "createdAt": "2026-09-08T13:22:35.957Z"
   },
   {
     "id": "crawl-al-20260909-1-1",
@@ -5583,7 +5541,7 @@
     "endTime": 19.5,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:04.938Z"
+    "createdAt": "2026-09-08T13:22:38.995Z"
   },
   {
     "id": "crawl-al-20260912-1-1",
@@ -5597,7 +5555,7 @@
     "endTime": 21.5,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:14.033Z"
+    "createdAt": "2026-09-08T13:22:48.094Z"
   },
   {
     "id": "crawl-al-20260907-2-1",
@@ -5621,11 +5579,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 9,
-    "endTime": 12,
-    "totalHours": 3,
+    "startTime": 22,
+    "endTime": 23.5,
+    "totalHours": 1.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:27.247Z"
+    "createdAt": "2026-09-08T13:23:01.627Z"
   },
   {
     "id": "crawl-al-20260908-2-2",
@@ -5663,11 +5621,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-09",
-    "startTime": 7,
-    "endTime": 8,
-    "totalHours": 1,
+    "startTime": 10,
+    "endTime": 14,
+    "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:30.274Z"
+    "createdAt": "2026-09-08T13:23:04.664Z"
   },
   {
     "id": "crawl-al-20260909-2-2",
@@ -5681,7 +5639,7 @@
     "endTime": 20.5,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:30.274Z"
+    "createdAt": "2026-09-08T13:23:04.664Z"
   },
   {
     "id": "crawl-al-20260910-2-1",
@@ -5695,7 +5653,7 @@
     "endTime": 16,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:33.306Z"
+    "createdAt": "2026-09-08T13:23:07.697Z"
   },
   {
     "id": "crawl-al-20260910-2-2",
@@ -5709,7 +5667,7 @@
     "endTime": 19.5,
     "totalHours": 1.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:33.306Z"
+    "createdAt": "2026-09-08T13:23:07.697Z"
   },
   {
     "id": "crawl-al-20260910-2-3",
@@ -5723,7 +5681,7 @@
     "endTime": 22.5,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:33.306Z"
+    "createdAt": "2026-09-08T13:23:07.697Z"
   },
   {
     "id": "crawl-al-20260911-2-1",
@@ -5737,7 +5695,7 @@
     "endTime": 16,
     "totalHours": 7,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:36.338Z"
+    "createdAt": "2026-09-08T13:23:10.729Z"
   },
   {
     "id": "crawl-al-20260911-2-2",
@@ -5751,7 +5709,7 @@
     "endTime": 22.5,
     "totalHours": 5.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:36.338Z"
+    "createdAt": "2026-09-08T13:23:10.729Z"
   },
   {
     "id": "crawl-al-20260912-2-1",
@@ -5765,7 +5723,7 @@
     "endTime": 18,
     "totalHours": 8,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:39.368Z"
+    "createdAt": "2026-09-08T13:23:13.761Z"
   },
   {
     "id": "crawl-al-20260912-2-2",
@@ -5779,7 +5737,7 @@
     "endTime": 22,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:39.368Z"
+    "createdAt": "2026-09-08T13:23:13.761Z"
   },
   {
     "id": "crawl-al-20260913-2-1",
@@ -5793,7 +5751,7 @@
     "endTime": 13,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:42.388Z"
+    "createdAt": "2026-09-08T13:23:16.787Z"
   },
   {
     "id": "crawl-al-20260913-2-2",
@@ -5807,7 +5765,7 @@
     "endTime": 17,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:42.388Z"
+    "createdAt": "2026-09-08T13:23:16.787Z"
   },
   {
     "id": "crawl-al-20260913-2-3",
@@ -5821,7 +5779,7 @@
     "endTime": 21,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:42.388Z"
+    "createdAt": "2026-09-08T13:23:16.787Z"
   },
   {
     "id": "crawl-al-20260907-3-1",
@@ -5845,11 +5803,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 10,
-    "endTime": 12,
-    "totalHours": 2,
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:52.488Z"
+    "createdAt": "2026-09-08T13:23:26.997Z"
   },
   {
     "id": "crawl-al-20260908-3-2",
@@ -5887,11 +5845,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-09",
-    "startTime": 14,
-    "endTime": 16,
-    "totalHours": 2,
+    "startTime": 8,
+    "endTime": 12,
+    "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:55.509Z"
+    "createdAt": "2026-09-08T13:23:30.035Z"
   },
   {
     "id": "crawl-al-20260909-3-2",
@@ -5901,11 +5859,11 @@
     "userName": "네이버예약자2",
     "userPhone": "010-0000-0000",
     "date": "2026-09-09",
-    "startTime": 18,
-    "endTime": 22,
-    "totalHours": 4,
+    "startTime": 14,
+    "endTime": 16,
+    "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:55.509Z"
+    "createdAt": "2026-09-08T13:23:30.035Z"
   },
   {
     "id": "crawl-al-20260910-3-1",
@@ -5919,7 +5877,7 @@
     "endTime": 21,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:00:58.539Z"
+    "createdAt": "2026-09-08T13:23:33.066Z"
   },
   {
     "id": "crawl-al-20260911-3-1",
@@ -5933,7 +5891,7 @@
     "endTime": 13,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:01.561Z"
+    "createdAt": "2026-09-08T13:23:36.096Z"
   },
   {
     "id": "crawl-al-20260911-3-2",
@@ -5947,7 +5905,7 @@
     "endTime": 22,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:01.561Z"
+    "createdAt": "2026-09-08T13:23:36.096Z"
   },
   {
     "id": "crawl-al-20260912-3-1",
@@ -5961,7 +5919,7 @@
     "endTime": 13.5,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:04.602Z"
+    "createdAt": "2026-09-08T13:23:39.130Z"
   },
   {
     "id": "crawl-al-20260912-3-2",
@@ -5975,7 +5933,7 @@
     "endTime": 19.5,
     "totalHours": 5.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:04.602Z"
+    "createdAt": "2026-09-08T13:23:39.130Z"
   },
   {
     "id": "crawl-al-20260912-3-3",
@@ -5989,7 +5947,7 @@
     "endTime": 23,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:04.602Z"
+    "createdAt": "2026-09-08T13:23:39.130Z"
   },
   {
     "id": "crawl-al-20260913-3-1",
@@ -6003,7 +5961,7 @@
     "endTime": 9.5,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:07.642Z"
+    "createdAt": "2026-09-08T13:23:42.169Z"
   },
   {
     "id": "crawl-al-20260913-3-2",
@@ -6017,7 +5975,7 @@
     "endTime": 13,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:07.642Z"
+    "createdAt": "2026-09-08T13:23:42.169Z"
   },
   {
     "id": "crawl-al-20260913-3-3",
@@ -6031,7 +5989,7 @@
     "endTime": 22,
     "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:07.642Z"
+    "createdAt": "2026-09-08T13:23:42.169Z"
   },
   {
     "id": "crawl-al-20260907-4-1",
@@ -6055,11 +6013,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 13,
-    "endTime": 16,
-    "totalHours": 3,
+    "startTime": 22,
+    "endTime": 23,
+    "totalHours": 1,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:17.865Z"
+    "createdAt": "2026-09-08T13:23:52.585Z"
   },
   {
     "id": "crawl-al-20260908-4-2",
@@ -6087,7 +6045,7 @@
     "endTime": 21,
     "totalHours": 12,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:20.898Z"
+    "createdAt": "2026-09-08T13:23:55.621Z"
   },
   {
     "id": "crawl-al-20260910-4-1",
@@ -6097,11 +6055,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-10",
-    "startTime": 20,
+    "startTime": 18,
     "endTime": 23,
-    "totalHours": 3,
+    "totalHours": 5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:23.928Z"
+    "createdAt": "2026-09-08T13:23:58.652Z"
   },
   {
     "id": "crawl-al-20260911-4-1",
@@ -6112,10 +6070,10 @@
     "userPhone": "010-0000-0000",
     "date": "2026-09-11",
     "startTime": 18,
-    "endTime": 20,
-    "totalHours": 2,
+    "endTime": 22,
+    "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:26.965Z"
+    "createdAt": "2026-09-08T13:24:01.683Z"
   },
   {
     "id": "crawl-al-20260912-4-1",
@@ -6129,7 +6087,7 @@
     "endTime": 13,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:29.990Z"
+    "createdAt": "2026-09-08T13:24:04.721Z"
   },
   {
     "id": "crawl-al-20260912-4-2",
@@ -6143,7 +6101,7 @@
     "endTime": 17,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:29.990Z"
+    "createdAt": "2026-09-08T13:24:04.721Z"
   },
   {
     "id": "crawl-al-20260912-4-3",
@@ -6157,7 +6115,7 @@
     "endTime": 23,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:29.990Z"
+    "createdAt": "2026-09-08T13:24:04.721Z"
   },
   {
     "id": "crawl-al-20260913-4-1",
@@ -6171,7 +6129,7 @@
     "endTime": 13.5,
     "totalHours": 3.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:33.022Z"
+    "createdAt": "2026-09-08T13:24:07.754Z"
   },
   {
     "id": "crawl-al-20260913-4-2",
@@ -6185,7 +6143,7 @@
     "endTime": 16,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:33.022Z"
+    "createdAt": "2026-09-08T13:24:07.754Z"
   },
   {
     "id": "crawl-al-20260907-5-1",
@@ -6209,11 +6167,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 16.5,
+    "startTime": 22,
     "endTime": 23.5,
-    "totalHours": 7,
+    "totalHours": 1.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:43.207Z"
+    "createdAt": "2026-09-08T13:24:18.146Z"
   },
   {
     "id": "crawl-al-20260909-5-1",
@@ -6227,7 +6185,7 @@
     "endTime": 24,
     "totalHours": 13.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:46.234Z"
+    "createdAt": "2026-09-08T13:24:21.184Z"
   },
   {
     "id": "crawl-al-20260910-5-1",
@@ -6241,7 +6199,7 @@
     "endTime": 18,
     "totalHours": 9,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:49.267Z"
+    "createdAt": "2026-09-08T13:24:24.216Z"
   },
   {
     "id": "crawl-al-20260910-5-2",
@@ -6255,7 +6213,7 @@
     "endTime": 22,
     "totalHours": 3.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:49.267Z"
+    "createdAt": "2026-09-08T13:24:24.216Z"
   },
   {
     "id": "crawl-al-20260911-5-1",
@@ -6269,7 +6227,7 @@
     "endTime": 18,
     "totalHours": 9,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:52.299Z"
+    "createdAt": "2026-09-08T13:24:27.249Z"
   },
   {
     "id": "crawl-al-20260911-5-2",
@@ -6283,7 +6241,7 @@
     "endTime": 22,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:52.299Z"
+    "createdAt": "2026-09-08T13:24:27.249Z"
   },
   {
     "id": "crawl-al-20260912-5-1",
@@ -6297,7 +6255,7 @@
     "endTime": 12,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:55.331Z"
+    "createdAt": "2026-09-08T13:24:30.281Z"
   },
   {
     "id": "crawl-al-20260912-5-2",
@@ -6308,10 +6266,10 @@
     "userPhone": "010-0000-0000",
     "date": "2026-09-12",
     "startTime": 12.5,
-    "endTime": 13,
-    "totalHours": 0.5,
+    "endTime": 14,
+    "totalHours": 1.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:55.331Z"
+    "createdAt": "2026-09-08T13:24:30.281Z"
   },
   {
     "id": "crawl-al-20260912-5-3",
@@ -6325,7 +6283,7 @@
     "endTime": 18,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:55.331Z"
+    "createdAt": "2026-09-08T13:24:30.281Z"
   },
   {
     "id": "crawl-al-20260912-5-4",
@@ -6339,7 +6297,7 @@
     "endTime": 21,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:55.331Z"
+    "createdAt": "2026-09-08T13:24:30.281Z"
   },
   {
     "id": "crawl-al-20260913-5-1",
@@ -6353,7 +6311,7 @@
     "endTime": 12,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:58.358Z"
+    "createdAt": "2026-09-08T13:24:33.319Z"
   },
   {
     "id": "crawl-al-20260913-5-2",
@@ -6367,7 +6325,7 @@
     "endTime": 15,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:58.358Z"
+    "createdAt": "2026-09-08T13:24:33.319Z"
   },
   {
     "id": "crawl-al-20260913-5-3",
@@ -6377,11 +6335,11 @@
     "userName": "네이버예약자3",
     "userPhone": "010-0000-0000",
     "date": "2026-09-13",
-    "startTime": 20,
+    "startTime": 17,
     "endTime": 22,
-    "totalHours": 2,
+    "totalHours": 5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:01:58.358Z"
+    "createdAt": "2026-09-08T13:24:33.319Z"
   },
   {
     "id": "crawl-al-20260907-6-1",
@@ -6405,11 +6363,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 16.5,
-    "endTime": 22,
-    "totalHours": 5.5,
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:08.680Z"
+    "createdAt": "2026-09-08T13:24:43.535Z"
   },
   {
     "id": "crawl-al-20260909-6-1",
@@ -6419,11 +6377,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-09",
-    "startTime": 13,
-    "endTime": 16,
-    "totalHours": 3,
+    "startTime": 17.5,
+    "endTime": 22.5,
+    "totalHours": 5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:11.713Z"
+    "createdAt": "2026-09-08T13:24:46.574Z"
   },
   {
     "id": "crawl-al-20260909-6-2",
@@ -6451,7 +6409,7 @@
     "endTime": 21.5,
     "totalHours": 1.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:14.744Z"
+    "createdAt": "2026-09-08T13:24:49.606Z"
   },
   {
     "id": "crawl-al-20260911-6-1",
@@ -6465,7 +6423,7 @@
     "endTime": 18,
     "totalHours": 3.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:17.771Z"
+    "createdAt": "2026-09-08T13:24:52.638Z"
   },
   {
     "id": "crawl-al-20260911-6-2",
@@ -6479,7 +6437,7 @@
     "endTime": 24,
     "totalHours": 5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:17.771Z"
+    "createdAt": "2026-09-08T13:24:52.638Z"
   },
   {
     "id": "crawl-al-20260912-6-1",
@@ -6493,7 +6451,7 @@
     "endTime": 12,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:20.798Z"
+    "createdAt": "2026-09-08T13:24:55.669Z"
   },
   {
     "id": "crawl-al-20260912-6-2",
@@ -6507,7 +6465,7 @@
     "endTime": 17,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:20.798Z"
+    "createdAt": "2026-09-08T13:24:55.669Z"
   },
   {
     "id": "crawl-al-20260912-6-3",
@@ -6521,7 +6479,7 @@
     "endTime": 22,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:20.798Z"
+    "createdAt": "2026-09-08T13:24:55.669Z"
   },
   {
     "id": "crawl-al-20260913-6-1",
@@ -6535,7 +6493,7 @@
     "endTime": 13,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:23.830Z"
+    "createdAt": "2026-09-08T13:24:58.708Z"
   },
   {
     "id": "crawl-al-20260913-6-2",
@@ -6549,7 +6507,7 @@
     "endTime": 16,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:23.830Z"
+    "createdAt": "2026-09-08T13:24:58.708Z"
   },
   {
     "id": "crawl-al-20260913-6-3",
@@ -6563,7 +6521,7 @@
     "endTime": 20,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:23.830Z"
+    "createdAt": "2026-09-08T13:24:58.708Z"
   },
   {
     "id": "crawl-al-20260907-7-1",
@@ -6587,11 +6545,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 17,
-    "endTime": 19,
-    "totalHours": 2,
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:33.915Z"
+    "createdAt": "2026-09-08T13:25:08.878Z"
   },
   {
     "id": "crawl-al-20260908-7-2",
@@ -6619,7 +6577,7 @@
     "endTime": 19.5,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:36.948Z"
+    "createdAt": "2026-09-08T13:25:11.915Z"
   },
   {
     "id": "crawl-al-20260910-7-1",
@@ -6633,7 +6591,7 @@
     "endTime": 15,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:39.979Z"
+    "createdAt": "2026-09-08T13:25:14.947Z"
   },
   {
     "id": "crawl-al-20260910-7-2",
@@ -6647,7 +6605,7 @@
     "endTime": 24,
     "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:39.979Z"
+    "createdAt": "2026-09-08T13:25:14.947Z"
   },
   {
     "id": "crawl-al-20260911-7-1",
@@ -6661,7 +6619,7 @@
     "endTime": 24,
     "totalHours": 6,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:43.011Z"
+    "createdAt": "2026-09-08T13:25:17.980Z"
   },
   {
     "id": "crawl-al-20260912-7-1",
@@ -6675,7 +6633,7 @@
     "endTime": 15,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:46.048Z"
+    "createdAt": "2026-09-08T13:25:21.012Z"
   },
   {
     "id": "crawl-al-20260913-7-1",
@@ -6689,7 +6647,7 @@
     "endTime": 12,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:49.082Z"
+    "createdAt": "2026-09-08T13:25:24.052Z"
   },
   {
     "id": "crawl-al-20260913-7-2",
@@ -6703,7 +6661,7 @@
     "endTime": 15,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:49.082Z"
+    "createdAt": "2026-09-08T13:25:24.052Z"
   },
   {
     "id": "crawl-al-20260913-7-3",
@@ -6717,7 +6675,7 @@
     "endTime": 21,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:49.082Z"
+    "createdAt": "2026-09-08T13:25:24.052Z"
   },
   {
     "id": "crawl-al-20260907-8-1",
@@ -6741,11 +6699,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 8,
-    "endTime": 10,
-    "totalHours": 2,
+    "startTime": 22,
+    "endTime": 23,
+    "totalHours": 1,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:02:59.378Z"
+    "createdAt": "2026-09-08T13:25:34.148Z"
   },
   {
     "id": "crawl-al-20260908-8-2",
@@ -6773,7 +6731,7 @@
     "endTime": 22,
     "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:03:02.410Z"
+    "createdAt": "2026-09-08T13:25:37.185Z"
   },
   {
     "id": "crawl-al-20260910-8-1",
@@ -6787,7 +6745,7 @@
     "endTime": 10,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:03:05.441Z"
+    "createdAt": "2026-09-08T13:25:40.217Z"
   },
   {
     "id": "crawl-al-20260910-8-2",
@@ -6798,10 +6756,10 @@
     "userPhone": "010-0000-0000",
     "date": "2026-09-10",
     "startTime": 19,
-    "endTime": 21,
-    "totalHours": 2,
+    "endTime": 23,
+    "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:03:05.441Z"
+    "createdAt": "2026-09-08T13:25:40.217Z"
   },
   {
     "id": "crawl-al-20260911-8-1",
@@ -6815,7 +6773,7 @@
     "endTime": 22,
     "totalHours": 4,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:03:08.470Z"
+    "createdAt": "2026-09-08T13:25:43.249Z"
   },
   {
     "id": "crawl-al-20260912-8-1",
@@ -6829,7 +6787,7 @@
     "endTime": 16,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:03:11.501Z"
+    "createdAt": "2026-09-08T13:25:46.281Z"
   },
   {
     "id": "crawl-al-20260913-8-1",
@@ -6843,7 +6801,7 @@
     "endTime": 13,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:03:14.534Z"
+    "createdAt": "2026-09-08T13:25:49.313Z"
   },
   {
     "id": "crawl-al-20260913-8-2",
@@ -6857,7 +6815,7 @@
     "endTime": 19,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:03:14.534Z"
+    "createdAt": "2026-09-08T13:25:49.313Z"
   },
   {
     "id": "crawl-al-20260907-9-1",
@@ -6881,11 +6839,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 18.5,
-    "endTime": 20.5,
-    "totalHours": 2,
+    "startTime": 22,
+    "endTime": 23,
+    "totalHours": 1,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:03:24.783Z"
+    "createdAt": "2026-09-08T13:25:59.823Z"
   },
   {
     "id": "crawl-al-20260909-9-1",
@@ -6899,7 +6857,7 @@
     "endTime": 22,
     "totalHours": 2.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:03:27.814Z"
+    "createdAt": "2026-09-08T13:26:02.861Z"
   },
   {
     "id": "crawl-al-20260910-9-1",
@@ -6909,11 +6867,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-10",
-    "startTime": 18.5,
-    "endTime": 19.5,
+    "startTime": 20.5,
+    "endTime": 21.5,
     "totalHours": 1,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:03:30.840Z"
+    "createdAt": "2026-09-08T13:26:05.892Z"
   },
   {
     "id": "crawl-al-20260910-9-2",
@@ -6941,7 +6899,7 @@
     "endTime": 20,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:03:33.870Z"
+    "createdAt": "2026-09-08T13:26:08.925Z"
   },
   {
     "id": "crawl-al-20260911-9-2",
@@ -6955,7 +6913,7 @@
     "endTime": 23.5,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:03:33.870Z"
+    "createdAt": "2026-09-08T13:26:08.925Z"
   },
   {
     "id": "crawl-al-20260913-9-1",
@@ -6969,7 +6927,7 @@
     "endTime": 16,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:03:39.940Z"
+    "createdAt": "2026-09-08T13:26:14.990Z"
   },
   {
     "id": "crawl-al-20260907-10-1",
@@ -7539,11 +7497,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 19,
-    "endTime": 21,
-    "totalHours": 2,
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:06:49.024Z"
+    "createdAt": "2026-09-08T13:35:43.624Z"
   },
   {
     "id": "crawl-wr-20260909-1-1",
@@ -7557,7 +7515,7 @@
     "endTime": 15.5,
     "totalHours": 1.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:06:52.056Z"
+    "createdAt": "2026-09-08T13:35:46.665Z"
   },
   {
     "id": "crawl-wr-20260910-1-1",
@@ -7571,7 +7529,7 @@
     "endTime": 17,
     "totalHours": 3,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:06:55.089Z"
+    "createdAt": "2026-09-08T13:35:49.697Z"
   },
   {
     "id": "crawl-wr-20260907-2-1",
@@ -7599,7 +7557,7 @@
     "endTime": 17,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:07:17.468Z"
+    "createdAt": "2026-09-08T13:36:12.368Z"
   },
   {
     "id": "crawl-wr-20260909-2-2",
@@ -7613,7 +7571,7 @@
     "endTime": 21,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:07:17.468Z"
+    "createdAt": "2026-09-08T13:36:12.368Z"
   },
   {
     "id": "crawl-wr-20260909-2-3",
@@ -7627,7 +7585,7 @@
     "endTime": 23.5,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:07:17.468Z"
+    "createdAt": "2026-09-08T13:36:12.368Z"
   },
   {
     "id": "crawl-wr-20260910-2-1",
@@ -7641,7 +7599,7 @@
     "endTime": 22,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:07:20.502Z"
+    "createdAt": "2026-09-08T13:36:15.397Z"
   },
   {
     "id": "crawl-wr-20260912-2-1",
@@ -7655,7 +7613,7 @@
     "endTime": 15,
     "totalHours": 2,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:07:26.564Z"
+    "createdAt": "2026-09-08T13:36:21.460Z"
   },
   {
     "id": "crawl-wr-20260907-3-1",
@@ -7693,11 +7651,11 @@
     "userName": "네이버예약자1",
     "userPhone": "010-0000-0000",
     "date": "2026-09-08",
-    "startTime": 18.5,
-    "endTime": 21,
-    "totalHours": 2.5,
+    "startTime": 22.5,
+    "endTime": 23,
+    "totalHours": 0.5,
     "status": "reserved",
-    "createdAt": "2026-09-07T14:08:05.584Z"
+    "createdAt": "2026-09-08T13:52:27.532Z"
   },
   {
     "id": "crawl-wr-20260907-5-1",
@@ -7754,5 +7712,719 @@
     "totalHours": 0.5,
     "status": "reserved",
     "createdAt": "2026-09-07T14:09:44.071Z"
+  },
+  {
+    "id": "crawl-jj-20260909-1-4",
+    "roomId": "room-jj-1",
+    "roomName": "ROOM1",
+    "userId": "user-crawl-4",
+    "userName": "네이버예약자4",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-09",
+    "startTime": 20.5,
+    "endTime": 22,
+    "totalHours": 1.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:16:15.869Z"
+  },
+  {
+    "id": "crawl-jj-20260912-1-2",
+    "roomId": "room-jj-1",
+    "roomName": "ROOM1",
+    "userId": "user-crawl-2",
+    "userName": "네이버예약자2",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-12",
+    "startTime": 16,
+    "endTime": 22,
+    "totalHours": 6,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:16:24.968Z"
+  },
+  {
+    "id": "crawl-jj-20260914-1-1",
+    "roomId": "room-jj-1",
+    "roomName": "ROOM1",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 15.5,
+    "endTime": 21.5,
+    "totalHours": 6,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:16:31.032Z"
+  },
+  {
+    "id": "crawl-jj-20260911-2-2",
+    "roomId": "room-jj-2",
+    "roomName": "ROOM2",
+    "userId": "user-crawl-2",
+    "userName": "네이버예약자2",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-11",
+    "startTime": 17.5,
+    "endTime": 23.5,
+    "totalHours": 6,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:16:47.333Z"
+  },
+  {
+    "id": "crawl-jj-20260912-2-3",
+    "roomId": "room-jj-2",
+    "roomName": "ROOM2",
+    "userId": "user-crawl-3",
+    "userName": "네이버예약자3",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-12",
+    "startTime": 18,
+    "endTime": 22,
+    "totalHours": 4,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:16:50.364Z"
+  },
+  {
+    "id": "crawl-jj-20260914-2-1",
+    "roomId": "room-jj-2",
+    "roomName": "ROOM2",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 18.5,
+    "endTime": 21.5,
+    "totalHours": 3,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:16:56.434Z"
+  },
+  {
+    "id": "crawl-jj-20260909-3-3",
+    "roomId": "room-jj-3",
+    "roomName": "ROOM3",
+    "userId": "user-crawl-3",
+    "userName": "네이버예약자3",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-09",
+    "startTime": 20.5,
+    "endTime": 22.5,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:17:06.794Z"
+  },
+  {
+    "id": "crawl-jj-20260914-3-1",
+    "roomId": "room-jj-3",
+    "roomName": "ROOM3",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 16,
+    "endTime": 18,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:17:21.956Z"
+  },
+  {
+    "id": "crawl-jj-20260914-3-2",
+    "roomId": "room-jj-3",
+    "roomName": "ROOM3",
+    "userId": "user-crawl-2",
+    "userName": "네이버예약자2",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 19,
+    "endTime": 22.5,
+    "totalHours": 3.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:17:21.956Z"
+  },
+  {
+    "id": "crawl-jj-20260914-4-1",
+    "roomId": "room-jj-4",
+    "roomName": "ROOM4",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 16.5,
+    "endTime": 18.5,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:17:47.641Z"
+  },
+  {
+    "id": "crawl-jj-20260914-4-2",
+    "roomId": "room-jj-4",
+    "roomName": "ROOM4",
+    "userId": "user-crawl-2",
+    "userName": "네이버예약자2",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 19.5,
+    "endTime": 22.5,
+    "totalHours": 3,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:17:47.641Z"
+  },
+  {
+    "id": "crawl-jj-20260914-5-1",
+    "roomId": "room-jj-5",
+    "roomName": "ROOM5",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 17,
+    "endTime": 19,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:18:13.048Z"
+  },
+  {
+    "id": "crawl-jj-20260914-5-2",
+    "roomId": "room-jj-5",
+    "roomName": "ROOM5",
+    "userId": "user-crawl-2",
+    "userName": "네이버예약자2",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 19.5,
+    "endTime": 22.5,
+    "totalHours": 3,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:18:13.048Z"
+  },
+  {
+    "id": "crawl-jj-20260914-6-1",
+    "roomId": "room-jj-6",
+    "roomName": "ROOM6",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 16,
+    "endTime": 22,
+    "totalHours": 6,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:18:38.433Z"
+  },
+  {
+    "id": "crawl-jj-20260910-7-1",
+    "roomId": "room-jj-7",
+    "roomName": "ROOM7",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-10",
+    "startTime": 19,
+    "endTime": 20,
+    "totalHours": 1,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:18:51.804Z"
+  },
+  {
+    "id": "crawl-jj-20260911-7-2",
+    "roomId": "room-jj-7",
+    "roomName": "ROOM7",
+    "userId": "user-crawl-2",
+    "userName": "네이버예약자2",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-11",
+    "startTime": 19.5,
+    "endTime": 22,
+    "totalHours": 2.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:18:54.835Z"
+  },
+  {
+    "id": "crawl-jj-20260914-7-1",
+    "roomId": "room-jj-7",
+    "roomName": "ROOM7",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 17,
+    "endTime": 22,
+    "totalHours": 5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:19:03.935Z"
+  },
+  {
+    "id": "crawl-sj-20260910-1-3",
+    "roomId": "room-sj-1",
+    "roomName": "ROOM1",
+    "userId": "user-crawl-3",
+    "userName": "네이버예약자3",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-10",
+    "startTime": 19,
+    "endTime": 21.5,
+    "totalHours": 2.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:19:17.815Z"
+  },
+  {
+    "id": "crawl-sj-20260914-1-1",
+    "roomId": "room-sj-1",
+    "roomName": "ROOM1",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 17.5,
+    "endTime": 19,
+    "totalHours": 1.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:19:29.943Z"
+  },
+  {
+    "id": "crawl-sj-20260910-2-2",
+    "roomId": "room-sj-2",
+    "roomName": "ROOM2",
+    "userId": "user-crawl-2",
+    "userName": "네이버예약자2",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-10",
+    "startTime": 20,
+    "endTime": 23,
+    "totalHours": 3,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:19:43.111Z"
+  },
+  {
+    "id": "crawl-sj-20260913-2-2",
+    "roomId": "room-sj-2",
+    "roomName": "ROOM2",
+    "userId": "user-crawl-2",
+    "userName": "네이버예약자2",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-13",
+    "startTime": 14,
+    "endTime": 19.5,
+    "totalHours": 5.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:19:52.205Z"
+  },
+  {
+    "id": "crawl-sj-20260908-3-1",
+    "roomId": "room-sj-3",
+    "roomName": "ROOM3",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-08",
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:20:02.717Z"
+  },
+  {
+    "id": "crawl-sj-20260911-3-1",
+    "roomId": "room-sj-3",
+    "roomName": "ROOM3",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-11",
+    "startTime": 19,
+    "endTime": 21,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:20:11.813Z"
+  },
+  {
+    "id": "crawl-sj-20260908-4-1",
+    "roomId": "room-sj-4",
+    "roomName": "ROOM4",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-08",
+    "startTime": 22,
+    "endTime": 22.5,
+    "totalHours": 0.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:20:28.111Z"
+  },
+  {
+    "id": "crawl-sj-20260914-4-1",
+    "roomId": "room-sj-4",
+    "roomName": "ROOM4",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 19,
+    "endTime": 21,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:20:46.310Z"
+  },
+  {
+    "id": "crawl-sj-20260909-5-2",
+    "roomId": "room-sj-5",
+    "roomName": "ROOM5",
+    "userId": "user-crawl-2",
+    "userName": "네이버예약자2",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-09",
+    "startTime": 18,
+    "endTime": 20,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:20:56.483Z"
+  },
+  {
+    "id": "crawl-sj-20260911-5-1",
+    "roomId": "room-sj-5",
+    "roomName": "ROOM5",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-11",
+    "startTime": 20,
+    "endTime": 22,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:21:02.545Z"
+  },
+  {
+    "id": "crawl-sj-20260912-5-3",
+    "roomId": "room-sj-5",
+    "roomName": "ROOM5",
+    "userId": "user-crawl-3",
+    "userName": "네이버예약자3",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-12",
+    "startTime": 16,
+    "endTime": 18,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:21:05.577Z"
+  },
+  {
+    "id": "crawl-sj-20260912-5-4",
+    "roomId": "room-sj-5",
+    "roomName": "ROOM5",
+    "userId": "user-crawl-4",
+    "userName": "네이버예약자4",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-12",
+    "startTime": 20,
+    "endTime": 22,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:21:05.577Z"
+  },
+  {
+    "id": "crawl-sj-20260909-6-3",
+    "roomId": "room-sj-6",
+    "roomName": "ROOM6",
+    "userId": "user-crawl-3",
+    "userName": "네이버예약자3",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-09",
+    "startTime": 19,
+    "endTime": 22,
+    "totalHours": 3,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:21:21.884Z"
+  },
+  {
+    "id": "crawl-sj-20260913-6-3",
+    "roomId": "room-sj-6",
+    "roomName": "ROOM6",
+    "userId": "user-crawl-3",
+    "userName": "네이버예약자3",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-13",
+    "startTime": 18.5,
+    "endTime": 23,
+    "totalHours": 4.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:21:34.016Z"
+  },
+  {
+    "id": "crawl-sj-20260914-6-1",
+    "roomId": "room-sj-6",
+    "roomName": "ROOM6",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 13,
+    "endTime": 15,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:21:37.050Z"
+  },
+  {
+    "id": "crawl-sj-20260914-6-2",
+    "roomId": "room-sj-6",
+    "roomName": "ROOM6",
+    "userId": "user-crawl-2",
+    "userName": "네이버예약자2",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 20.5,
+    "endTime": 22.5,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:21:37.050Z"
+  },
+  {
+    "id": "crawl-sj-20260914-7-1",
+    "roomId": "room-sj-7",
+    "roomName": "ROOM7",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 17.5,
+    "endTime": 20.5,
+    "totalHours": 3,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:22:02.431Z"
+  },
+  {
+    "id": "crawl-al-20260913-1-1",
+    "roomId": "room-al-1",
+    "roomName": "ALU. 1",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-13",
+    "startTime": 10,
+    "endTime": 12.5,
+    "totalHours": 2.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:22:51.127Z"
+  },
+  {
+    "id": "crawl-al-20260914-2-1",
+    "roomId": "room-al-2",
+    "roomName": "ALU. 2",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 14,
+    "endTime": 16,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:23:19.820Z"
+  },
+  {
+    "id": "crawl-al-20260914-2-2",
+    "roomId": "room-al-2",
+    "roomName": "ALU. 2",
+    "userId": "user-crawl-2",
+    "userName": "네이버예약자2",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 18,
+    "endTime": 21,
+    "totalHours": 3,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:23:19.820Z"
+  },
+  {
+    "id": "crawl-al-20260909-3-3",
+    "roomId": "room-al-3",
+    "roomName": "ALU. 3",
+    "userId": "user-crawl-3",
+    "userName": "네이버예약자3",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-09",
+    "startTime": 18,
+    "endTime": 22,
+    "totalHours": 4,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:23:30.035Z"
+  },
+  {
+    "id": "crawl-al-20260914-3-1",
+    "roomId": "room-al-3",
+    "roomName": "ALU. 3",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 16,
+    "endTime": 18,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:23:45.206Z"
+  },
+  {
+    "id": "crawl-al-20260914-4-1",
+    "roomId": "room-al-4",
+    "roomName": "ALU. 4",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 17.5,
+    "endTime": 19.5,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:24:10.789Z"
+  },
+  {
+    "id": "crawl-al-20260914-5-1",
+    "roomId": "room-al-5",
+    "roomName": "ALU. 5",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 15.5,
+    "endTime": 17.5,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:24:36.357Z"
+  },
+  {
+    "id": "crawl-al-20260914-6-1",
+    "roomId": "room-al-6",
+    "roomName": "ALU. 6",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-14",
+    "startTime": 19,
+    "endTime": 22,
+    "totalHours": 3,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:25:01.742Z"
+  },
+  {
+    "id": "crawl-al-20260912-9-1",
+    "roomId": "room-al-9",
+    "roomName": "ALU. 9",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-12",
+    "startTime": 14,
+    "endTime": 17,
+    "totalHours": 3,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:26:11.959Z"
+  },
+  {
+    "id": "crawl-wr-20260909-1-2",
+    "roomId": "room-wr-1",
+    "roomName": "ROOM1",
+    "userId": "user-crawl-2",
+    "userName": "네이버예약자2",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-09",
+    "startTime": 17.5,
+    "endTime": 19.5,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:35:46.665Z"
+  },
+  {
+    "id": "crawl-wr-20260908-2-1",
+    "roomId": "room-wr-2",
+    "roomName": "ROOM2",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-08",
+    "startTime": 22.5,
+    "endTime": 23,
+    "totalHours": 0.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:36:09.334Z"
+  },
+  {
+    "id": "crawl-wr-20260908-3-1",
+    "roomId": "room-wr-3",
+    "roomName": "ROOM3",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-08",
+    "startTime": 22.5,
+    "endTime": 23,
+    "totalHours": 0.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T13:52:01.995Z"
+  },
+  {
+    "id": "crawl-wr-20260908-5-1",
+    "roomId": "room-wr-5",
+    "roomName": "ROOM5",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-08",
+    "startTime": 23,
+    "endTime": 23.5,
+    "totalHours": 0.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T14:08:11.789Z"
+  },
+  {
+    "id": "crawl-wr-20260908-6-1",
+    "roomId": "room-wr-6",
+    "roomName": "ROOM6",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-08",
+    "startTime": 23,
+    "endTime": 23.5,
+    "totalHours": 0.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T14:08:37.450Z"
+  },
+  {
+    "id": "crawl-wr-20260908-7-1",
+    "roomId": "room-wr-7",
+    "roomName": "ROOM7",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-08",
+    "startTime": 23,
+    "endTime": 23.5,
+    "totalHours": 0.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T14:09:02.706Z"
+  },
+  {
+    "id": "crawl-wr-20260909-7-1",
+    "roomId": "room-wr-7",
+    "roomName": "ROOM7",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-09",
+    "startTime": 14,
+    "endTime": 16,
+    "totalHours": 2,
+    "status": "reserved",
+    "createdAt": "2026-09-08T14:09:05.747Z"
+  },
+  {
+    "id": "crawl-wr-20260908-8-1",
+    "roomId": "room-wr-8",
+    "roomName": "ROOM8",
+    "userId": "user-crawl-1",
+    "userName": "네이버예약자1",
+    "userPhone": "010-0000-0000",
+    "date": "2026-09-08",
+    "startTime": 23,
+    "endTime": 23.5,
+    "totalHours": 0.5,
+    "status": "reserved",
+    "createdAt": "2026-09-08T14:09:28.165Z"
   }
 ]
