@@ -287,12 +287,12 @@ export default function StudyRoomAdmin() {
     }
   };
 
-  // 네이버 실물 웹 스크래퍼 즉시 실행 핸들러
+  // 네이버 실물 웹 스크래퍼 즉시 실행 핸들러 (비동기 백그라운드 기동 & 3초 주기 자동 폴링)
   const [isCrawlExecuting, setIsCrawlExecuting] = useState(false);
 
   const handleRunCrawlerNow = async () => {
     if (isCrawlExecuting) {
-      alert("현재 네이버 스크래퍼가 실행 중입니다. 잠시만 기다려 주세요.");
+      alert("현재 네이버 스크래퍼가 백그라운드에서 실행 중입니다. 잠시만 기다려 주세요.");
       return;
     }
     
@@ -305,15 +305,29 @@ export default function StudyRoomAdmin() {
       const res = await fetch('/api/crawl', { method: 'POST' });
       const data = await res.json();
       if (data.success) {
-        alert(data.message);
-        // 수집 완료 후 마스터 예약 데이터 자동 재로드
-        await loadAllReservations();
+        // 즉시 기동 성공! 백그라운드 완료 시까지 3초 주기 폴링 대기
+        const checkInterval = setInterval(async () => {
+          try {
+            const statusRes = await fetch(`/api/crawl?_t=${Date.now()}`);
+            if (statusRes.ok) {
+              const statusData = await statusRes.json();
+              if (!statusData.isRunning) {
+                clearInterval(checkInterval);
+                setIsCrawlExecuting(false);
+                await loadAllReservations();
+                alert("🚀 네이버 4개 지점 전체 스크래핑 수집 및 화면 갱신이 완료되었습니다!");
+              }
+            }
+          } catch (err) {
+            console.error("Crawler status polling error:", err);
+          }
+        }, 3000);
       } else {
         alert(data.message || "스크래퍼 실행 실패");
+        setIsCrawlExecuting(false);
       }
     } catch (e: any) {
       alert("스크래퍼 실행 중 오류가 발생했습니다: " + e.message);
-    } finally {
       setIsCrawlExecuting(false);
     }
   };
